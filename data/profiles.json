@@ -60,13 +60,13 @@
             "meaning": 52
           },
           "labels": {
-            "ethics": "Consequentialist (Preference Utilitarian) · Meta-ethically Moderate",
-            "epistemology": "Empiricist · Foundationalist · Pragmatic",
-            "metaphysics": "FW Skeptic · Functionalist · Psych. Continuity",
-            "political": "Balanced · Rawlsian",
-            "mind": "Optimist · AI-Consciousness Possible",
-            "science": "Scientific Realist · Popperian",
-            "meaning": "Existentialist · Authenticity-first"
+            "ethics": "Consequentialist (Preference Utilitarian) \u00b7 Meta-ethically Moderate",
+            "epistemology": "Empiricist \u00b7 Foundationalist \u00b7 Pragmatic",
+            "metaphysics": "FW Skeptic \u00b7 Functionalist \u00b7 Psych. Continuity",
+            "political": "Balanced \u00b7 Rawlsian",
+            "mind": "Optimist \u00b7 AI-Consciousness Possible",
+            "science": "Scientific Realist \u00b7 Popperian",
+            "meaning": "Existentialist \u00b7 Authenticity-first"
           }
         },
         {
@@ -101,13 +101,13 @@
             "meaning": 40
           },
           "labels": {
-            "ethics": "Consequentialist  · Moral Anti-Realist",
-            "epistemology": "Rationalist · Pragmatist · Pragmatic",
-            "metaphysics": "Hard Determinist · Property Dualist",
-            "political": "Balanced · Utilitarian",
-            "mind": "Optimist · AI-Consciousness Possible",
-            "science": "Scientific Realist · Feyerabendian",
-            "meaning": "Existentialist · Balanced"
+            "ethics": "Consequentialist  \u00b7 Moral Anti-Realist",
+            "epistemology": "Rationalist \u00b7 Pragmatist \u00b7 Pragmatic",
+            "metaphysics": "Hard Determinist \u00b7 Property Dualist",
+            "political": "Balanced \u00b7 Utilitarian",
+            "mind": "Optimist \u00b7 AI-Consciousness Possible",
+            "science": "Scientific Realist \u00b7 Feyerabendian",
+            "meaning": "Existentialist \u00b7 Balanced"
           },
           "mode": "quick"
         },
@@ -143,13 +143,13 @@
             "meaning": 50
           },
           "labels": {
-            "ethics": "Consequentialist  · Moral Anti-Realist",
-            "epistemology": "Empiricist · Pragmatist · Correspondence",
-            "metaphysics": "Compatibilist · Physicalist",
-            "political": "Community-first · Utilitarian",
-            "mind": "Mysterian · Agnostic",
-            "science": "Scientific Realist · Kuhnian",
-            "meaning": "Existentialist · Balanced"
+            "ethics": "Consequentialist  \u00b7 Moral Anti-Realist",
+            "epistemology": "Empiricist \u00b7 Pragmatist \u00b7 Correspondence",
+            "metaphysics": "Compatibilist \u00b7 Physicalist",
+            "political": "Community-first \u00b7 Utilitarian",
+            "mind": "Mysterian \u00b7 Agnostic",
+            "science": "Scientific Realist \u00b7 Kuhnian",
+            "meaning": "Existentialist \u00b7 Balanced"
           },
           "mode": "quick"
         },
@@ -185,13 +185,13 @@
             "meaning": 44
           },
           "labels": {
-            "ethics": "Consequentialist  · Moral Realist",
-            "epistemology": "Rationalist · Virtue Epistemologist · Deflationary",
-            "metaphysics": "FW Skeptic · Physicalist",
-            "political": "Balanced · Capabilities",
-            "mind": "Mysterian · Agnostic",
-            "science": "Instrumentalist · Popperian",
-            "meaning": "Existentialist · Balanced"
+            "ethics": "Consequentialist  \u00b7 Moral Realist",
+            "epistemology": "Rationalist \u00b7 Virtue Epistemologist \u00b7 Deflationary",
+            "metaphysics": "FW Skeptic \u00b7 Physicalist",
+            "political": "Balanced \u00b7 Capabilities",
+            "mind": "Mysterian \u00b7 Agnostic",
+            "science": "Instrumentalist \u00b7 Popperian",
+            "meaning": "Existentialist \u00b7 Balanced"
           },
           "mode": "quick"
         },
@@ -250,13 +250,13 @@
             "meaning": 29
           },
           "labels": {
-            "ethics": "Consequentialist (Preference Utilitarian) · Moral Anti-Realist",
-            "epistemology": "Empiricist · Pragmatist · Deflationary",
-            "metaphysics": "Compatibilist · Panpsychist · Narrative",
-            "political": "Community-first · Rawlsian",
-            "mind": "Moderate · AI-Consciousness Possible",
-            "science": "Instrumentalist · Lakatosian",
-            "meaning": "Existentialist · Balanced"
+            "ethics": "Consequentialist (Preference Utilitarian) \u00b7 Moral Anti-Realist",
+            "epistemology": "Empiricist \u00b7 Pragmatist \u00b7 Deflationary",
+            "metaphysics": "Compatibilist \u00b7 Panpsychist \u00b7 Narrative",
+            "political": "Community-first \u00b7 Rawlsian",
+            "mind": "Moderate \u00b7 AI-Consciousness Possible",
+            "science": "Instrumentalist \u00b7 Lakatosian",
+            "meaning": "Existentialist \u00b7 Balanced"
           },
           "mode": "full"
         },
@@ -315,13 +315,13 @@
             "meaning": 39
           },
           "labels": {
-            "ethics": "Consequentialist (Objective List) · Moral Realist",
-            "epistemology": "Rationalist · Pragmatist · Pragmatic",
-            "metaphysics": "Compatibilist · Property Dualist · Psych. Continuity",
-            "political": "Community-first · Rawlsian",
-            "mind": "Mysterian · AI-Consciousness Skeptic",
-            "science": "Instrumentalist · Kuhnian",
-            "meaning": "Naturalist · Tradition-open"
+            "ethics": "Consequentialist (Objective List) \u00b7 Moral Realist",
+            "epistemology": "Rationalist \u00b7 Pragmatist \u00b7 Pragmatic",
+            "metaphysics": "Compatibilist \u00b7 Property Dualist \u00b7 Psych. Continuity",
+            "political": "Community-first \u00b7 Rawlsian",
+            "mind": "Mysterian \u00b7 AI-Consciousness Skeptic",
+            "science": "Instrumentalist \u00b7 Kuhnian",
+            "meaning": "Naturalist \u00b7 Tradition-open"
           },
           "mode": "full"
         },
@@ -394,16 +394,16 @@
             "meaning": 73
           },
           "labels": {
-            "ethics": "Consequentialist (Preference Utilitarian) · Moral Anti-Realist",
-            "epistemology": "Moderate Empiricist · Foundationalist (Empirical) · Correspondence",
-            "metaphysics": "FW Skeptic · Physicalist (Type Identity) · Psych. Continuity",
-            "political": "Balanced · Utilitarian",
-            "mind": "Optimist · AI-Consciousness Possible",
-            "science": "Scientific Realist · Lakatosian",
+            "ethics": "Consequentialist (Preference Utilitarian) \u00b7 Moral Anti-Realist",
+            "epistemology": "Moderate Empiricist \u00b7 Foundationalist (Empirical) \u00b7 Correspondence",
+            "metaphysics": "FW Skeptic \u00b7 Physicalist (Type Identity) \u00b7 Psych. Continuity",
+            "political": "Balanced \u00b7 Utilitarian",
+            "mind": "Optimist \u00b7 AI-Consciousness Possible",
+            "science": "Scientific Realist \u00b7 Lakatosian",
             "meaning": "Authenticity-first"
           },
           "mode": "refine",
-          "sylvainTitle": "Grumpy Sylvain, But Make It consequences-obsessed"
+          "sylvainTitle": "The Grumpiest consequences-obsessed Sylvain in the Room"
         },
         {
           "name": "Christian",
@@ -461,13 +461,13 @@
             "meaning": 68
           },
           "labels": {
-            "ethics": "Consequentialist (Objective List) · Meta-ethically Moderate",
-            "epistemology": "Empiricist · Coherentist · Correspondence",
-            "metaphysics": "FW Skeptic · Functionalist · No-Self",
-            "political": "Balanced · Capabilities",
-            "mind": "Mysterian · AI-Consciousness Possible",
-            "science": "Scientific Realist · Lakatosian",
-            "meaning": "Naturalist · Tradition-open"
+            "ethics": "Consequentialist (Objective List) \u00b7 Meta-ethically Moderate",
+            "epistemology": "Empiricist \u00b7 Coherentist \u00b7 Correspondence",
+            "metaphysics": "FW Skeptic \u00b7 Functionalist \u00b7 No-Self",
+            "political": "Balanced \u00b7 Capabilities",
+            "mind": "Mysterian \u00b7 AI-Consciousness Possible",
+            "science": "Scientific Realist \u00b7 Lakatosian",
+            "meaning": "Naturalist \u00b7 Tradition-open"
           },
           "mode": "refine"
         },
@@ -526,13 +526,13 @@
             "meaning": 51
           },
           "labels": {
-            "ethics": "Consequentialist (Objective List) · Moral Anti-Realist",
-            "epistemology": "Balanced · Pragmatist · Correspondence",
-            "metaphysics": "Hard Determinist · Physicalist · Psych. Continuity",
-            "political": "Liberty-first · Utilitarian",
-            "mind": "Optimist · AI-Consciousness Possible",
-            "science": "Scientific Realist · Popperian",
-            "meaning": "Existentialist · Authenticity-first"
+            "ethics": "Consequentialist (Objective List) \u00b7 Moral Anti-Realist",
+            "epistemology": "Balanced \u00b7 Pragmatist \u00b7 Correspondence",
+            "metaphysics": "Hard Determinist \u00b7 Physicalist \u00b7 Psych. Continuity",
+            "political": "Liberty-first \u00b7 Utilitarian",
+            "mind": "Optimist \u00b7 AI-Consciousness Possible",
+            "science": "Scientific Realist \u00b7 Popperian",
+            "meaning": "Existentialist \u00b7 Authenticity-first"
           },
           "mode": "full"
         },
@@ -599,13 +599,13 @@
             "meaning": 53
           },
           "labels": {
-            "ethics": "Consequentialist (Preference Utilitarian) · Moral Anti-Realist",
-            "epistemology": "Rationalist · Pragmatist · Correspondence",
-            "metaphysics": "Compatibilist · Physicalist · No-Self",
-            "political": "Community-first · Utilitarian",
-            "mind": "Optimist · AI-Consciousness Possible",
-            "science": "Instrumentalist · Kuhnian",
-            "meaning": "Existentialist · Balanced · Sim Likely"
+            "ethics": "Consequentialist (Preference Utilitarian) \u00b7 Moral Anti-Realist",
+            "epistemology": "Rationalist \u00b7 Pragmatist \u00b7 Correspondence",
+            "metaphysics": "Compatibilist \u00b7 Physicalist \u00b7 No-Self",
+            "political": "Community-first \u00b7 Utilitarian",
+            "mind": "Optimist \u00b7 AI-Consciousness Possible",
+            "science": "Instrumentalist \u00b7 Kuhnian",
+            "meaning": "Existentialist \u00b7 Balanced \u00b7 Sim Likely"
           },
           "mode": "thought",
           "sylvainTitle": "The consequences-obsessed, Perpetually Grumpy Sylvain"
@@ -665,13 +665,13 @@
             "meaning": 39
           },
           "labels": {
-            "ethics": "Consequentialist (Hedonistic Utilitarian) · Moral Anti-Realist",
-            "epistemology": "Rationalist · Pragmatist · Pragmatic",
-            "metaphysics": "FW Skeptic · Physicalist · Psych. Continuity",
-            "political": "Liberty-first · Libertarian",
-            "mind": "Optimist · AI-Consciousness Possible",
-            "science": "Instrumentalist · Kuhnian",
-            "meaning": "Existentialist · Tradition-open"
+            "ethics": "Consequentialist (Hedonistic Utilitarian) \u00b7 Moral Anti-Realist",
+            "epistemology": "Rationalist \u00b7 Pragmatist \u00b7 Pragmatic",
+            "metaphysics": "FW Skeptic \u00b7 Physicalist \u00b7 Psych. Continuity",
+            "political": "Liberty-first \u00b7 Libertarian",
+            "mind": "Optimist \u00b7 AI-Consciousness Possible",
+            "science": "Instrumentalist \u00b7 Kuhnian",
+            "meaning": "Existentialist \u00b7 Tradition-open"
           },
           "mode": "full"
         },
@@ -707,13 +707,13 @@
             "meaning": 72
           },
           "labels": {
-            "ethics": "Consequentialist  · Moral Anti-Realist",
-            "epistemology": "Rationalist · Coherentist · Coherence",
-            "metaphysics": "Compatibilist · Functionalist",
-            "political": "Community-first · Capabilities",
-            "mind": "Mysterian · AI-Consciousness Skeptic",
-            "science": "Scientific Realist · Lakatosian",
-            "meaning": "Naturalist · Tradition-open"
+            "ethics": "Consequentialist  \u00b7 Moral Anti-Realist",
+            "epistemology": "Rationalist \u00b7 Coherentist \u00b7 Coherence",
+            "metaphysics": "Compatibilist \u00b7 Functionalist",
+            "political": "Community-first \u00b7 Capabilities",
+            "mind": "Mysterian \u00b7 AI-Consciousness Skeptic",
+            "science": "Scientific Realist \u00b7 Lakatosian",
+            "meaning": "Naturalist \u00b7 Tradition-open"
           },
           "mode": "quick"
         },
@@ -772,13 +772,13 @@
             "meaning": 31
           },
           "labels": {
-            "ethics": "Consequentialist (Hedonistic Utilitarian) · Moral Realist",
-            "epistemology": "Balanced · Virtue Epistemologist · Correspondence",
-            "metaphysics": "Compatibilist · Property Dualist · Psych. Continuity",
-            "political": "Community-first · Utilitarian",
-            "mind": "Mysterian · AI-Consciousness Skeptic",
-            "science": "Instrumentalist · Kuhnian",
-            "meaning": "Naturalist · Authenticity-first"
+            "ethics": "Consequentialist (Hedonistic Utilitarian) \u00b7 Moral Realist",
+            "epistemology": "Balanced \u00b7 Virtue Epistemologist \u00b7 Correspondence",
+            "metaphysics": "Compatibilist \u00b7 Property Dualist \u00b7 Psych. Continuity",
+            "political": "Community-first \u00b7 Utilitarian",
+            "mind": "Mysterian \u00b7 AI-Consciousness Skeptic",
+            "science": "Instrumentalist \u00b7 Kuhnian",
+            "meaning": "Naturalist \u00b7 Authenticity-first"
           },
           "mode": "full"
         }
