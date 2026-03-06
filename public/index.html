@@ -445,6 +445,7 @@
     </div>
 
     <div id="quizContent" class="hidden">
+      <button class="btn btn-secondary" onclick="exitQuiz()" style="margin-bottom:12px;font-size:0.85em;">← Back to quiz selection</button>
       <div class="progress-wrap">
         <div class="progress-bar" id="pBar" style="width:0%"></div>
         <div class="progress-label" id="pLabel">0 / 0</div>
@@ -1750,6 +1751,11 @@ function startQuiz(){
   const qs=getActiveQs();
   qs.forEach(q=>{if(q.type==='slider'&&answers[q.id]===undefined)answers[q.id]=50;});
   renderQs();
+}
+
+function exitQuiz(){
+  document.getElementById('quizContent').classList.add('hidden');
+  document.getElementById('quizWelcome').classList.remove('hidden');
 }
 
 function renderQs(){
