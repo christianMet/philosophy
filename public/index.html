@@ -266,10 +266,14 @@
   .t-member:hover { border-color:var(--border-hover); }
   .t-name { font-weight:500; }
   .t-date { font-size:0.78em; color:var(--text3); }
-  .cmp-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.82em; }
+  .cmp-table-wrap { overflow-x:auto; max-height:70vh; overflow-y:auto; position:relative; border:1px solid var(--border); border-radius:var(--radius); }
+  .cmp-table { width:100%; border-collapse:separate; border-spacing:0; margin:0; font-size:0.82em; }
   .cmp-table th,.cmp-table td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--border); }
-  .cmp-table th { color:var(--text3); font-weight:500; text-transform:uppercase; font-size:0.78em; letter-spacing:0.04em; }
+  .cmp-table th { color:var(--text3); font-weight:500; text-transform:uppercase; font-size:0.78em; letter-spacing:0.04em; position:sticky; top:0; background:var(--bg1); z-index:2; }
+  .cmp-table th:first-child { position:sticky; left:0; z-index:3; background:var(--bg1); }
+  .cmp-table td:first-child { position:sticky; left:0; background:var(--bg2); z-index:1; font-weight:500; }
   .cmp-table tr:hover td { color:var(--text); background:var(--bg3); }
+  .cmp-table tr:hover td:first-child { background:var(--bg3); }
   .dist-badge {
     display:inline-block; padding:3px 10px; border-radius:20px;
     font-size:0.78em; font-weight:500;
@@ -385,6 +389,7 @@
     <button class="nav-tab" onclick="go('showdown')"><span class="tab-icon">⚔️</span>Showdown</button>
     <button class="nav-tab" onclick="go('team')"><span class="tab-icon">👥</span>Team</button>
     <button class="nav-tab" onclick="go('sylvain')"><span class="tab-icon">🧙</span>Sylvain</button>
+    <button class="nav-tab" onclick="go('admin')"><span class="tab-icon">💾</span>Backup</button>
   </div>
 
   <!-- LOBBY -->
@@ -479,6 +484,23 @@
   <!-- SYLVAIN -->
   <div id="v-sylvain" class="view">
     <div id="sylvainContent"></div>
+  </div>
+
+  <!-- ADMIN / BACKUP -->
+  <div id="v-admin" class="view">
+    <div class="card card-center">
+      <h2>💾 Data Backup</h2>
+      <p style="color:var(--text2);margin-bottom:20px;">Download a full backup of all room data, or restore from a previous snapshot. Snapshots are created automatically every time someone saves a profile.</p>
+
+      <button class="btn btn-primary" onclick="downloadBackup()" style="margin-bottom:24px;">📥 Download Full Backup (JSON)</button>
+
+      <h3 style="margin-top:16px;margin-bottom:12px;">Recent Snapshots</h3>
+      <p style="color:var(--text3);font-size:0.82em;margin-bottom:12px;">Each snapshot captures the state of a room at a moment in time. Click "Restore" to roll back.</p>
+      <div id="backupList" style="text-align:left;max-width:600px;margin:0 auto;">
+        <p style="color:var(--text3);text-align:center;">Loading...</p>
+      </div>
+      <button class="btn btn-secondary" onclick="loadBackups()" style="margin-top:16px;font-size:0.85em;">🔄 Refresh</button>
+    </div>
   </div>
 </div>
 
@@ -2097,6 +2119,24 @@ function drawRadar(cid,profiles,legend){
   if(legend&&profiles.length>1){let ly=16;profiles.forEach((p,i)=>{const c=cols[i%cols.length];ctx.fillStyle=c+'1)';ctx.fillRect(12,ly,12,12);ctx.fillStyle='#e8e6f0';ctx.font='12px Inter,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(p.name,30,ly+6);ly+=20;});}
 }
 
+function toggleRadarPerson(idx){
+  if(!window._radarVisible||!window._teamProfiles)return;
+  window._radarVisible[idx]=!window._radarVisible[idx];
+  const filtered=window._teamProfiles.filter((_,i)=>window._radarVisible[i]);
+  // Redraw with filtered set but keep original color indices
+  const cv=document.getElementById('teamRadar');if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height,cx=W/2,cy=H/2,R=Math.min(W,H)*0.34;
+  const dims=Object.keys(DIMS),n=dims.length,step=2*Math.PI/n,start=-Math.PI/2;
+  ctx.clearRect(0,0,W,H);
+  for(let l=1;l<=5;l++){const r=R*l/5;ctx.beginPath();for(let i=0;i<=n;i++){const a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;ctx.stroke();}
+  dims.forEach((d,i)=>{const a=start+i*step,x=cx+R*Math.cos(a),y=cy+R*Math.sin(a);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.stroke();const lx=cx+(R+28)*Math.cos(a),ly=cy+(R+28)*Math.sin(a);ctx.fillStyle='#a8a6b8';ctx.font='11px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(DIMS[d].icon+' '+DIMS[d].label,lx,ly);});
+  const cols=['rgba(139,124,247,','rgba(244,114,182,','rgba(52,211,153,','rgba(56,189,248,','rgba(251,191,36,','rgba(248,113,113,','rgba(247,178,103,','rgba(167,139,250,'];
+  window._teamProfiles.forEach((p,pi)=>{
+    if(!window._radarVisible[pi])return;
+    const c=cols[pi%cols.length];ctx.beginPath();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]||50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fillStyle=c+'0.12)';ctx.fill();ctx.strokeStyle=c+'0.8)';ctx.lineWidth=2;ctx.stroke();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]||50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);ctx.beginPath();ctx.arc(x,y,4,0,2*Math.PI);ctx.fillStyle=c+'1)';ctx.fill();});
+  });
+}
+
 // ===== TEAM =====
 async function renderTeam(){
   const tc=document.getElementById('teamContent');
@@ -2130,19 +2170,23 @@ async function renderTeam(){
   } else {
     room.profiles.forEach((p,i)=>{
       const isMe=myProfile&&p.name===myProfile.name;
+      const philMatches=findPhilosopherMatches(p);
+      const philStr=philMatches.length?philMatches.map(m=>`<span style="font-size:0.78em;color:var(--accent);margin-right:6px;" title="${Math.round(m.score*100)}% match">${m.phil.name} (${Math.round(m.score*100)}%)</span>`).join(''):'';
       h+=`<div class="t-member">
         <div><div class="t-name">${p.name} ${isMe?'<span style="color:var(--accent);font-size:0.8em;">(you)</span>':''}${p.mode==='quick'?'<span class="badge-quick">Quick</span>':''}</div>
         <div class="t-date">${p.date} · ${p.labels?.ethics?.split('·')[0]?.trim()||''}</div>
         ${p.sylvainTitle?`<div style="font-size:0.78em;color:var(--accent2);margin-top:4px;font-style:italic;">🧙 ${p.sylvainTitle}</div>`:''}
+        ${philStr?`<div style="margin-top:4px;">📜 ${philStr}</div>`:''}
         </div>
         <button class="btn btn-small btn-secondary" onclick="viewTeamMember(${i})">View</button>
       </div>`;
     });
     if(room.profiles.length>=2){
       h+=`<h3 style="font-family:'Cormorant Garamond',serif;margin:28px 0 14px;">Overlay Comparison</h3>
+        <div id="radarToggles" style="display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:12px;justify-content:center;"></div>
         <div class="radar-wrap"><canvas id="teamRadar" width="560" height="560"></canvas></div>`;
       h+=`<h3 style="font-family:'Cormorant Garamond',serif;margin:28px 0 14px;">Position Comparison</h3>
-        <div style="overflow-x:auto;"><table class="cmp-table"><tr><th>Dimension</th>`;
+        <div class="cmp-table-wrap"><table class="cmp-table"><tr><th>Dimension</th>`;
       room.profiles.forEach(p=>{h+=`<th>${p.name}</th>`;});
       h+=`</tr>`;
       Object.keys(DIMS).forEach(d=>{
@@ -2153,7 +2197,7 @@ async function renderTeam(){
       h+=`</table></div>`;
       h+=`<h3 style="font-family:'Cormorant Garamond',serif;margin:28px 0 14px;">Philosophical Distance</h3>
         <p style="color:var(--text2);font-size:0.85em;margin-bottom:12px;">How far apart in philosophy-space? Lower = more aligned.</p>
-        <div style="overflow-x:auto;"><table class="cmp-table"><tr><th></th>`;
+        <div class="cmp-table-wrap"><table class="cmp-table"><tr><th></th>`;
       room.profiles.forEach(p=>{h+=`<th>${p.name}</th>`;});
       h+=`</tr>`;
       room.profiles.forEach((p1,i)=>{
@@ -2190,7 +2234,23 @@ async function renderTeam(){
     }
   }
   tc.innerHTML=h;
-  if(room.profiles.length>=2)setTimeout(()=>drawRadar('teamRadar',room.profiles,true),80);
+  if(room.profiles.length>=2){
+    window._radarVisible=room.profiles.map(()=>true);
+    const cols=['rgba(139,124,247,','rgba(244,114,182,','rgba(52,211,153,','rgba(56,189,248,','rgba(251,191,36,','rgba(248,113,113,','rgba(247,178,103,','rgba(167,139,250,'];
+    const tDiv=document.getElementById('radarToggles');
+    if(tDiv){
+      let th='';
+      room.profiles.forEach((p,i)=>{
+        const c=cols[i%cols.length]+'1)';
+        th+=`<label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:0.85em;padding:3px 8px;border-radius:8px;border:1px solid ${c};background:${cols[i%cols.length]}0.08);">
+          <input type="checkbox" checked onchange="toggleRadarPerson(${i})" style="accent-color:${c};cursor:pointer;">
+          <span style="color:${c};font-weight:500;">${p.name}</span>
+        </label>`;
+      });
+      tDiv.innerHTML=th;
+    }
+    setTimeout(()=>drawRadar('teamRadar',room.profiles,false),80);
+  }
   window._teamProfiles=room.profiles;
 }
 
@@ -2573,12 +2633,13 @@ async function submitChallengeResponse(challengeId){
 function go(view){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('v-'+view).classList.add('active');
-  const tabs=['lobby','quiz','profile','showdown','team','sylvain'];
+  const tabs=['lobby','quiz','profile','showdown','team','sylvain','admin'];
   document.querySelectorAll('.nav-tab').forEach((t,i)=>{t.classList.toggle('active',tabs[i]===view);});
   if(view==='profile')renderProfile(myProfile);
   if(view==='showdown')renderShowdown();
   if(view==='team')renderTeam();
   if(view==='sylvain')renderSylvain();
+  if(view==='admin')loadBackups();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
@@ -2789,6 +2850,56 @@ function renderSylvain(){
   }
 
   sc.innerHTML = h;
+}
+
+// ===== BACKUP & ADMIN =====
+function downloadBackup(){
+  window.open('/api/export','_blank');
+}
+
+async function loadBackups(){
+  const el=document.getElementById('backupList');
+  try{
+    const res=await fetch('/api/backups');
+    const list=await res.json();
+    if(!list.length){
+      el.innerHTML='<p style="color:var(--text3);text-align:center;">No snapshots yet. Snapshots are created automatically when profiles are saved.</p>';
+      return;
+    }
+    let html='<div style="display:flex;flex-direction:column;gap:8px;">';
+    for(const b of list){
+      const d=new Date(b.timestamp);
+      const timeStr=d.toLocaleDateString()+' '+d.toLocaleTimeString();
+      html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(139,124,247,0.04);border:1px solid rgba(139,124,247,0.12);border-radius:10px;">
+        <div>
+          <div style="font-weight:600;font-size:0.9em;">${b.roomName||b.roomId}</div>
+          <div style="font-size:0.78em;color:var(--text3);">${timeStr} · ${b.profileCount} profiles</div>
+        </div>
+        <button class="btn btn-secondary" style="font-size:0.78em;padding:4px 12px;" onclick="restoreBackup('${b.id}','${timeStr}')">Restore</button>
+      </div>`;
+    }
+    html+='</div>';
+    el.innerHTML=html;
+  }catch(e){
+    el.innerHTML='<p style="color:#e74c3c;text-align:center;">Failed to load backups.</p>';
+  }
+}
+
+async function restoreBackup(id,timeStr){
+  if(!confirm('Restore data from '+timeStr+'? (A snapshot of current data will be saved first, so you can undo this.)')) return;
+  try{
+    const res=await fetch('/api/backups/'+id+'/restore',{method:'POST'});
+    const data=await res.json();
+    if(data.success){
+      toast('Restored! '+data.profileCount+' profiles recovered.');
+      if(roomId) await loadRoom(roomId);
+      loadBackups();
+    }else{
+      toast('Restore failed: '+(data.error||'unknown error'));
+    }
+  }catch(e){
+    toast('Restore failed');
+  }
 }
 </script>
 </body>

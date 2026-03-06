@@ -25,9 +25,38 @@ async function connectDB() {
   return db;
 }
 
-// Helper: get rooms collection
+// Helper: get collections
 function rooms() {
   return db.collection('rooms');
+}
+function backups() {
+  return db.collection('backups');
+}
+
+// Auto-backup: snapshot a room's data whenever it changes
+async function snapshotRoom(roomId) {
+  try {
+    const room = await rooms().findOne({ id: roomId });
+    if (!room) return;
+    const snapshot = {
+      roomId: room.id,
+      roomName: room.name,
+      timestamp: new Date().toISOString(),
+      profileCount: room.profiles.length,
+      profiles: JSON.parse(JSON.stringify(room.profiles)),
+      challenges: JSON.parse(JSON.stringify(room.challenges || []))
+    };
+    await backups().insertOne(snapshot);
+    // Keep only last 50 backups per room to avoid bloat
+    const count = await backups().countDocuments({ roomId: room.id });
+    if (count > 50) {
+      const oldest = await backups().find({ roomId: room.id }).sort({ timestamp: 1 }).limit(count - 50).toArray();
+      const idsToDelete = oldest.map(b => b._id);
+      await backups().deleteMany({ _id: { $in: idsToDelete } });
+    }
+  } catch (e) {
+    console.error('Backup snapshot failed (non-fatal):', e.message);
+  }
 }
 
 app.use(express.json());
@@ -107,6 +136,7 @@ app.post('/api/rooms/:roomId/profiles', async (req, res) => {
     }
 
     await rooms().updateOne({ id: req.params.roomId }, { $set: { profiles: room.profiles } });
+    await snapshotRoom(req.params.roomId);
     res.json({ success: true, profileCount: room.profiles.length });
   } catch (e) {
     console.error('Error saving profile:', e);
@@ -124,6 +154,7 @@ app.delete('/api/rooms/:roomId/profiles/:profileName', async (req, res) => {
     room.profiles = room.profiles.filter(p => p.name.toLowerCase() !== name.toLowerCase());
 
     await rooms().updateOne({ id: req.params.roomId }, { $set: { profiles: room.profiles } });
+    await snapshotRoom(req.params.roomId);
     res.json({ success: true });
   } catch (e) {
     console.error('Error deleting profile:', e);
@@ -153,6 +184,7 @@ app.post('/api/rooms/:roomId/challenges', async (req, res) => {
     room.challenges.push(challenge);
 
     await rooms().updateOne({ id: req.params.roomId }, { $set: { challenges: room.challenges } });
+    await snapshotRoom(req.params.roomId);
     res.json(challenge);
   } catch (e) {
     console.error('Error creating challenge:', e);
@@ -185,10 +217,69 @@ app.post('/api/rooms/:roomId/challenges/:challengeId/respond', async (req, res) 
     challenge.status = 'completed';
 
     await rooms().updateOne({ id: req.params.roomId }, { $set: { challenges: room.challenges } });
+    await snapshotRoom(req.params.roomId);
     res.json(challenge);
   } catch (e) {
     console.error('Error responding to challenge:', e);
     res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ===== BACKUP & EXPORT APIs =====
+
+// Export full database as JSON (visit in browser to download)
+app.get('/api/export', async (req, res) => {
+  try {
+    const allRooms = await rooms().find({}).toArray();
+    const data = { rooms: {}, exportDate: new Date().toISOString(), version: '2.0' };
+    for (const r of allRooms) {
+      data.rooms[r.id] = { name: r.name, id: r.id, created: r.created, profiles: r.profiles, challenges: r.challenges || [] };
+    }
+    res.setHeader('Content-Disposition', `attachment; filename="philosophy-backup-${new Date().toISOString().split('T')[0]}.json"`);
+    res.setHeader('Content-Type', 'application/json');
+    res.json(data);
+  } catch (e) {
+    console.error('Export error:', e);
+    res.status(500).json({ error: 'Export failed' });
+  }
+});
+
+// List recent backups (for admin panel)
+app.get('/api/backups', async (req, res) => {
+  try {
+    const recent = await backups().find({}).sort({ timestamp: -1 }).limit(20).toArray();
+    const summary = recent.map(b => ({
+      id: b._id,
+      roomId: b.roomId,
+      roomName: b.roomName,
+      timestamp: b.timestamp,
+      profileCount: b.profileCount
+    }));
+    res.json(summary);
+  } catch (e) {
+    console.error('Backup list error:', e);
+    res.status(500).json({ error: 'Failed to list backups' });
+  }
+});
+
+// Restore a room from a specific backup
+app.post('/api/backups/:backupId/restore', async (req, res) => {
+  try {
+    const { ObjectId } = require('mongodb');
+    const backup = await backups().findOne({ _id: new ObjectId(req.params.backupId) });
+    if (!backup) return res.status(404).json({ error: 'Backup not found' });
+
+    // Snapshot current state before restoring (so you can undo the restore)
+    await snapshotRoom(backup.roomId);
+
+    await rooms().updateOne(
+      { id: backup.roomId },
+      { $set: { profiles: backup.profiles, challenges: backup.challenges || [] } }
+    );
+    res.json({ success: true, roomId: backup.roomId, restoredFrom: backup.timestamp, profileCount: backup.profileCount });
+  } catch (e) {
+    console.error('Restore error:', e);
+    res.status(500).json({ error: 'Restore failed' });
   }
 });
 
