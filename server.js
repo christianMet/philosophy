@@ -12,7 +12,12 @@ const DB_NAME = 'philosophy-profiler';
 let db;
 
 async function connectDB() {
-  const client = new MongoClient(MONGO_URI);
+  const client = new MongoClient(MONGO_URI, {
+    tls: true,
+    tlsAllowInvalidCertificates: false,
+    serverSelectionTimeoutMS: 15000,
+    connectTimeoutMS: 15000
+  });
   await client.connect();
   db = client.db(DB_NAME);
   console.log('  ✅ Connected to MongoDB');
