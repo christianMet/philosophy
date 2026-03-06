@@ -1,0 +1,2455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Philosophical Profile</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
+
+  :root {
+    --bg: #0c0c14; --bg2: #131320; --bg3: #1e1e32;
+    --bg-warm: #100f18;
+    --surface: #151522; --surface2: #1e1e30;
+    --border: rgba(139,124,247,0.12);
+    --border-hover: rgba(139,124,247,0.28);
+    --text: #e8e6f2; --text2: #9f9db5; --text3: #5e5c74;
+    --accent: #8b7cf7; --accent2: #a78bfa; --accent3: #6d5ed6;
+    --warm: #f7b267; --rose: #e879a8; --emerald: #34d399;
+    --sky: #38bdf8; --amber: #fbbf24; --red: #f87171;
+    --glow: rgba(139,124,247,0.06);
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; min-height: 100dvh;
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  body::before {
+    content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 20%, rgba(109,94,214,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 70%, rgba(232,121,168,0.05) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 50% 50%, rgba(139,124,247,0.03) 0%, transparent 80%);
+  }
+  body > * { position:relative; z-index:1; }
+  .container { max-width: 760px; margin: 0 auto; padding: 16px; }
+
+  .app-header { text-align:center; padding:36px 16px 14px; }
+  .app-header h1 {
+    font-family:'Cormorant Garamond',serif; font-size:clamp(1.8em,5.5vw,2.8em); font-weight:600;
+    background:linear-gradient(135deg,var(--accent2),var(--rose),var(--warm));
+    background-size:200% 200%; animation:shimmer 8s ease infinite;
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    letter-spacing:0.01em;
+  }
+  @keyframes shimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+  .app-header .sub { color:var(--text2); font-size:0.88em; font-weight:300; letter-spacing:0.02em; }
+  .room-badge {
+    display:inline-block; margin-top:8px; padding:4px 14px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:20px; font-size:0.8em; color:var(--accent2);
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  .nav-tabs {
+    display:flex; gap:4px; background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius); padding:4px;
+    margin:16px auto 24px; max-width:460px;
+    backdrop-filter:blur(8px);
+  }
+  .nav-tab {
+    flex:1; padding:10px 8px; border:none; background:transparent;
+    color:var(--text3); font-family:'Inter',sans-serif; font-size:0.82em;
+    font-weight:500; border-radius:10px; cursor:pointer; transition:all 0.3s ease;
+  }
+  .nav-tab:hover { color:var(--text); background:rgba(139,124,247,0.08); }
+  .nav-tab.active { background:linear-gradient(135deg,var(--accent3),rgba(139,124,247,0.7)); color:#fff; box-shadow:0 2px 12px rgba(109,94,214,0.3); }
+  .nav-tab .tab-icon { display:block; font-size:1.2em; margin-bottom:2px; }
+
+  .view { display:none; animation:fadeIn 0.4s cubic-bezier(0.22,1,0.36,1); }
+  .view.active { display:block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+  .card {
+    background:linear-gradient(135deg, var(--surface) 0%, rgba(21,21,34,0.95) 100%);
+    border:1px solid var(--border);
+    border-radius:var(--radius); padding:28px; margin-bottom:16px;
+    box-shadow:0 2px 20px rgba(0,0,0,0.15);
+    transition:border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover { border-color:var(--border-hover); }
+  .card-center { text-align:center; }
+  .card h2 { font-family:'Cormorant Garamond',serif; font-size:1.55em; font-weight:600; margin-bottom:12px; }
+  .card p { color:var(--text2); margin-bottom:16px; }
+
+  .input {
+    width:100%; padding:14px 18px; background:var(--bg);
+    border:2px solid var(--border); border-radius:var(--radius);
+    color:var(--text); font-family:'Inter',sans-serif; font-size:1em;
+    transition:border-color 0.3s, box-shadow 0.3s;
+  }
+  .input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(139,124,247,0.1); }
+  .input::placeholder { color:var(--text3); }
+  .input-group { margin-bottom:16px; }
+  .input-label { display:block; font-size:0.85em; color:var(--text2); margin-bottom:6px; font-weight:500; }
+
+  .btn {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 24px; border:none; border-radius:var(--radius);
+    font-family:'Inter',sans-serif; font-size:0.92em; font-weight:500;
+    cursor:pointer; transition:all 0.2s; text-decoration:none;
+  }
+  .btn-primary { background:linear-gradient(135deg,var(--accent),var(--accent3)); color:#fff; box-shadow:0 2px 10px rgba(109,94,214,0.2); }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(139,124,247,0.35); }
+  .btn-primary:disabled { opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none; }
+  .btn-secondary { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+  .btn-secondary:hover { background:var(--bg3); }
+  .btn-small { padding:8px 14px; font-size:0.82em; }
+  .btn-danger { background:rgba(248,113,113,0.12); color:var(--red); border:1px solid rgba(248,113,113,0.25); }
+  .btn-row { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0; }
+
+  .share-box {
+    background:var(--bg); border:2px dashed var(--border);
+    border-radius:var(--radius); padding:20px; text-align:center; margin:16px 0;
+  }
+  .share-url {
+    font-family:'JetBrains Mono',monospace; font-size:0.85em;
+    color:var(--accent2); word-break:break-all; margin:12px 0;
+    padding:12px; background:var(--surface); border-radius:8px;
+    user-select:all; cursor:pointer;
+  }
+
+  .progress-wrap {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:20px; padding:3px;
+    margin-bottom:24px; position:sticky; top:8px; z-index:10;
+    box-shadow:0 4px 24px rgba(0,0,0,0.3);
+    backdrop-filter:blur(8px);
+  }
+  .progress-bar { height:6px; background:linear-gradient(90deg,var(--accent),var(--rose),var(--warm)); background-size:200% 100%; animation:barShimmer 3s ease infinite; border-radius:20px; transition:width 0.4s ease; }
+  @keyframes barShimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+  .progress-label { text-align:center; font-size:0.72em; color:var(--text3); padding:3px 0 1px; }
+
+  .section-head {
+    margin:32px 0 20px; padding:18px 20px;
+    background:linear-gradient(135deg, var(--surface) 0%, rgba(109,94,214,0.04) 100%);
+    border-radius:var(--radius);
+    border-left:4px solid var(--accent);
+    border:1px solid var(--border); border-left:4px solid var(--accent);
+  }
+  .section-head h3 { font-family:'Cormorant Garamond',serif; font-size:1.3em; font-weight:600; margin-bottom:4px; }
+  .section-head p { color:var(--text2); font-size:0.85em; }
+
+  .q-card {
+    background:linear-gradient(135deg, var(--surface) 0%, rgba(21,21,34,0.9) 100%);
+    border:1px solid var(--border);
+    border-radius:var(--radius); padding:20px; margin-bottom:14px;
+    transition:border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .q-card:hover { border-color:var(--border-hover); box-shadow:0 2px 16px rgba(139,124,247,0.06); }
+  .q-num { font-family:'JetBrains Mono',monospace; font-size:0.72em; color:var(--accent2); margin-bottom:6px; }
+  .q-text { font-size:0.95em; font-weight:500; margin-bottom:4px; }
+  .q-desc { font-size:0.82em; color:var(--text2); margin-bottom:14px; line-height:1.5; }
+
+  /* INFO PANEL */
+  .info-toggle {
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:0.78em; color:var(--accent2); cursor:pointer;
+    margin-bottom:12px; padding:4px 10px;
+    background:rgba(139,124,247,0.08); border-radius:6px;
+    border:none; font-family:'Inter',sans-serif;
+    transition:background 0.2s;
+  }
+  .info-toggle:hover { background:rgba(139,124,247,0.15); }
+  .info-panel {
+    display:none; padding:14px 16px; margin-bottom:14px;
+    background:var(--bg); border:1px solid var(--border);
+    border-radius:8px; font-size:0.82em; line-height:1.6;
+    color:var(--text2);
+  }
+  .info-panel.open { display:block; animation:fadeIn 0.2s ease; }
+  .info-panel p { margin-bottom:8px; color:var(--text2); }
+  .info-panel a {
+    color:var(--accent2); text-decoration:none;
+    border-bottom:1px dotted var(--accent2);
+  }
+  .info-panel a:hover { color:var(--text); border-bottom-color:var(--text); }
+  .info-links { margin-top:8px; }
+  .info-links a { display:inline-block; margin-right:16px; margin-bottom:4px; }
+
+  /* MODE PICKER */
+  .mode-picker {
+    display:flex; gap:12px; margin:20px auto; max-width:720px; flex-wrap:wrap; justify-content:center;
+  }
+  .mode-card {
+    flex:1; min-width:140px; padding:20px 16px; background:var(--bg);
+    border:2px solid var(--border); border-radius:var(--radius);
+    text-align:center; cursor:pointer; transition:all 0.3s ease;
+  }
+  .mode-card:hover { border-color:var(--accent); background:rgba(139,124,247,0.04); }
+  .mode-card.sel { border-color:var(--accent); background:rgba(139,124,247,0.08); box-shadow:0 0 16px rgba(139,124,247,0.1); }
+  .mode-card.disabled { opacity:0.4; cursor:not-allowed; pointer-events:none; }
+  .mode-card .mode-icon { font-size:1.8em; margin-bottom:8px; }
+  .mode-card .mode-title { font-weight:600; font-size:0.95em; margin-bottom:4px; }
+  .mode-card .mode-desc { font-size:0.78em; color:var(--text3); }
+
+  .name-status { margin-top:12px; padding:14px 18px; border-radius:var(--radius); font-size:0.88em; line-height:1.5; animation:fadeIn 0.3s ease; }
+  .name-status.found { background:rgba(52,211,153,0.08); border:1px solid rgba(52,211,153,0.2); color:var(--emerald); }
+  .name-status.found a { color:var(--accent2); cursor:pointer; text-decoration:underline; }
+
+  .s-labels { display:flex; justify-content:space-between; margin-bottom:8px; gap:12px; }
+  .s-label { font-size:0.75em; color:var(--text3); max-width:42%; line-height:1.3; }
+  .s-label:first-child { text-align:left; }
+  .s-label:last-child { text-align:right; }
+  input[type="range"] {
+    -webkit-appearance:none; width:100%; height:8px;
+    background:linear-gradient(90deg,var(--accent3),var(--bg3) 50%,var(--rose));
+    border-radius:4px; outline:none; cursor:pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance:none; width:24px; height:24px;
+    background:linear-gradient(135deg,#fff,#e0daf7);
+    border-radius:50%; box-shadow:0 2px 12px rgba(139,124,247,0.35); cursor:grab;
+    transition:box-shadow 0.2s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover {
+    box-shadow:0 2px 18px rgba(139,124,247,0.5);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width:24px; height:24px; background:linear-gradient(135deg,#fff,#e0daf7); border:none;
+    border-radius:50%; box-shadow:0 2px 12px rgba(139,124,247,0.35); cursor:grab;
+  }
+
+  .choices { display:grid; gap:8px; }
+  .ch-btn {
+    display:block; width:100%; padding:12px 16px; background:var(--bg);
+    border:2px solid var(--border); border-radius:10px; color:var(--text);
+    font-family:'Inter',sans-serif; font-size:0.88em; text-align:left;
+    cursor:pointer; transition:all 0.3s ease;
+  }
+  .ch-btn:hover { border-color:var(--accent); background:rgba(139,124,247,0.05); }
+  .ch-btn.sel { border-color:var(--accent); background:rgba(139,124,247,0.1); box-shadow:0 0 12px rgba(139,124,247,0.1); }
+  .ch-label { font-weight:500; }
+  .ch-desc { font-size:0.8em; color:var(--text2); margin-top:2px; }
+
+  .results-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0; }
+  @media(max-width:580px) { .results-grid { grid-template-columns:1fr; } }
+  .r-card {
+    background:linear-gradient(135deg, var(--surface) 0%, rgba(109,94,214,0.03) 100%);
+    border:1px solid var(--border);
+    border-radius:var(--radius); padding:18px;
+    transition:border-color 0.3s, box-shadow 0.3s;
+  }
+  .r-card:hover { border-color:var(--border-hover); box-shadow:0 2px 12px rgba(139,124,247,0.06); }
+  .r-card h4 { font-size:0.75em; text-transform:uppercase; letter-spacing:0.05em; color:var(--text3); margin-bottom:6px; }
+  .r-label { font-family:'Cormorant Garamond',serif; font-size:1.15em; font-weight:600; margin-bottom:3px; }
+  .r-detail { font-size:0.82em; color:var(--text2); }
+  .r-bar { height:5px; background:var(--bg3); border-radius:3px; margin-top:8px; overflow:hidden; }
+  .r-fill { height:100%; border-radius:3px; transition:width 0.6s ease; }
+
+  .radar-wrap { display:flex; justify-content:center; margin:24px 0; }
+  canvas { max-width:100%; height:auto !important; }
+
+  .t-member {
+    background:linear-gradient(135deg, var(--surface) 0%, rgba(109,94,214,0.03) 100%);
+    border:1px solid var(--border);
+    border-radius:var(--radius); padding:14px 18px; margin-bottom:10px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    flex-wrap:wrap; transition:border-color 0.3s;
+  }
+  .t-member:hover { border-color:var(--border-hover); }
+  .t-name { font-weight:500; }
+  .t-date { font-size:0.78em; color:var(--text3); }
+  .cmp-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.82em; }
+  .cmp-table th,.cmp-table td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--border); }
+  .cmp-table th { color:var(--text3); font-weight:500; text-transform:uppercase; font-size:0.78em; letter-spacing:0.04em; }
+  .cmp-table tr:hover td { color:var(--text); background:var(--bg3); }
+  .dist-badge {
+    display:inline-block; padding:3px 10px; border-radius:20px;
+    font-size:0.78em; font-weight:500;
+  }
+
+  /* IMPORT DROP ZONE */
+  .import-zone {
+    border:2px dashed var(--border); border-radius:var(--radius);
+    padding:24px; text-align:center; margin:16px 0; cursor:pointer;
+    transition:all 0.2s;
+  }
+  .import-zone:hover, .import-zone.dragover {
+    border-color:var(--accent); background:rgba(139,124,247,0.05);
+  }
+  .import-zone p { color:var(--text2); font-size:0.9em; }
+  .import-zone .import-icon { font-size:2em; margin-bottom:8px; }
+
+  .badge-quick {
+    display:inline-block; padding:2px 8px; border-radius:10px;
+    font-size:0.7em; font-weight:600; background:rgba(52,211,153,0.15);
+    color:var(--emerald); margin-left:6px; vertical-align:middle;
+  }
+
+  .toast {
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(100px);
+    background:var(--surface2); border:1px solid var(--border-hover); color:var(--text);
+    padding:12px 24px; border-radius:var(--radius); font-size:0.88em;
+    z-index:1000; transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    box-shadow:0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(139,124,247,0.1);
+    max-width:90vw; text-align:center; backdrop-filter:blur(12px);
+  }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+  .footer { text-align:center; padding:32px 16px; color:var(--text3); font-size:0.75em; letter-spacing:0.02em; }
+  .hidden { display:none !important; }
+
+  @media(max-width:480px) {
+    .container { padding:10px; }
+    .card { padding:20px; }
+    .q-card { padding:16px; }
+    .section-head { padding:14px 16px; }
+    .nav-tab { font-size:0.75em; padding:8px 4px; }
+    .mode-picker { flex-direction:column; }
+  }
+
+  .qc-child{
+    margin-left:20px;margin-top:-6px;border-left:3px solid var(--accent3);
+    background:linear-gradient(135deg,var(--surface) 0%,rgba(139,124,247,0.03) 100%);
+    animation:slideChild 0.3s ease;
+  }
+  .qc-child .qn{color:var(--rose)}
+  .qc-child .qn::before{content:'↳ ';color:var(--accent)}
+  @keyframes slideChild{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+  .children-wrap{overflow:hidden}
+
+  .showdown-card{background:linear-gradient(135deg,var(--surface) 0%,rgba(21,21,34,0.95) 100%);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:10px;transition:border-color 0.3s}
+  .showdown-agree{border-left:3px solid var(--emerald)}
+  .showdown-diverge{border-left:3px solid var(--rose)}
+  .showdown-explore{border-left:3px solid var(--amber)}
+  .soulmate-score{font-family:'Cormorant Garamond',serif;font-size:3em;font-weight:700;background:linear-gradient(135deg,var(--accent2),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin:16px 0}
+  .showdown-picker select{width:100%;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'Inter',sans-serif;font-size:0.9em;margin-bottom:4px}
+  .showdown-picker select:focus{outline:none;border-color:var(--accent)}
+
+  .challenge-badge{position:relative}
+  .challenge-badge::after{content:attr(data-count);position:absolute;top:-4px;right:-4px;background:var(--rose);color:#fff;font-size:0.6em;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .challenge-badge[data-count="0"]::after{display:none}
+  .challenge-pending{background:linear-gradient(135deg,rgba(244,114,182,0.08),rgba(139,124,247,0.08));border:1px solid rgba(244,114,182,0.2);border-radius:var(--radius);padding:20px;margin-bottom:16px;animation:fadeIn 0.4s ease}
+  .challenge-pending h3{font-family:'Cormorant Garamond',serif;font-size:1.2em;margin-bottom:8px}
+  .challenge-completed{background:linear-gradient(135deg,rgba(52,211,153,0.06),rgba(139,124,247,0.06));border:1px solid rgba(52,211,153,0.2);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+  .challenge-q{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin:10px 0}
+  .challenge-diff{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:8px 0}
+  .challenge-diff .cd-name{font-weight:600;font-size:0.88em}
+  .challenge-diff .cd-answer{font-size:0.82em;color:var(--text2);padding:8px 12px;background:var(--bg2);border-radius:8px}
+  .challenge-diff .cd-vs{color:var(--rose);font-weight:700;font-size:0.9em}
+  .challenge-diff .cd-same{color:var(--emerald)}
+
+  .cn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+  @media(max-width:480px){.cn-grid{grid-template-columns:1fr}}
+  .cn-card{background:linear-gradient(135deg,var(--bg2) 0%,rgba(21,21,34,0.9) 100%);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:border-color 0.3s}
+  .cn-card h5{font-size:0.72em;text-transform:uppercase;color:var(--text3);letter-spacing:0.05em;margin-bottom:6px}
+  .cn-card .cn-name{font-weight:600;font-size:0.95em;margin-bottom:4px}
+  .cn-card .cn-dist{font-size:0.78em;color:var(--text2)}
+  .cn-card.cn-center{border-left:3px solid var(--emerald)}
+  .cn-card.cn-outlier{border-left:3px solid var(--rose)}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <h1>Philosophical Profile</h1>
+  <p class="sub">Map your commitments. See where your team stands.</p>
+  <div id="roomBadge" class="room-badge hidden"></div>
+</div>
+
+<div class="container">
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" onclick="go('lobby')"><span class="tab-icon">🏠</span>Home</button>
+    <button class="nav-tab" onclick="go('quiz')"><span class="tab-icon">📝</span>Quiz</button>
+    <button class="nav-tab" onclick="go('profile')"><span class="tab-icon">🪞</span>Profile</button>
+    <button class="nav-tab" onclick="go('showdown')"><span class="tab-icon">⚔️</span>Showdown</button>
+    <button class="nav-tab" onclick="go('team')"><span class="tab-icon">👥</span>Team</button>
+    <button class="nav-tab" onclick="go('sylvain')"><span class="tab-icon">🧙</span>Sylvain</button>
+  </div>
+
+  <!-- LOBBY -->
+  <div id="v-lobby" class="view active">
+    <div class="card card-center">
+      <h2>Welcome</h2>
+      <p>Create or join a <strong>room</strong> for your team. Everyone who joins the same room can take the questionnaire and see each other's philosophical profiles.</p>
+      <div class="input-group">
+        <label class="input-label">Room name (e.g. your team name)</label>
+        <input class="input" id="inRoom" placeholder="e.g. Metaculus Team" style="text-align:center" />
+      </div>
+      <button class="btn btn-primary" onclick="joinRoom()">Create / Join Room →</button>
+    </div>
+    <div id="existingRooms" class="hidden">
+      <p style="color:var(--text3);font-size:0.85em;margin:16px 0 8px;">Or join an existing room:</p>
+      <div id="roomList"></div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="v-quiz" class="view">
+    <div id="quizWelcome" class="card card-center">
+      <h2>Know Thyself</h2>
+      <p>This questionnaire maps your philosophical commitments across 7 dimensions, grounded in positions from the Stanford Encyclopedia of Philosophy. Use sliders for spectrums, buttons for categories. Click "Learn more" on any question to dig deeper.</p>
+
+      <div class="input-group" style="max-width:360px;margin:20px auto 0;">
+        <label class="input-label">Your name</label>
+        <input class="input" id="inName" placeholder="Enter your name..." style="text-align:center" oninput="checkName()" />
+        <div id="nameStatus"></div>
+      </div>
+
+      <p style="color:var(--text2);font-size:0.9em;margin-top:20px;font-weight:500;">Choose your mode:</p>
+      <div class="mode-picker">
+        <div class="mode-card sel" id="mode-full" onclick="setMode('full')">
+          <div class="mode-icon">📚</div>
+          <div class="mode-title">Full Survey</div>
+          <div class="mode-desc">~40 questions · ~15 min<br>Maximum detail & nuance</div>
+        </div>
+        <div class="mode-card" id="mode-quick" onclick="setMode('quick')">
+          <div class="mode-icon">⚡</div>
+          <div class="mode-title">Quick Survey</div>
+          <div class="mode-desc">~15 questions · ~5 min<br>Covers all 7 dimensions</div>
+        </div>
+        <div class="mode-card" id="mode-thought" onclick="setMode('thought')">
+          <div class="mode-icon">🧪</div>
+          <div class="mode-title">Thought Experiments</div>
+          <div class="mode-desc">7 questions · ~3 min<br>Fun philosophical puzzles</div>
+        </div>
+        <div class="mode-card disabled" id="mode-refine" onclick="setMode('refine')">
+          <div class="mode-icon">🔬</div>
+          <div class="mode-title">Refinement</div>
+          <div class="mode-desc">~10 questions · ~3 min<br>Deepen your profile</div>
+        </div>
+      </div>
+
+      <br>
+      <button class="btn btn-primary" onclick="startQuiz()">Begin →</button>
+    </div>
+
+    <div id="quizContent" class="hidden">
+      <div class="progress-wrap">
+        <div class="progress-bar" id="pBar" style="width:0%"></div>
+        <div class="progress-label" id="pLabel">0 / 0</div>
+      </div>
+      <div id="qContainer"></div>
+      <div style="text-align:center;margin:32px 0;">
+        <button class="btn btn-primary" onclick="submit()" id="submitBtn" disabled>Complete Profile →</button>
+        <p style="color:var(--text3);font-size:0.78em;margin-top:6px;" id="submitHint">Answer all multiple-choice questions to finish</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="v-profile" class="view">
+    <div id="noProfile" class="card card-center">
+      <h2>No Profile Yet</h2>
+      <p>Take the questionnaire to see your philosophical profile.</p>
+      <button class="btn btn-primary" onclick="go('quiz')">Take Quiz →</button>
+    </div>
+    <div id="profileContent" class="hidden"></div>
+  </div>
+
+  <!-- SHOWDOWN -->
+  <div id="v-showdown" class="view"><div id="showdownContent"></div></div>
+
+  <!-- TEAM -->
+  <div id="v-team" class="view">
+    <div id="teamContent"></div>
+  </div>
+
+  <!-- SYLVAIN -->
+  <div id="v-sylvain" class="view">
+    <div id="sylvainContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="footer">
+  Philosophical Profile — Positions drawn from the Stanford Encyclopedia of Philosophy<br>
+  Results saved to your team's shared room.
+</div>
+
+<script>
+// ===== QUESTIONS =====
+const QS = [
+  // ── ETHICS ──
+  { section:"Ethics & Moral Philosophy", sectionDesc:"How should we act? What makes actions right or wrong?",
+    id:"eth_cons", type:"slider", core:true,
+    text:"When evaluating whether an action is morally right, what matters most?",
+    desc:"Consequentialists judge by outcomes; deontologists by duties and rules, regardless of consequences.",
+    left:"Outcomes & consequences", right:"Duties & rules regardless of outcome", dim:"ethics",
+    info:"Consequentialism holds that the moral value of an action is determined solely by its consequences. The most well-known form is utilitarianism. Deontological ethics, by contrast, holds that some acts are intrinsically right or wrong regardless of their outcomes — as argued by Immanuel Kant with his Categorical Imperative.",
+    links:[
+      {t:"Consequentialism (SEP)",u:"https://plato.stanford.edu/entries/consequentialism/"},
+      {t:"Deontological Ethics (SEP)",u:"https://plato.stanford.edu/entries/ethics-deontological/"}
+    ],children:[
+{id:"eth_cons_sub",parentId:"eth_cons",type:"choice",text:"What kind of consequentialism?",desc:"Different versions focus on different goods and strategies.",showWhen:a=>((a.eth_cons??a.ethics_consequentialism??50)<40),options:[{v:"act",l:"Act Utilitarianism",d:"Judge each individual action by its consequences (Bentham, Singer)"},{v:"rule",l:"Rule Utilitarianism",d:"Follow rules that, if universally adopted, maximize good (Mill)"},{v:"pref",l:"Preference Utilitarianism",d:"Satisfy people's informed preferences (Hare, Singer)"},{v:"neg",l:"Negative Utilitarianism",d:"Focus primarily on minimizing suffering (Popper)"}],dim:"ethics",info:"Act utilitarians evaluate each act independently. Rule utilitarians ask what rules would produce the best outcomes if universally followed. Preference utilitarians focus on satisfying preferences rather than maximizing pleasure.",links:[{t:"Utilitarianism (SEP)",u:"https://plato.stanford.edu/entries/utilitarianism-history/"}]},
+{id:"eth_deont_sub",parentId:"eth_cons",type:"choice",text:"What grounds your deontological commitments?",desc:"Different foundations for duty-based ethics.",showWhen:a=>((a.eth_cons??a.ethics_consequentialism??50)>60),options:[{v:"kantian",l:"Kantian",d:"Universal moral laws from pure reason — the Categorical Imperative"},{v:"contractualist",l:"Contractualism (Scanlon)",d:"Principles no one could reasonably reject"},{v:"rights",l:"Rights-based (Nozick)",d:"Inviolable individual rights as side-constraints"},{v:"divine",l:"Divine Command",d:"God's will determines morality"}],dim:"ethics",info:"Kant grounded ethics in reason and universalizability. Scanlon in mutual justifiability. Nozick in natural rights. Each offers a different foundation for why some acts are wrong regardless of consequences.",links:[{t:"Deontological Ethics (SEP)",u:"https://plato.stanford.edu/entries/ethics-deontological/"}]}
+]
+  },
+  { id:"eth_util", type:"choice",
+    text:"If consequences matter to you, which kind of consequence?",
+    desc:"Different versions of consequentialism focus on different goods.",
+    options:[
+      {v:"hedonistic",l:"Pleasure & pain",d:"Maximize happiness, minimize suffering (Bentham, Mill)"},
+      {v:"preference",l:"Preference satisfaction",d:"Satisfy people's informed preferences (Hare, Singer)"},
+      {v:"wellbeing",l:"Objective wellbeing",d:"Promote objective goods: knowledge, friendship, achievement (Parfit)"},
+      {v:"neutral",l:"Consequences aren't central to my ethics",d:"I lean toward duties, virtues, or other frameworks"}
+    ], dim:"ethics",
+    info:"Jeremy Bentham's classical utilitarianism measured everything by pleasure and pain. J.S. Mill refined this with 'higher' and 'lower' pleasures. Peter Singer's preference utilitarianism focuses on satisfying preferences rather than a fixed notion of happiness. Derek Parfit's work explored objective list theories where certain things (knowledge, deep relationships) are good regardless of whether they produce pleasure.",
+    links:[{t:"Utilitarianism (SEP)",u:"https://plato.stanford.edu/entries/utilitarianism-history/"}]
+  },
+  { id:"eth_virt", type:"slider", core:true,
+    text:"How central is character and virtue to living a good moral life?",
+    desc:"Virtue ethicists (Aristotle, Anscombe, MacIntyre) hold that being a good person is more fundamental than following rules or maximizing outcomes.",
+    left:"Virtue is secondary to principles", right:"Virtue & character are the heart of ethics", dim:"ethics",
+    info:"Virtue ethics is one of the three major approaches in normative ethics. It dates back to Aristotle's Nicomachean Ethics, which focuses on eudaimonia (flourishing) and the development of virtuous character traits (aretē) like courage, temperance, justice, and practical wisdom (phronesis). It was revived in modern philosophy by Elizabeth Anscombe's 1958 paper 'Modern Moral Philosophy' and developed further by Alasdair MacIntyre, Philippa Foot, and Rosalind Hursthouse.",
+    links:[
+      {t:"Virtue Ethics (SEP)",u:"https://plato.stanford.edu/entries/ethics-virtue/"},
+      {t:"Aristotle's Ethics (SEP)",u:"https://plato.stanford.edu/entries/aristotle-ethics/"}
+    ],children:[
+{id:"eth_virt_sub",parentId:"eth_virt",type:"choice",text:"Which tradition of virtue ethics?",desc:"Different schools emphasize different aspects of virtuous character.",showWhen:a=>((a.eth_virt??a.ethics_virtue??50)>60),options:[{v:"aristotelian",l:"Aristotelian",d:"Virtue as the mean; practical wisdom; external goods matter for flourishing"},{v:"stoic",l:"Stoic",d:"Virtue alone is sufficient for happiness; externals are indifferent"},{v:"care_eth",l:"Care Ethics",d:"Caring relationships and emotional responsiveness (Noddings, Held)"},{v:"sentiment",l:"Sentimentalist",d:"Virtues as expressions of admirable sentiments (Slote)"}],dim:"ethics",info:"Aristotelians emphasize practical wisdom and the mean between extremes. Stoics argue virtue alone guarantees flourishing. Care ethicists center relationships. Sentimentalists focus on emotional authenticity.",links:[{t:"Virtue Ethics (SEP)",u:"https://plato.stanford.edu/entries/ethics-virtue/"}]}
+]
+  },
+  { id:"eth_care", type:"slider",
+    text:"Should ethics be grounded in abstract principles or in caring relationships?",
+    desc:"Care ethics (Gilligan, Noddings, Held) argues moral life is about responding to the needs of particular others we're in relationship with.",
+    left:"Abstract universal principles", right:"Particular caring relationships", dim:"ethics",
+    info:"Care ethics emerged from Carol Gilligan's work on moral development, which argued that traditional moral theory (focused on justice and rights) reflected a male bias. Nel Noddings developed this into a full ethical theory centered on the caring relationship. Virginia Held further developed care ethics as a distinct moral framework that prioritizes responsiveness, attentiveness, and the maintenance of relationships.",
+    links:[{t:"Feminist Ethics / Care Ethics (SEP)",u:"https://plato.stanford.edu/entries/feminism-ethics/"}]
+  },
+  { id:"eth_real", type:"slider", core:true,
+    text:"Do objective moral facts exist independently of what anyone thinks?",
+    desc:"Moral realists hold 'torture is wrong' is objectively true. Anti-realists argue moral claims are expressions of attitudes or social constructs.",
+    left:"No — morality is constructed/expressed", right:"Yes — moral facts are objectively real", dim:"ethics",
+    info:"Moral realism is the view that there are objective moral facts — that moral statements can be literally true or false. Non-cognitivists like A.J. Ayer (emotivism) argued moral claims just express feelings ('Boo to murder!'). Error theorists like J.L. Mackie argued moral claims are all false because moral facts would be metaphysically 'queer.' Moral constructivists like Korsgaard argue moral truths are real but constructed through rational activity.",
+    links:[
+      {t:"Moral Realism (SEP)",u:"https://plato.stanford.edu/entries/moral-realism/"},
+      {t:"Moral Anti-Realism (SEP)",u:"https://plato.stanford.edu/entries/moral-anti-realism/"}
+    ]
+  },
+  { id:"eth_motiv", type:"slider",
+    text:"Is moral knowledge primarily a matter of reason or sentiment?",
+    desc:"Rationalists (Kant) say pure reason reveals moral truths. Sentimentalists (Hume, Slote) say moral judgments originate in emotions.",
+    left:"Reason is the source", right:"Emotion & sentiment ground morality", dim:"ethics",
+    info:"David Hume famously argued that 'reason is, and ought only to be the slave of the passions' — moral judgments are driven by sentiment, not reason. Kant took the opposite view: morality is grounded in pure practical reason and the Categorical Imperative. Modern sentimentalists like Michael Slote and Jesse Prinz have revived Humean approaches using insights from moral psychology and neuroscience.",
+    links:[
+      {t:"Moral Sentimentalism (SEP)",u:"https://plato.stanford.edu/entries/moral-sentimentalism/"},
+      {t:"Kant's Moral Philosophy (SEP)",u:"https://plato.stanford.edu/entries/kant-moral/"}
+    ]
+  },
+  { id:"eth_univ", type:"slider",
+    text:"Are moral principles universal, or do they vary across cultures?",
+    desc:"Universalists hold some principles apply everywhere. Relativists argue morality is culturally determined.",
+    left:"Universal — same for everyone", right:"Relative — culturally dependent", dim:"ethics",
+    info:"Moral relativism comes in several varieties. Descriptive relativism is the empirical observation that moral beliefs differ across cultures. Meta-ethical moral relativism holds that there are no universal moral truths. Moral universalism, defended by philosophers from Kant to contemporary human rights theorists, argues that at least some moral principles hold for all people regardless of culture.",
+    links:[{t:"Moral Relativism (SEP)",u:"https://plato.stanford.edu/entries/moral-relativism/"}]
+  },
+  { id:"eth_demand", type:"slider",
+    text:"How demanding should morality be on individuals?",
+    desc:"Strong demandingness (Singer) implies significant self-sacrifice is required. Moderate views permit supererogation — praiseworthy but not required acts.",
+    left:"Morality demands significant sacrifice", right:"Morality leaves room for personal choice", dim:"ethics",
+    info:"Peter Singer's famous 'Famine, Affluence, and Morality' argument: if you can prevent something bad from happening without sacrificing anything of comparable moral importance, you ought to do it. This makes morality extremely demanding — you should give until you reach the point of marginal utility. Critics argue for agent-centered prerogatives that allow some partiality toward your own projects and relationships.",
+    links:[{t:"Supererogation (SEP)",u:"https://plato.stanford.edu/entries/supererogation/"}]
+  },
+
+  // ── EPISTEMOLOGY ──
+  { section:"Epistemology", sectionDesc:"How do we know what we know? Sources of knowledge, justification, and truth.",
+    id:"ep_src", type:"slider", core:true,
+    text:"Which is a more fundamental source of knowledge?",
+    desc:"Rationalists (Descartes, Leibniz) emphasize reason. Empiricists (Locke, Hume) ground knowledge in sensory experience.",
+    left:"Reason & rational insight", right:"Sensory experience & observation", dim:"epistemology",
+    info:"The rationalism-empiricism debate is one of the oldest in epistemology. Rationalists like Descartes argued that some knowledge is innate or known a priori through pure reason (like mathematical truths). Empiricists like John Locke argued the mind starts as a 'blank slate' (tabula rasa) and all knowledge derives from experience. Kant famously attempted a synthesis, arguing that experience provides content but reason provides structure.",
+    links:[
+      {t:"Rationalism vs. Empiricism (SEP)",u:"https://plato.stanford.edu/entries/rationalism-empiricism/"},
+      {t:"Epistemology (SEP)",u:"https://plato.stanford.edu/entries/epistemology/"}
+    ]
+  },
+  { id:"ep_struct", type:"choice", core:true,
+    text:"What is the structure of justified belief?",
+    desc:"How do beliefs support each other?",
+    options:[
+      {v:"found",l:"Foundationalism",d:"Some basic beliefs are self-justifying; all others rest on them (Descartes)"},
+      {v:"cohere",l:"Coherentism",d:"Beliefs justified by coherence with other beliefs — no foundations needed (BonJour)"},
+      {v:"pragma",l:"Pragmatism",d:"Beliefs justified by practical consequences and usefulness (James, Dewey)"},
+      {v:"virtue",l:"Virtue Epistemology",d:"Knowledge from intellectual virtues: open-mindedness, thoroughness (Sosa, Zagzebski)"}
+    ], dim:"epistemology",
+    info:"Foundationalism responds to the regress problem: if every belief needs justification, what stops an infinite chain? Foundationalists say some 'basic' beliefs (like immediate sensory experiences) are self-justifying. Coherentists deny the need for foundations — a belief is justified if it fits coherently with everything else you believe. Pragmatists (William James, John Dewey) cut the knot differently: a belief is justified if it works in practice.",
+    links:[
+      {t:"Foundationalism (SEP)",u:"https://plato.stanford.edu/entries/justep-foundational/"},
+      {t:"Coherentism (SEP)",u:"https://plato.stanford.edu/entries/justep-coherentist/"}
+    ],children:[
+{id:"ep_found_sub",parentId:"ep_struct",type:"choice",text:"What kind of foundationalism?",desc:"How strong must foundational beliefs be?",showWhen:a=>(a.ep_struct==='found'||a.epist_structure==='foundationalism'),options:[{v:"classical",l:"Classical Foundationalism",d:"Foundations must be certain and incorrigible (Descartes)"},{v:"modest",l:"Modest Foundationalism",d:"Foundations can be fallible — just need some non-inferential justification"}],dim:"epistemology",info:"Classical foundationalism demands certainty for basic beliefs. Modest foundationalism allows fallible foundations, making the position more defensible but less ambitious.",links:[{t:"Foundationalism (SEP)",u:"https://plato.stanford.edu/entries/justep-foundational/"}]},
+{id:"ep_virtue_sub",parentId:"ep_struct",type:"choice",text:"What kind of virtue epistemology?",desc:"Different approaches to intellectual character.",showWhen:a=>(a.ep_struct==='virtue'||a.epist_structure==='virtue_epist'),options:[{v:"reliable",l:"Reliabilist Virtue Epistemology",d:"Virtues are reliable faculties — perception, memory, reason (Sosa)"},{v:"responsibilist",l:"Responsibilist Virtue Epistemology",d:"Virtues are character traits — open-mindedness, courage, humility (Zagzebski)"}],dim:"epistemology",info:"Sosa's reliabilism focuses on cognitive faculties as virtues. Zagzebski's responsibilism focuses on character traits of good epistemic agents.",links:[{t:"Virtue Epistemology (SEP)",u:"https://plato.stanford.edu/entries/epistemology-virtue/"}]}
+]
+  },
+  { id:"ep_skep", type:"slider",
+    text:"How much can we truly know about the external world?",
+    desc:"How confident are you in our epistemic access to reality?",
+    left:"We can know the world with high confidence", right:"Our knowledge is deeply limited & uncertain", dim:"epistemology",
+    info:"Philosophical skepticism has a long history, from ancient Pyrrhonists who suspended judgment on everything, to Descartes' methodological doubt (what if an evil demon is deceiving me?), to modern brain-in-a-vat scenarios. Most contemporary epistemologists aren't radical skeptics but debate how far our knowledge extends and how certain we can be.",
+    links:[{t:"Skepticism (SEP)",u:"https://plato.stanford.edu/entries/skepticism/"}]
+  },
+  { id:"ep_truth", type:"choice", core:true,
+    text:"What is truth?",
+    desc:"Different theories of what it means for a belief to be 'true.'",
+    options:[
+      {v:"corresp",l:"Correspondence",d:"True if it corresponds to mind-independent facts (Aristotle, Russell)"},
+      {v:"coh_tr",l:"Coherence",d:"Truth is coherence within a system of beliefs (Bradley)"},
+      {v:"prag_tr",l:"Pragmatic",d:"True beliefs are those that work — useful in practice (James, Peirce)"},
+      {v:"deflat",l:"Deflationary",d:"'True' is just a useful word, not a deep property (Ramsey, Quine)"}
+    ], dim:"epistemology",
+    info:"The correspondence theory is the 'common sense' view: a belief is true if it matches reality. But what exactly is this 'matching'? Coherence theories say a belief is true if it fits consistently with all our other beliefs. William James's pragmatic theory says truth is 'what works' — the 'cash value' of an idea. Deflationists argue 'true' is just a grammatical device and doesn't name any deep metaphysical property at all.",
+    links:[{t:"Truth (SEP)",u:"https://plato.stanford.edu/entries/truth/"}]
+  },
+  { id:"ep_intern", type:"slider",
+    text:"Must you be aware of what justifies your beliefs for them to count as knowledge?",
+    desc:"Internalists say yes — justification requires conscious access. Externalists (Goldman) say reliable processes suffice.",
+    left:"Justification must be internally accessible", right:"Reliable processes suffice (externalism)", dim:"epistemology",
+    info:"Internalism about justification holds that the factors that make a belief justified must be cognitively accessible to the believer. You need to be able to 'see' your reasons. Externalists like Alvin Goldman argue that a belief is justified if it's produced by a reliable cognitive process, even if you can't articulate why. A farmer might reliably know it will rain by reading cloud patterns without being able to explain the meteorology.",
+    links:[{t:"Internalism & Externalism (SEP)",u:"https://plato.stanford.edu/entries/justep-intext/"}]
+  },
+  { id:"ep_test", type:"slider",
+    text:"How much should we trust testimony and expert opinion?",
+    desc:"Epistemic autonomy vs. deference — think for yourself, or trust reliable experts?",
+    left:"Think for yourself — epistemic autonomy", right:"Defer to experts — epistemic trust", dim:"epistemology",
+    info:"Much of what we know comes from testimony — other people telling us things. The epistemology of testimony asks when and why we're justified in believing what others say. This has become especially important with questions about trust in science, expertise, and misinformation. Reductionists say we need independent reasons to trust testimony; anti-reductionists say testimony is a basic source of knowledge like perception.",
+    links:[{t:"Epistemology of Testimony (SEP)",u:"https://plato.stanford.edu/entries/testimony-episprob/"}]
+  },
+
+  // ── METAPHYSICS ──
+  { section:"Metaphysics", sectionDesc:"The fundamental nature of reality: free will, consciousness, identity, time.",
+    id:"m_fw", type:"choice", core:true,
+    text:"What is the nature of free will?",
+    desc:"One of philosophy's oldest debates, with implications for moral responsibility.",
+    options:[
+      {v:"hard_det",l:"Hard Determinism",d:"Everything is causally determined; free will is an illusion (Pereboom)"},
+      {v:"compat",l:"Compatibilism",d:"Free will is compatible with determinism — freedom means acting on your desires (Hume, Dennett)"},
+      {v:"lib_fw",l:"Libertarian Free Will",d:"Genuine metaphysical freedom — some actions aren't fully determined (Kane)"},
+      {v:"skep_fw",l:"Free Will Skepticism",d:"The question may be confused — focus on responsibility practices instead"}
+    ], dim:"metaphysics",
+    info:"The free will debate intersects with physics (is the universe deterministic?), neuroscience (Libet's experiments on unconscious decision-making), and moral philosophy (can we hold people responsible if they couldn't have done otherwise?). Compatibilism, the most popular position among professional philosophers, redefines 'free' not as 'could have done otherwise' but as 'acting from your own desires without external coercion.'",
+    links:[
+      {t:"Free Will (SEP)",u:"https://plato.stanford.edu/entries/freewill/"},
+      {t:"Compatibilism (SEP)",u:"https://plato.stanford.edu/entries/compatibilism/"}
+    ],children:[
+{id:"m_fw_compat_sub",parentId:"m_fw",type:"choice",text:"What kind of compatibilism?",desc:"Different accounts of how free will coexists with determinism.",showWhen:a=>(a.m_fw==='compat'||a.meta_freewill==='compatibilism'),options:[{v:"frankfurt",l:"Frankfurt's Hierarchical Model",d:"Free will = your will aligns with what you want to want"},{v:"dennett",l:"Dennett's Naturalism",d:"Free will = ability to reason, learn, and respond to circumstances"},{v:"humean",l:"Classical Humean",d:"Free will = acting on your own desires without coercion"}],dim:"metaphysics",info:"Frankfurt emphasizes identification with your desires. Dennett deflates the mystery — free will is just competent agency. Hume defined liberty as acting from your own motivations.",links:[{t:"Compatibilism (SEP)",u:"https://plato.stanford.edu/entries/compatibilism/"}]},
+{id:"m_fw_lib_sub",parentId:"m_fw",type:"choice",text:"What kind of libertarian free will?",desc:"Different accounts of metaphysical freedom.",showWhen:a=>(a.m_fw==='lib_fw'||a.meta_freewill==='libertarian_fw'),options:[{v:"agent_cause",l:"Agent Causation",d:"The agent as a substance causes actions — not prior events (Chisholm)"},{v:"event_cause",l:"Event Causation",d:"Some events are undetermined, providing space for free will (Kane)"}],dim:"metaphysics",info:"Agent causationists make the person the fundamental cause. Event causationists locate freedom in genuinely undetermined events that align with the agent's reasons.",links:[{t:"Free Will (SEP)",u:"https://plato.stanford.edu/entries/freewill/"}]}
+]
+  },
+  { id:"m_mind", type:"choice", core:true,
+    text:"What is the relationship between mind and body?",
+    desc:"How does conscious experience relate to physical matter?",
+    options:[
+      {v:"physic",l:"Physicalism",d:"Mental states are physical states — consciousness is brain activity (Armstrong)"},
+      {v:"dual",l:"Property Dualism",d:"Mental properties are real but non-physical — they emerge from the physical (Chalmers)"},
+      {v:"func",l:"Functionalism",d:"Mental states defined by functional roles, not substrate — mind is software (Putnam)"},
+      {v:"panpsy",l:"Panpsychism",d:"Consciousness is fundamental to all matter (Goff, Strawson)"}
+    ], dim:"metaphysics",
+    info:"The mind-body problem asks how subjective, conscious experience arises from (or relates to) physical matter. Physicalism is the dominant view in analytic philosophy but faces the 'hard problem' (Chalmers): even a complete physical description of the brain seems to leave out the subjective 'what it's like.' Panpsychism, once considered fringe, has gained serious attention as a way to avoid this explanatory gap.",
+    links:[
+      {t:"Mind-Body Problem (SEP)",u:"https://plato.stanford.edu/entries/mind-body/"},
+      {t:"Panpsychism (SEP)",u:"https://plato.stanford.edu/entries/panpsychism/"}
+    ],children:[
+{id:"m_mind_physic_sub",parentId:"m_mind",type:"choice",text:"What kind of physicalism about mind?",desc:"Different accounts of how mind reduces to the physical.",showWhen:a=>(a.m_mind==='physic'||a.meta_mind==='physicalism'),options:[{v:"identity",l:"Identity Theory",d:"Mental states are literally identical to brain states (Smart, Place)"},{v:"function",l:"Functionalism",d:"Mental states defined by functional roles, not brain stuff (Putnam)"},{v:"elim",l:"Eliminativism",d:"Folk psychology concepts like 'belief' and 'desire' will be replaced by neuroscience (Churchland)"}],dim:"metaphysics",info:"Identity theorists say pain IS c-fiber firing. Functionalists say pain is whatever plays the pain-role, regardless of substrate. Eliminativists say our folk concepts will be replaced entirely.",links:[{t:"Physicalism (SEP)",u:"https://plato.stanford.edu/entries/physicalism/"}]},
+{id:"m_mind_dual_sub",parentId:"m_mind",type:"choice",text:"What kind of dualism?",desc:"Different accounts of how mind transcends the physical.",showWhen:a=>(a.m_mind==='dual'||a.meta_mind==='dualism'),options:[{v:"substance",l:"Substance Dualism",d:"Mind and body are two different substances (Descartes)"},{v:"property",l:"Property Dualism",d:"One substance with irreducibly mental properties (Chalmers)"},{v:"epiphen",l:"Epiphenomenalism",d:"Mental states exist but don't cause anything — byproducts of the brain"}],dim:"metaphysics",info:"Substance dualism faces the interaction problem. Property dualism is more modest — consciousness is a fundamental property. Epiphenomenalism preserves physicalism but denies mental causation.",links:[{t:"Dualism (SEP)",u:"https://plato.stanford.edu/entries/dualism/"}]},
+{id:"m_mind_panpsy_sub",parentId:"m_mind",type:"choice",text:"What kind of panpsychism?",desc:"Different accounts of universal consciousness.",showWhen:a=>(a.m_mind==='panpsy'||a.meta_mind==='panpsychism'),options:[{v:"constit",l:"Constitutive Panpsychism",d:"Macro-consciousness composed of micro-consciousness (Strawson)"},{v:"cosmopsych",l:"Cosmopsychism",d:"The universe itself is fundamentally conscious (Schaffer)"},{v:"iit",l:"Integrated Information Theory",d:"Consciousness wherever integrated information exceeds a threshold (Tononi)"}],dim:"metaphysics",info:"Constitutive panpsychism faces the combination problem. Cosmopsychism inverts this — the cosmos is conscious and we're aspects of it. IIT provides a mathematical framework but is controversial.",links:[{t:"Panpsychism (SEP)",u:"https://plato.stanford.edu/entries/panpsychism/"}]}
+]
+  },
+  { id:"m_id", type:"choice",
+    text:"What makes you the same person over time?",
+    desc:"If every cell is replaced and memories shift, what grounds your continued identity?",
+    options:[
+      {v:"psych",l:"Psychological Continuity",d:"Memory, personality, and psychological connections (Locke, Parfit)"},
+      {v:"bio",l:"Biological Continuity",d:"You are your living human organism (Olson, van Inwagen)"},
+      {v:"narr",l:"Narrative Identity",d:"Your identity is the story you tell about your life (Ricoeur, MacIntyre)"},
+      {v:"no_self",l:"No-Self / Bundle Theory",d:"No persisting 'self' — just bundles of experiences (Hume, Buddhist philosophy)"}
+    ], dim:"metaphysics",
+    info:"John Locke argued personal identity consists in continuity of consciousness (memory). Derek Parfit's thought experiments (teletransportation, fission) showed this leads to surprising conclusions — identity might not be what matters. The 'animalist' view (Eric Olson) says you're simply a biological organism. Buddhist philosophy and Hume independently arrived at 'no-self' views where the unified self is an illusion.",
+    links:[{t:"Personal Identity (SEP)",u:"https://plato.stanford.edu/entries/identity-personal/"}],children:[
+{id:"m_id_psych_sub",parentId:"m_id",type:"choice",text:"What kind of psychological continuity?",desc:"Different scopes of psychological connection.",showWhen:a=>(a.m_id==='psych'||a.meta_identity==='psychological'),options:[{v:"narrow",l:"Narrow (Memory-focused)",d:"Identity requires direct memory chains (Locke)"},{v:"wide",l:"Wide (Personality + Values)",d:"Identity includes personality, goals, values — not just memories (Parfit)"}],dim:"metaphysics",info:"Locke focused on memory. Parfit broadened this to include all psychological connections — personality traits, goals, beliefs, and values.",links:[{t:"Personal Identity (SEP)",u:"https://plato.stanford.edu/entries/identity-personal/"}]},
+{id:"m_id_noself_sub",parentId:"m_id",type:"choice",text:"What variety of no-self view?",desc:"Different ways of denying a persisting self.",showWhen:a=>(a.m_id==='no_self'),options:[{v:"buddhist",l:"Buddhist-influenced",d:"Aggregates (skandhas) without a unifying subject"},{v:"humean",l:"Humean Bundle Theory",d:"Just bundles of perceptions with no underlying substance"},{v:"parfitian",l:"Parfitian",d:"Personal identity is not what matters — what matters is psychological continuity"}],dim:"metaphysics",info:"Buddhist philosophy denies a permanent self (anatta). Hume saw the self as a bundle of perceptions. Parfit argued personal identity is an empty question — what matters is Relation R.",links:[{t:"Personal Identity (SEP)",u:"https://plato.stanford.edu/entries/identity-personal/"}]}
+]
+  },
+  { id:"m_abs", type:"slider",
+    text:"Do abstract objects (numbers, properties) really exist?",
+    desc:"Platonists say they exist in a mind-independent realm. Nominalists say only concrete things exist.",
+    left:"Yes — abstract objects are real (Platonism)", right:"No — only concrete things exist (Nominalism)", dim:"metaphysics",
+    info:"Mathematical Platonism holds that numbers, sets, and mathematical structures exist independently of human minds — we discover rather than invent them. Nominalists argue that only concrete, spatiotemporal objects exist. This has deep implications for the foundations of mathematics and science. If mathematical objects don't really exist, what explains the 'unreasonable effectiveness of mathematics' in physics?",
+    links:[{t:"Platonism in Math (SEP)",u:"https://plato.stanford.edu/entries/platonism-mathematics/"}]
+  },
+  { id:"m_time", type:"slider", core:true,
+    text:"Is the passage of time real, or an illusion?",
+    desc:"A-theorists: the present is special and time flows. B-theorists (block universe): past, present, future are equally real.",
+    left:"Time genuinely flows — present is special", right:"All times equally real — passage is subjective", dim:"metaphysics",
+    info:"The A-theory of time says the present moment is ontologically privileged — only the present truly exists (presentism) or the past and present exist but not the future (growing block). The B-theory (eternalism/block universe) says all moments in time are equally real — the 'flow' of time is a psychological illusion. Einstein's relativity is often cited in favor of B-theory, since it undermines the idea of a universal 'now.'",
+    links:[{t:"Time (SEP)",u:"https://plato.stanford.edu/entries/time/"}]
+  },
+  { id:"m_nec", type:"slider",
+    text:"Are there necessary truths, or is everything contingent?",
+    desc:"Modal realists (Kripke) argue some truths couldn't be otherwise. Contingentists argue everything could have been different.",
+    left:"Many truths are necessarily true", right:"Most things could have been otherwise", dim:"metaphysics",
+    info:"Saul Kripke's 'Naming and Necessity' (1980) argued that some truths are necessarily true — water is necessarily H₂O, not just as a matter of convention but as a matter of metaphysical necessity. David Lewis went further, arguing that possible worlds are just as real as our actual world. Others argue necessity is mind-dependent or merely linguistic.",
+    links:[{t:"Possible Worlds (SEP)",u:"https://plato.stanford.edu/entries/possible-worlds/"}]
+  },
+
+  // ── POLITICAL ──
+  { section:"Political Philosophy", sectionDesc:"How should societies be organized? Liberty, equality, justice, and the role of government.",
+    id:"p_lib", type:"slider", core:true,
+    text:"What should be prioritized: individual liberty or collective wellbeing?",
+    desc:"Classical liberals (Locke, Nozick) emphasize rights. Communitarians and socialists (Marx, Sandel) emphasize collective goods.",
+    left:"Individual liberty & rights first", right:"Collective wellbeing & social goods first", dim:"political",
+    info:"This tension runs through all of political philosophy. John Stuart Mill's 'harm principle' tried to draw a line: liberty should only be restricted to prevent harm to others. Robert Nozick argued for minimal-state libertarianism based on self-ownership. Michael Sandel's communitarianism argues we can't understand justice without reference to shared conceptions of the good held by communities.",
+    links:[
+      {t:"Liberalism (SEP)",u:"https://plato.stanford.edu/entries/liberalism/"},
+      {t:"Communitarianism (SEP)",u:"https://plato.stanford.edu/entries/communitarianism/"}
+    ]
+  },
+  { id:"p_just", type:"choice", core:true,
+    text:"What is the best theory of justice?",
+    desc:"How should a just society distribute benefits and burdens?",
+    options:[
+      {v:"rawls",l:"Rawlsian Fairness",d:"Fair principles chosen behind a 'veil of ignorance' — prioritize the worst-off (Rawls)"},
+      {v:"util_j",l:"Utilitarian Justice",d:"Maximize aggregate wellbeing across society (Mill, Singer)"},
+      {v:"lib_j",l:"Libertarian Justice",d:"Respect rights and voluntary exchange — minimal redistribution (Nozick)"},
+      {v:"capab",l:"Capabilities Approach",d:"Ensure everyone has substantive capabilities for flourishing (Sen, Nussbaum)"}
+    ], dim:"political",
+    info:"John Rawls's 'A Theory of Justice' (1971) is arguably the most influential work of 20th-century political philosophy. His 'original position' thought experiment asks: what principles of justice would you choose if you didn't know your place in society? Rawls argues you'd choose to maximize the position of the worst-off (the 'difference principle'). Amartya Sen and Martha Nussbaum's capabilities approach focuses not on resources but on what people are actually able to do and be.",
+    links:[
+      {t:"Justice (SEP)",u:"https://plato.stanford.edu/entries/justice/"},
+      {t:"Capabilities Approach (SEP)",u:"https://plato.stanford.edu/entries/capability-approach/"}
+    ]
+  },
+  { id:"p_eq", type:"slider",
+    text:"How much economic equality should a just society aim for?",
+    desc:"Strict egalitarians want equal distributions. Others say inequality is fine if processes are fair.",
+    left:"Strong equality — minimize gaps", right:"Inequality OK if processes are fair", dim:"political",
+    info:"Luck egalitarians (Dworkin, Cohen) argue that inequalities are unjust when they arise from bad luck rather than choice. Relational egalitarians (Anderson, Scheffler) argue equality is about social relationships — standing as equals — not just distribution. Sufficientarians argue what matters is that everyone has 'enough,' not that everyone has the same.",
+    links:[{t:"Equality (SEP)",u:"https://plato.stanford.edu/entries/equality/"}]
+  },
+  { id:"p_demo", type:"slider",
+    text:"Should political decisions be made by democratic majorities or constrained by rights?",
+    desc:"Deliberative democrats emphasize popular sovereignty. Constitutional liberals emphasize rights.",
+    left:"Robust democracy — the people decide", right:"Rights & constitution constrain majorities", dim:"political",
+    info:"Deliberative democrats (Habermas, Gutmann & Thompson) argue legitimacy comes from inclusive public deliberation. But what happens when majorities want to violate minority rights? Constitutional liberals argue some rights must be protected from democratic override. This tension is at the heart of debates about judicial review, bills of rights, and the limits of popular sovereignty.",
+    links:[{t:"Democracy (SEP)",u:"https://plato.stanford.edu/entries/democracy/"}]
+  },
+  { id:"p_glob", type:"slider",
+    text:"Do we have strong moral obligations to people in other countries?",
+    desc:"Cosmopolitans (Singer, Pogge) argue for strong global obligations. Others say our primary obligations are to co-citizens.",
+    left:"Strong cosmopolitan obligations to all", right:"Primary obligations to our community", dim:"political",
+    info:"Cosmopolitanism holds that all human beings are members of a single moral community and that national borders don't limit our moral obligations. Thomas Pogge argues that wealthy nations actively harm the global poor through unjust institutions. Nationalists and communitarians argue that special obligations to fellow citizens are morally legitimate and even necessary for political community to function.",
+    links:[{t:"Cosmopolitanism (SEP)",u:"https://plato.stanford.edu/entries/cosmopolitanism/"}]
+  },
+
+  // ── MIND & AI ──
+  { section:"Philosophy of Mind & AI", sectionDesc:"Consciousness, artificial minds, and subjective experience.",
+    id:"mi_hard", type:"slider", core:true,
+    text:"Is the 'hard problem' of consciousness a genuine deep mystery?",
+    desc:"Chalmers: explaining why physical processes give rise to subjective experience is uniquely hard. Dennett: consciousness will yield to scientific explanation.",
+    left:"Consciousness is a deep mystery", right:"Science will fully explain consciousness", dim:"mind",
+    info:"David Chalmers distinguished the 'easy problems' of consciousness (explaining cognitive functions, reportability, attention) from the 'hard problem': why is there something it's like to have an experience at all? Why isn't all this processing happening 'in the dark'? Daniel Dennett argues the hard problem is based on confusion — once you explain all the functions, you've explained consciousness. This debate remains unresolved and is central to philosophy of mind.",
+    links:[
+      {t:"Consciousness (SEP)",u:"https://plato.stanford.edu/entries/consciousness/"},
+      {t:"Hard Problem (IEP)",u:"https://iep.utm.edu/hard-problem-of-conciousness/"}
+    ]
+  },
+  { id:"mi_ai", type:"slider", core:true,
+    text:"Can artificial systems ever be genuinely conscious?",
+    desc:"Could a sufficiently complex AI have real subjective experiences?",
+    left:"Yes — substrate doesn't matter", right:"No — requires biological systems", dim:"mind",
+    info:"This question connects to the functionalism debate. If mental states are defined by their functional roles (what they do, not what they're made of), then in principle a silicon-based system could be conscious. Biological naturalists like John Searle argue consciousness is a biological phenomenon that requires the right kind of physical substrate. With the rise of large language models, this question has moved from thought experiment to pressing practical concern.",
+    links:[
+      {t:"Artificial Intelligence (SEP)",u:"https://plato.stanford.edu/entries/artificial-intelligence/"},
+      {t:"Chinese Room Argument (SEP)",u:"https://plato.stanford.edu/entries/chinese-room/"}
+    ]
+  },
+  { id:"mi_cr", type:"slider",
+    text:"Does manipulating symbols according to rules constitute understanding?",
+    desc:"Searle's Chinese Room: a person follows rules without understanding Chinese. Can processing be genuine understanding?",
+    left:"Syntax alone can produce understanding", right:"Syntax without semantics is never understanding", dim:"mind",
+    info:"John Searle's 1980 thought experiment: imagine you're locked in a room receiving Chinese characters and using a rulebook to produce Chinese responses. To outsiders you seem to understand Chinese, but you don't understand a word. Searle argues computers are in the same position — they manipulate symbols without understanding. Critics argue the 'system' as a whole understands, even if no single part does (the Systems Reply).",
+    links:[{t:"Chinese Room (SEP)",u:"https://plato.stanford.edu/entries/chinese-room/"}]
+  },
+  { id:"mi_qual", type:"slider",
+    text:"Is your experience of 'red' something over and above brain activity?",
+    desc:"Qualia: the subjective, qualitative aspects of experience. Are they real and irreducible, or just brain activity?",
+    left:"Qualia are real & irreducible", right:"It's just brain activity — qualia are confused", dim:"mind",
+    info:"Frank Jackson's 'Mary's Room' thought experiment: Mary is a brilliant scientist who knows everything physical about color but has never seen color. When she first sees red, does she learn something new? If so, physicalism is incomplete — there are facts about conscious experience that aren't captured by physical facts. Dennett famously argues Mary wouldn't learn anything new if she truly knew all the physical facts.",
+    links:[{t:"Qualia (SEP)",u:"https://plato.stanford.edu/entries/qualia/"}]
+  },
+  { id:"mi_ext", type:"slider",
+    text:"Can the mind extend beyond the brain into tools and devices?",
+    desc:"Extended Mind thesis (Clark & Chalmers): cognitive processes can include external tools. Internalists say mind stops at the skull.",
+    left:"Mind is in the brain only", right:"Mind extends into tools & environment", dim:"mind",
+    info:"Andy Clark and David Chalmers's 1998 paper 'The Extended Mind' argued that Otto's notebook (which he consults for information the way you'd consult memory) is literally part of his cognitive system. If so, your phone might be part of your mind. This has implications for cognitive enhancement, disability, and what counts as 'thinking.'",
+    links:[{t:"Extended Mind (SEP)",u:"https://plato.stanford.edu/entries/extended-mind/"}]
+  },
+
+  // ── SCIENCE ──
+  { section:"Philosophy of Science", sectionDesc:"The nature and status of scientific knowledge.",
+    id:"sc_real", type:"slider", core:true,
+    text:"Do successful scientific theories describe reality as it actually is?",
+    desc:"Realists: our best theories are approximately true. Instrumentalists: theories are just useful prediction tools.",
+    left:"Science describes reality (realism)", right:"Science is useful tools (instrumentalism)", dim:"science",
+    info:"The 'no miracles' argument for realism: the success of science would be a miracle if our theories weren't at least approximately true. The 'pessimistic induction' against realism: the history of science is littered with successful theories later shown to be false (caloric, phlogiston, luminiferous ether). Bas van Fraassen's 'constructive empiricism' takes a middle path: we should only believe theories are empirically adequate, not that they're true about unobservables.",
+    links:[{t:"Scientific Realism (SEP)",u:"https://plato.stanford.edu/entries/scientific-realism/"}]
+  },
+  { id:"sc_meth", type:"choice", core:true,
+    text:"What best characterizes the scientific method?",
+    desc:"How does science actually work?",
+    options:[
+      {v:"falsif",l:"Falsificationism",d:"Bold hypotheses + trying to refute them (Popper)"},
+      {v:"paradigm",l:"Paradigm Shifts",d:"Normal science within paradigms; revolutions replace them (Kuhn)"},
+      {v:"lakatos",l:"Research Programmes",d:"Competing programmes with hard cores & protective belts (Lakatos)"},
+      {v:"anarch",l:"Epistemological Anarchism",d:"No single method — 'anything goes' (Feyerabend)"}
+    ], dim:"science",
+    info:"Karl Popper argued science is distinguished from pseudoscience by falsifiability — a scientific theory must be testable and potentially refutable. Thomas Kuhn's 'The Structure of Scientific Revolutions' (1962) argued science doesn't progress linearly but through paradigm shifts — revolutionary changes in the basic framework. Imre Lakatos tried to synthesize these views with his methodology of scientific research programmes.",
+    links:[
+      {t:"Karl Popper (SEP)",u:"https://plato.stanford.edu/entries/popper/"},
+      {t:"Thomas Kuhn (SEP)",u:"https://plato.stanford.edu/entries/thomas-kuhn/"}
+    ]
+  },
+  { id:"sc_ind", type:"slider",
+    text:"How confident should we be in inductive reasoning?",
+    desc:"Hume showed induction can't be logically justified, yet science relies on it.",
+    left:"Induction is well-grounded & reliable", right:"Induction is fundamentally unjustifiable", dim:"science",
+    info:"Hume's problem of induction: we can't logically justify the assumption that the future will resemble the past. Just because the sun has risen every day doesn't logically guarantee it will tomorrow. Yet all of science depends on inductive reasoning. Nelson Goodman's 'new riddle of induction' deepened the problem by showing that infinitely many generalizations are consistent with any finite set of observations.",
+    links:[{t:"Problem of Induction (SEP)",u:"https://plato.stanford.edu/entries/induction-problem/"}]
+  },
+  { id:"sc_val", type:"slider",
+    text:"Is science value-free, or do social values legitimately shape inquiry?",
+    desc:"Value-free ideal vs. feminist & social epistemologists who argue values inevitably shape science.",
+    left:"Science should be value-free & objective", right:"Values legitimately shape science", dim:"science",
+    info:"The value-free ideal holds that social, political, and ethical values should play no role in the internal workings of science. But philosophers like Helen Longino and feminist epistemologists argue that values inevitably influence which questions get asked, how studies are designed, and how evidence is interpreted. Some argue certain values (like inclusivity) can actually improve science by correcting biases.",
+    links:[{t:"Science & Values (SEP)",u:"https://plato.stanford.edu/entries/science-theory-observation/"}]
+  },
+  { id:"sc_red", type:"slider",
+    text:"Can all sciences ultimately be reduced to physics?",
+    desc:"Reductionists: biology→chemistry→physics. Anti-reductionists: higher-level sciences have genuine autonomy.",
+    left:"Yes — physics is the foundation", right:"No — higher-level sciences are autonomous", dim:"science",
+    info:"Reductionism holds that the laws and theories of higher-level sciences (biology, psychology) can in principle be reduced to lower-level ones, ultimately to physics. Anti-reductionists argue for 'multiple realizability' — the same higher-level property can be realized by many different physical states, so higher-level descriptions capture genuine patterns that physics misses. This connects to debates about emergence.",
+    links:[{t:"Scientific Reduction (SEP)",u:"https://plato.stanford.edu/entries/scientific-reduction/"}]
+  },
+
+  // ── MEANING ──
+  { section:"Meaning, Existence & Value", sectionDesc:"What gives life meaning? How should we face mortality?",
+    id:"mn_src", type:"choice", core:true,
+    text:"What is the source of meaning in life?",
+    desc:"Does meaning come from outside us, or do we create it?",
+    options:[
+      {v:"obj",l:"Objective Meaning",d:"Meaning is built into reality or given by God/transcendent source"},
+      {v:"subj",l:"Subjective / Created Meaning",d:"We create our own meaning through projects and relationships (Sartre, de Beauvoir)"},
+      {v:"absurd",l:"Absurdism",d:"The universe is meaningless but we can rebel and live fully (Camus)"},
+      {v:"natural",l:"Naturalistic Meaning",d:"Meaning arises from natural human goods — love, knowledge, creativity (Wolf, Nagel)"}
+    ], dim:"meaning",
+    info:"Existentialists like Sartre argued that 'existence precedes essence' — we are radically free and must create our own meaning. Camus's absurdism holds that the clash between our desire for meaning and the universe's indifference creates an absurd condition, but we should imagine Sisyphus happy. Susan Wolf's 'fitting fulfillment' view argues meaning comes from active engagement with projects of independent value — subjective attraction meets objective attractiveness.",
+    links:[
+      {t:"Meaning of Life (SEP)",u:"https://plato.stanford.edu/entries/life-meaning/"},
+      {t:"Existentialism (SEP)",u:"https://plato.stanford.edu/entries/existentialism/"}
+    ]
+  },
+  { id:"mn_auth", type:"slider", core:true,
+    text:"How important is authenticity — being true to your own nature?",
+    desc:"Existentialists (Heidegger, Sartre) see authenticity as central. Others value social roles and tradition equally.",
+    left:"Authenticity is the highest value", right:"Social roles & tradition equally valid", dim:"meaning",
+    info:"Heidegger distinguished 'authentic' existence (Eigentlichkeit) — owning your own existence and facing death honestly — from 'inauthentic' existence, where you lose yourself in 'das Man' (the They), doing what 'one does.' Sartre developed this into the concept of 'bad faith' — deceiving yourself about your radical freedom. Charles Taylor's 'The Ethics of Authenticity' explores how authenticity can be both a genuine ideal and a source of narcissistic self-absorption.",
+    links:[{t:"Authenticity (SEP)",u:"https://plato.stanford.edu/entries/authenticity/"}]
+  },
+  { id:"mn_death", type:"slider",
+    text:"Does death give life meaning, or rob it of meaning?",
+    desc:"Heidegger: awareness of death enables authentic living. Epicurus: death is nothing to us. Others: death is a tragedy.",
+    left:"Death gives urgency & meaning", right:"Death is a tragedy threatening meaning", dim:"meaning",
+    info:"Epicurus argued that death is 'nothing to us' because when we exist, death is not present, and when death is present, we don't exist. Heidegger saw 'being-toward-death' as essential for authentic existence — only by confronting our finitude can we live with genuine urgency. Bernard Williams argued that immortality would eventually become tedious, suggesting death gives life its meaning. Thomas Nagel, by contrast, argues death is a straightforward deprivation of goods.",
+    links:[{t:"Death (SEP)",u:"https://plato.stanford.edu/entries/death/"}]
+  },
+  { id:"mn_suff", type:"slider",
+    text:"Can suffering be meaningful, or is it purely negative?",
+    desc:"Nietzsche and Frankl: suffering can be meaningful in a larger narrative. Buddhist/utilitarian: suffering is simply bad.",
+    left:"Suffering can be deeply meaningful", right:"Suffering is always bad — eliminate it", dim:"meaning",
+    info:"Nietzsche's 'What doesn't kill me makes me stronger' and Viktor Frankl's logotherapy (finding meaning in suffering through purpose) both argue suffering can be integrated into a meaningful life. Buddhist philosophy identifies suffering (dukkha) as the central problem of existence. Effective altruists tend toward the view that suffering is straightforwardly bad and should be minimized as efficiently as possible.",
+    links:[{t:"Suffering (SEP, Problem of Evil)",u:"https://plato.stanford.edu/entries/evil/"}]
+  },
+  { id:"mn_aes", type:"slider",
+    text:"How important is beauty and aesthetic experience to a meaningful life?",
+    desc:"Schopenhauer and Iris Murdoch place aesthetics at the heart of the good life. Others see it as nice but not essential.",
+    left:"Beauty is central to meaning", right:"Beauty is nice but not essential", dim:"meaning",
+    info:"Schopenhauer saw aesthetic contemplation as one of the few escapes from the relentless suffering of existence — art temporarily frees us from the Will. Iris Murdoch argued that attention to beauty is a moral exercise that draws us out of self-centered fantasy. For Nietzsche, art and aesthetic creation are the highest justification of existence — 'it is only as an aesthetic phenomenon that existence and the world are eternally justified.'",
+    links:[{t:"Aesthetics (SEP)",u:"https://plato.stanford.edu/entries/aesthetics-concept/"}]
+  },
+  {id:"eth_practice",type:"slider",thought:true,text:"Should we trust ethicists' moral views given they don't live more ethically than others?",desc:"Schwitzgebel's research shows ethics professors don't behave more morally. Does moral knowledge require moral action?",left:"Theory can be sound regardless of practice",right:"If ethicists don't live by their theories, trust them less",dim:"ethics",info:"Eric Schwitzgebel found that ethics professors are no more likely to return library books, give to charity, or behave ethically than other professors — raising questions about the link between moral knowledge and moral action.",links:[{t:"Schwitzgebel's Research",u:"https://faculty.ucr.edu/~eschwitz/"},{t:"Moral Psychology (SEP)",u:"https://plato.stanford.edu/entries/moral-psych-emp/"}]},
+  {id:"ep_vat",type:"slider",thought:true,text:"Can you be certain you're not a brain in a vat, fed false experiences?",desc:"Putnam argues a brain in a vat can't formulate 'I am a brain in a vat' — the words wouldn't refer to real vats.",left:"No certainty — radical skepticism stands",right:"Semantic externalism dissolves the problem",dim:"epistemology",info:"Hilary Putnam's semantic externalism argues meaning depends on causal connections to the external world. A brain in a vat thinking 'water' doesn't refer to real water, so 'I am a brain in a vat' is self-defeating if true.",links:[{t:"Brain in a Vat (SEP)",u:"https://plato.stanford.edu/entries/brain-vat/"}]},
+  {id:"ep_boltz",type:"slider",thought:true,text:"Does the Boltzmann brain problem threaten the foundations of knowledge?",desc:"In a vast universe, random fluctuations could produce a brain with false memories more easily than an ordered cosmos.",left:"Not a serious worry — cosmology protects us",right:"Deeply troubling for all empirical knowledge",dim:"epistemology",info:"Boltzmann's statistical mechanics implies that in an eternal universe, random fluctuations producing a brain with false memories are more probable than an entire ordered universe — threatening the reliability of all observations.",links:[{t:"Boltzmann Brains (Wikipedia)",u:"https://en.wikipedia.org/wiki/Boltzmann_brain"}]},
+  {id:"mi_crazy",type:"slider",thought:true,text:"Could you be radically wrong about the nature of your own conscious experience?",desc:"Schwitzgebel's 'crazyism': all major theories of consciousness have crazy implications. Our introspective access may be deeply unreliable.",left:"We have fairly reliable introspective access",right:"We could be profoundly mistaken about our own minds",dim:"mind",info:"Eric Schwitzgebel argues that every major theory of consciousness has 'crazy' implications. He suggests we should accept that something crazy must be true about consciousness, and that introspection is far less reliable than we think.",links:[{t:"Introspection (SEP)",u:"https://plato.stanford.edu/entries/introspection/"}]},
+  {id:"mi_snail",type:"slider",thought:true,text:"Could a garden snail have conscious experience — some form of 'what it's like' to be a snail?",desc:"Schwitzgebel argues we have no good reason to confidently deny consciousness to simple organisms.",left:"No — snails lack the neural complexity",right:"Possibly — we can't confidently rule it out",dim:"mind",info:"Schwitzgebel argues for epistemic humility about consciousness. Every theory we have was built on human introspection, so applying them to radically different organisms is questionable.",links:[{t:"Animal Consciousness (SEP)",u:"https://plato.stanford.edu/entries/consciousness-animal/"}]},
+  {id:"mn_sim",type:"slider",thought:true,text:"How likely is it that we're living in a computer simulation?",desc:"Bostrom's simulation argument: if advanced civilizations can run ancestor simulations, simulated minds vastly outnumber real ones.",left:"Very unlikely — we're in base reality",right:"Quite plausible — simulation is likely",dim:"meaning",info:"Nick Bostrom's 2003 trilemma: either (1) civilizations almost always go extinct before simulation tech, (2) they choose not to run ancestor simulations, or (3) we are almost certainly in a simulation.",links:[{t:"Simulation Argument",u:"https://www.simulation-argument.com/"}],children:[{id:"mn_sim_horn",parentId:"mn_sim",type:"choice",text:"Which horn of Bostrom's trilemma seems most likely?",desc:"If we're probably in a simulation, why? If not, what stops it?",showWhen:a=>((a.mn_sim??50)>55),options:[{v:"extinct",l:"Civilizations go extinct first",d:"Advanced civilizations rarely survive to develop simulation tech"},{v:"no_interest",l:"They choose not to simulate",d:"Advanced civilizations have ethical or practical reasons not to run ancestor sims"},{v:"sim_yes",l:"We're almost certainly simulated",d:"The sheer number of possible simulations makes it statistically overwhelming"}],dim:"meaning",info:"Bostrom argues exactly one of these three propositions must be true. The argument is purely logical — it doesn't tell us which one, but forces us to pick.",links:[{t:"Simulation Argument",u:"https://www.simulation-argument.com/"}]}]},
+  {id:"mn_exp",type:"choice",thought:true,text:"Nozick's Experience Machine: would you plug in to a life of perfect simulated happiness?",desc:"A machine gives you any experience — indistinguishable from reality. You'd feel love, achievement. But none of it is real.",options:[{v:"plug_yes",l:"Yes — plug me in",d:"Experience is what matters. Maximum happiness."},{v:"plug_no",l:"No — reality matters more",d:"Real accomplishments and relationships are essential."},{v:"plug_temp",l:"Maybe temporarily",d:"I'd try it but wouldn't give up reality forever."},{v:"plug_unsure",l:"Genuinely torn",d:"Both happiness and reality seem deeply important."}],dim:"meaning",info:"Nozick designed this to challenge hedonism. If pleasure were all that mattered, everyone should plug in. But most people refuse — suggesting we value reality and authenticity beyond just how things feel.",links:[{t:"Experience Machine (SEP)",u:"https://plato.stanford.edu/entries/pleasure/#ExpMac"}],children:[{id:"mn_exp_why",parentId:"mn_exp",type:"choice",text:"What's your main reason for refusing the Experience Machine?",desc:"Different philosophical reasons for valuing reality over experience.",showWhen:a=>(a.mn_exp==='plug_no'),options:[{v:"reality",l:"Reality has intrinsic value",d:"Being connected to what's actually real matters independent of experience"},{v:"achievement",l:"Real achievement matters",d:"Actually doing things is different from just experiencing doing them"},{v:"relations",l:"Real relationships matter",d:"Genuine connection with others requires being in the real world"}],dim:"meaning",info:"Nozick identified three main reasons for refusing: we want to DO things, not just have the experience of doing them; we want to BE certain kinds of people; and we want to make contact with reality.",links:[{t:"Experience Machine (SEP)",u:"https://plato.stanford.edu/entries/pleasure/#ExpMac"}]}]},
+
+  // ── REFINEMENT QUESTIONS ──
+  { section:"Refinement", sectionDesc:"Deepen your profile by exploring branching paths in your commitments.",
+    id:"ref_util_scope", type:"slider", dim:"ethics",
+    text:"Whose welfare counts in your consequentialist calculus?",
+    desc:"Population ethics: does the target include all possible future beings?",
+    left:"Only sentient beings alive now", right:"All possible future sentient beings",
+    refines:{check:a=>((a.eth_cons??50)<35)},
+    info:"Derek Parfit's work on population ethics distinguished total utilitarianism (maximize total wellbeing, even if it requires creating more people) from person-affecting utilitarianism (only past and present people matter). Jan Narveson vs Parfit: should we be concerned about bringing happy people into existence? This has major implications for climate, reproduction, and existential risk.",
+    links:[{t:"Population Ethics (SEP)",u:"https://plato.stanford.edu/entries/population-ethics/"}]
+  },
+  { id:"ref_util_agg", type:"choice", dim:"ethics",
+    text:"How should we aggregate welfare across people?",
+    desc:"Different consequentialist approaches to weighing individual goods.",
+    refines:{check:a=>((a.eth_cons??50)<35)},
+    options:[
+      {v:"total",l:"Total Utilitarianism",d:"Maximize total sum of welfare (Sidgwick, classical utilitarians)"},
+      {v:"average",l:"Average Utilitarianism",d:"Maximize average wellbeing across people (Harsanyi)"},
+      {v:"prioritarian",l:"Prioritarianism",d:"Give extra weight to benefits for the worse-off (Parfit)"},
+      {v:"sufficient",l:"Sufficientarianism",d:"Ensure everyone reaches a threshold of wellbeing (Frankfurt)"}
+    ], dim:"ethics",
+    info:"Classical utilitarians sum total happiness. But this has odd implications — more people with low wellbeing might maximize total utility. Average utilitarians avoid this but face their own problems. Prioritarians say the same increase in wellbeing counts more when it benefits the worse-off. Sufficientarians say what matters is everyone having 'enough,' not equality or maximization.",
+    links:[{t:"Population Ethics (SEP)",u:"https://plato.stanford.edu/entries/population-ethics/"}]
+  },
+  { id:"ref_deont_source", type:"choice", dim:"ethics",
+    text:"Where do your moral duties ultimately come from?",
+    desc:"Different foundations for deontological principles.",
+    refines:{check:a=>((a.eth_cons??50)>65)},
+    options:[
+      {v:"kantian",l:"Universal Reason",d:"Categorical imperative: what's rationally universalizable (Kant)"},
+      {v:"contractual",l:"Reasonable Agreement",d:"Principles no one could reasonably reject (Scanlon)"},
+      {v:"natural_law",l:"Natural or Divine Law",d:"Moral rules grounded in nature or God (Aquinas, Foot)"},
+      {v:"rights",l:"Inviolable Rights",d:"Individual rights as side-constraints on action (Nozick)"}
+    ], dim:"ethics",
+    info:"Kantian deontology grounds duties in reason itself — the categorical imperative. Scanlonian contractualism grounds them in what rational people could agree to. Natural law theorists like Aquinas ground morality in human nature and divine order. Rights-based approaches like Nozick's argue some things (individual rights) are simply inviolable, not open to consequentialist trade-offs.",
+    links:[{t:"Deontological Ethics (SEP)",u:"https://plato.stanford.edu/entries/ethics-deontological/"}]
+  },
+  { id:"ref_virt_trad", type:"choice", dim:"ethics",
+    text:"Which tradition of virtue appeals to you most?",
+    desc:"Different conceptions of human flourishing and excellence.",
+    refines:{check:a=>((a.eth_virt??50)>65)},
+    options:[
+      {v:"aristotelian",l:"Aristotelian Eudaimonia",d:"Flourishing through the actualization of human excellence (Aristotle, MacIntyre)"},
+      {v:"confucian",l:"Confucian Ren & Li",d:"Humaneness and ritual propriety in relationships (Confucius, Mencius)"},
+      {v:"stoic",l:"Stoic Apatheia",d:"Freedom from passions through reason and virtue (Epictetus, Marcus Aurelius)"},
+      {v:"care",l:"Care & Relational Virtues",d:"Attentiveness, responsiveness, and connection (Held, Noddings)"}
+    ], dim:"ethics",
+    info:"Aristotle grounded virtues in human nature and telos (purpose). Confucianism emphasizes hierarchical relationships and ritual propriety. Stoics sought freedom from destructive emotions through reason and virtue. Care ethics, developed by feminist philosophers, emphasizes relational virtues like attentiveness and responsiveness rather than abstract principles.",
+    links:[{t:"Virtue Ethics (SEP)",u:"https://plato.stanford.edu/entries/ethics-virtue/"}]
+  },
+  { id:"ref_found_base", type:"choice", dim:"epistemology",
+    text:"What kind of beliefs do you think can serve as proper foundations for knowledge?",
+    desc:"Different foundationalist accounts of epistemic basics.",
+    refines:{check:a=>(a.ep_struct==='found')},
+    options:[
+      {v:"empirical",l:"Sense Experience",d:"Perceptual beliefs form the foundation (classical empiricism, Locke)"},
+      {v:"rational",l:"Self-Evident Truths",d:"Rational truths like logic and mathematics are basic (rationalism, Descartes)"},
+      {v:"modest",l:"Modest Foundations",d:"Some basic beliefs can be fallible yet still foundational (Audi)"},
+      {v:"reformed",l:"Proper Basicality",d:"Beliefs can be basic if formed by reliable cognitive faculties (Plantinga)"}
+    ], dim:"epistemology",
+    info:"Classical empiricists made sense experience foundational. Rationalists grounded knowledge in self-evident rational truths. Modest foundationalists allow that foundational beliefs can be defeasible — overridable by new evidence. Reformed epistemologists like Plantinga argued religious beliefs can be basic if formed properly, without argument.",
+    links:[{t:"Foundationalism (SEP)",u:"https://plato.stanford.edu/entries/foundationalism/"}]
+  },
+  { id:"ref_emp_type", type:"choice", dim:"epistemology",
+    text:"What kind of empiricism resonates with you?",
+    desc:"Different approaches to empiricism and the role of experience.",
+    refines:{check:a=>((a.ep_src??50)>60)},
+    options:[
+      {v:"radical",l:"Radical Empiricism",d:"All knowledge derives from experience; concepts are copies of impressions (Hume)"},
+      {v:"moderate",l:"Moderate Empiricism",d:"Experience is primary but reason plays a secondary role (J.S. Mill)"},
+      {v:"constructive",l:"Constructive Empiricism",d:"Science aims at empirical adequacy, not truth about unobservables (van Fraassen)"},
+      {v:"feminist",l:"Feminist Empiricism",d:"Social location and identity shape evidence and inquiry (Harding, Nelson)"}
+    ], dim:"epistemology",
+    info:"Hume's radical empiricism denied innate ideas and concepts. J.S. Mill allowed that reason could generate new knowledge from empirical premises. Bas van Fraassen's constructive empiricism accepts that unobservables exist but argues science only needs to be empirically adequate. Feminist epistemologists argue that the empiricist's purported objectivity conceals gender and cultural bias.",
+    links:[{t:"Empiricism (SEP)",u:"https://plato.stanford.edu/entries/empiricism/"}]
+  },
+  { id:"ref_compat_type", type:"choice", dim:"metaphysics",
+    text:"What makes an action free, in your compatibilist view?",
+    desc:"Different theories of what freedom amounts to given determinism.",
+    refines:{check:a=>(a.m_fw==='compat')},
+    options:[
+      {v:"humean",l:"Acting from Your Desires",d:"Free action is unimpeded action flowing from your own desires (Hume, Hobbes)"},
+      {v:"reasons_responsive",l:"Responsiveness to Reasons",d:"Free action requires sensitivity to reasons and ability to modify behavior (Fischer & Ravizza)"},
+      {v:"hierarchical",l:"Hierarchical Desires",d:"Freedom requires your actions to flow from your higher-order desires (Frankfurt)"},
+      {v:"semicompatible",l:"Weaker Freedom",d:"We have a limited freedom to do otherwise in a sense compatible with determinism (Fischer)"}
+    ], dim:"metaphysics",
+    info:"Humeist compatibilists argue freedom just means acting without external constraint. Fischer and Ravizza's reasons-responsive account adds that you must be reactive to reasons. Frankfurt's hierarchical account distinguishes first-order desires (what you want to do) from second-order desires (what you want to want). His view requires your actions align with your authentic self.",
+    links:[{t:"Free Will (SEP)",u:"https://plato.stanford.edu/entries/free-will/"}]
+  },
+  { id:"ref_det_response", type:"choice", dim:"metaphysics",
+    text:"If there's no free will, what should we conclude?",
+    desc:"Different responses to the metaphysical reality of determinism.",
+    refines:{check:a=>(a.m_fw==='hard_det')},
+    options:[
+      {v:"hard_incomp",l:"Moral Responsibility is Illusory",d:"Free will is impossible; moral responsibility is false (Pereboom, Harris)"},
+      {v:"revisionist",l:"Reform Our Practices",d:"We should revise our reactive attitudes and legal systems (Vargas)"},
+      {v:"consequent",l:"Praise & Blame Have Value",d:"Even without desert, praise and blame serve useful purposes (pragmatic justification)"},
+      {v:"spinozist",l:"Radical Acceptance",d:"Accept determinism and find freedom in understanding necessity (Spinoza, Waller)"}
+    ], dim:"metaphysics",
+    info:"Hard incompatibilists like Derk Pereboom accept determinism and reject free will, concluding true moral responsibility is impossible. Revisionists like Manuel Vargas argue we should substantially reform criminal justice and moral judgment. Others argue consequences matter — praise and blame can still be justified by their effects. Spinozistic acceptance seeks liberation through understanding, not in contradiction of, natural law.",
+    links:[{t:"Hard Determinism (SEP)",u:"https://plato.stanford.edu/entries/determinism-foreknowledge/"}]
+  },
+  { id:"ref_physic_type", type:"choice", dim:"mind",
+    text:"What kind of physicalist account of mind appeals to you?",
+    desc:"Different approaches to explaining consciousness in physical terms.",
+    refines:{check:a=>(a.m_mind==='physic')},
+    options:[
+      {v:"type_id",l:"Type Identity",d:"Mental states are identical to brain states (Place, Smart: pain = C-fiber firing)"},
+      {v:"token_id",l:"Token Identity",d:"Each particular mental event is some physical event, but not the same type (Davidson)"},
+      {v:"eliminative",l:"Eliminativism",d:"Folk psychology is false; mental states don't exist as traditionally conceived (Churchlands)"},
+      {v:"reductive_func",l:"Reductive Functionalism",d:"Mental states are functional roles, realized in physical systems (Lewis, Armstrong)"}
+    ], dim:"mind",
+    info:"Type identity theorists say pain just IS C-fiber activation. Token identity allows pain could be different physical states in different creatures. Eliminativists argue we've been completely wrong about mentality and mental states will be eliminated from future science. Reductive functionalists say mental properties are defined by their causal roles, which can be realized in any substrate that has the right causal structure.",
+    links:[{t:"Physicalism (SEP)",u:"https://plato.stanford.edu/entries/physicalism/"}]
+  },
+  { id:"ref_dual_type", type:"choice", dim:"mind",
+    text:"What kind of dualism appeals to you?",
+    desc:"Different ways mind and body could be fundamentally distinct.",
+    refines:{check:a=>(a.m_mind==='dual')},
+    options:[
+      {v:"substance",l:"Substance Dualism",d:"Mind and body are two different substances (Descartes)"},
+      {v:"property",l:"Property Dualism",d:"One substance with two fundamental properties — physical and mental (Chalmers)"},
+      {v:"epiphenomenalism",l:"Epiphenomenalism",d:"Mental properties exist but are causally inert (Jackson)"},
+      {v:"interactionism",l:"Interactionism",d:"Mind and body are distinct but causally interact (Descartes, Popper)"}
+    ], dim:"mind",
+    info:"Cartesian substance dualism posits two substances: res extensa (the physical) and res cogitans (the mental). Property dualists like David Chalmers accept physicalism about the body but argue consciousness is a fundamental irreducible property. Epiphenomenalists say consciousness is real but doesn't do anything. Interactionists, despite the interaction problem, argue mind and body causally influence each other.",
+    links:[{t:"Dualism (SEP)",u:"https://plato.stanford.edu/entries/dualism/"}]
+  },
+  { id:"ref_exist_type", type:"choice", dim:"meaning",
+    text:"What flavor of existentialism most resonates?",
+    desc:"Different existentialist responses to meaninglessness.",
+    refines:{check:a=>(a.mn_src==='subj')},
+    options:[
+      {v:"sartrean",l:"Sartrean Freedom",d:"Radical freedom and responsibility — we create ourselves through choices (Sartre)"},
+      {v:"heideggerian",l:"Heideggerian Authenticity",d:"Authentic being-toward-death; facing finitude honestly (Heidegger)"},
+      {v:"absurdist",l:"Camusian Absurdism",d:"The absurd conditions of existence; we must imagine Sisyphus happy (Camus)"},
+      {v:"situated",l:"Situated Freedom",d:"Freedom is always situated in embodiment and relationships (de Beauvoir, Merleau-Ponty)"}
+    ], dim:"meaning",
+    info:"Sartre emphasized radical freedom and the anguish of choice. Heidegger saw authenticity as owning your finitude. Camus embraced the absurd rather than escaping it through philosophy or religion. de Beauvoir and Merleau-Ponty argued freedom is always embodied and relational, not abstract.",
+    links:[{t:"Existentialism (SEP)",u:"https://plato.stanford.edu/entries/existentialism/"}]
+  },
+  { id:"ref_natural_type", type:"choice", dim:"meaning",
+    text:"Where does natural meaning come from?",
+    desc:"Different naturalistic accounts of how life can be meaningful.",
+    refines:{check:a=>(a.mn_src==='natural')},
+    options:[
+      {v:"objective_goods",l:"Objective Natural Goods",d:"Certain things are genuinely good by nature (natural law, Foot, Thompson)"},
+      {v:"evolutionary",l:"Evolutionary Purpose",d:"Meaning comes from teleological nature — what we evolved to do (teleological naturalism)"},
+      {v:"narrative",l:"Narrative Coherence",d:"Life is meaningful through narrative integration (MacIntyre)"},
+      {v:"relational",l:"Relational & Community Goods",d:"Meaning arises in relationships and shared social goods (Taylor)"}
+    ], dim:"meaning",
+    info:"Philippa Foot's neo-Aristotelian account grounds meaning in natural human goods — things that are good for us by nature. Evolutionary accounts connect meaning to our deep purposes. Alasdair MacIntyre argues narratives of quests, traditions, and practices generate meaning. Charles Taylor emphasizes how meaning is dialogical — it emerges through recognition and connection with others.",
+    links:[{t:"Meaning of Life (SEP)",u:"https://plato.stanford.edu/entries/life-meaning/"}]
+  },
+  {id:"ref_polit_lib_type",type:"choice",dim:"political",
+    text:"Which libertarian tradition resonates with you?",
+    desc:"Libertarianism has distinct variants based on property theory and self-ownership.",
+    refines:{check:a=>((a.p_lib??50)>65)},
+    options:[
+      {v:"right_lib",l:"Right-Libertarianism",d:"Minimal state to protect property; Lockean proviso on acquisition (Nozick)"},
+      {v:"radical_right",l:"Anarcho-Capitalism",d:"No state; radical self-ownership and non-aggression principle (Rothbard)"},
+      {v:"left_lib",l:"Left-Libertarianism",d:"Self-ownership plus egalitarian resource ownership (Steiner, Vallentyne, Otsuka)"}
+    ],
+    info:"Right-libertarians like Nozick accept a minimal state. Anarcho-capitalists like Rothbard reject all states. Left-libertarians combine self-ownership with egalitarian resource distribution — you own yourself but natural resources belong to everyone equally.",
+    links:[{t:"Libertarianism (SEP)",u:"https://plato.stanford.edu/entries/libertarianism/"}]
+  },
+  {id:"ref_polit_comm_type",type:"choice",dim:"political",
+    text:"Which communitarian emphasis shapes your thinking?",
+    desc:"Communitarians agree individuals are embedded in communities but differ on implications.",
+    refines:{check:a=>((a.p_lib??50)<35)},
+    options:[
+      {v:"critique_comm",l:"Philosophical Communitarianism",d:"Liberalism assumes a false atomistic self; identity constituted by community (MacIntyre, Sandel, Taylor)"},
+      {v:"responsive_comm",l:"Responsive Communitarianism",d:"Practical focus on rebuilding civic institutions and social responsibility (Etzioni, Galston)"},
+      {v:"confucian_comm",l:"Confucian Communitarianism",d:"Hierarchical harmony, ritual propriety, and relational ethics (contemporary Confucian political theorists)"}
+    ],
+    info:"MacIntyre and Sandel critiqued Rawlsian liberalism's 'unencumbered self.' Etzioni's responsive communitarianism focuses on practical civic renewal. Confucian communitarianism offers a non-Western model of communal political order.",
+    links:[{t:"Communitarianism (SEP)",u:"https://plato.stanford.edu/entries/communitarianism/"}]
+  },
+  {id:"ref_demo_type",type:"choice",dim:"political",
+    text:"Which model of democracy do you find most compelling?",
+    desc:"Democratic theories differ on what gives democratic decisions their legitimacy.",
+    refines:{check:a=>((a.p_demo??50)>50)},
+    options:[
+      {v:"aggreg",l:"Aggregative Democracy",d:"Legitimacy from fair aggregation of preferences through voting (Arrow, public choice)"},
+      {v:"delib",l:"Deliberative Democracy",d:"Legitimacy from reasoned public deliberation and discourse (Habermas, Cohen)"},
+      {v:"epist",l:"Epistemic Democracy",d:"Democracy justified by its truth-tracking capacity (Condorcet, Estlund)"},
+      {v:"agonist",l:"Agonistic Democracy",d:"Democracy as productive conflict between irreducible pluralism (Mouffe)"}
+    ],
+    info:"Aggregative models treat democracy as preference-counting machinery. Deliberative models emphasize rational discourse. Epistemic models say democratic procedures track truth. Agonistic models embrace political conflict as permanently healthy.",
+    links:[{t:"Democracy (SEP)",u:"https://plato.stanford.edu/entries/democracy/"}]
+  },
+  {id:"ref_justice_sub",type:"choice",dim:"political",
+    text:"Which aspect of Rawlsian justice do you emphasize most?",
+    desc:"Rawls's framework has been extended and debated in many directions.",
+    refines:{check:a=>(a.p_just==='rawls')},
+    options:[
+      {v:"orig_pos",l:"Original Position Focus",d:"The veil of ignorance procedure is the key insight; fairness derives from impartiality (Rawls)"},
+      {v:"diff_princ",l:"Difference Principle Focus",d:"Inequalities justified only if they benefit the least advantaged; strong egalitarian redistributive implications (Rawls, Cohen)"},
+      {v:"polit_lib",l:"Political Liberalism",d:"Justice as fairness for a pluralistic society; overlapping consensus among reasonable comprehensive doctrines (later Rawls)"},
+      {v:"global_rawls",l:"Global Justice",d:"Extending Rawlsian principles beyond nation-states to the global order (Pogge, Beitz)"}
+    ],
+    info:"Early Rawls focused on the original position. The difference principle drives redistributive policy. Later Rawls shifted to political liberalism for pluralistic societies. Cosmopolitan Rawlsians like Pogge extend justice globally.",
+    links:[{t:"Rawls (SEP)",u:"https://plato.stanford.edu/entries/rawls/"}]
+  },
+  {id:"ref_sci_real_type",type:"choice",dim:"science",
+    text:"What should we be realist about in science?",
+    desc:"Scientific realists disagree on whether we should commit to entities, structures, or full theories.",
+    refines:{check:a=>((a.sc_real??50)<35)},
+    options:[
+      {v:"struct_real",l:"Structural Realism",d:"Commit to the mathematical structure of theories, not their ontology; structure survives theory change (Worrall)"},
+      {v:"entity_real",l:"Entity Realism",d:"Realism about entities we can experimentally manipulate, even if theories change (Hacking, Cartwright)"},
+      {v:"deploy_real",l:"Deployment Realism",d:"Realism about the parts of theories that do the explanatory and predictive work (Kitcher, Psillos)"}
+    ],
+    info:"Structural realism says what persists across theory change is mathematical structure. Entity realism grounds commitment in experimental manipulation — 'if you can spray them, they're real' (Hacking). Deployment realism says trust the parts of theories doing the heavy lifting.",
+    links:[{t:"Scientific Realism (SEP)",u:"https://plato.stanford.edu/entries/scientific-realism/"}]
+  },
+  {id:"ref_sci_antir_type",type:"choice",dim:"science",
+    text:"What kind of anti-realist about science are you?",
+    desc:"Anti-realists differ on whether science aims at empirical adequacy, social construction, or practical success.",
+    refines:{check:a=>((a.sc_real??50)>65)},
+    options:[
+      {v:"constr_emp",l:"Constructive Empiricism",d:"Science aims at empirical adequacy — saving the phenomena — not truth about unobservables (van Fraassen)"},
+      {v:"soc_const",l:"Social Constructivism",d:"Scientific knowledge is shaped by social processes, interests, and power dynamics (Latour, Bloor)"},
+      {v:"pragm_inst",l:"Pragmatic Instrumentalism",d:"Theories are useful instruments for prediction; truth-talk about unobservables is idle (Dewey)"}
+    ],
+    info:"Van Fraassen's constructive empiricism is the most influential anti-realist position — accept what theories say about observables but remain agnostic on unobservables. Social constructivists emphasize science's social determination. Pragmatic instrumentalists evaluate theories by practical success.",
+    links:[{t:"Constructive Empiricism (SEP)",u:"https://plato.stanford.edu/entries/constructive-empiricism/"}]
+  },
+  {id:"ref_sci_reduct",type:"choice",dim:"science",
+    text:"What kind of reductionist are you?",
+    desc:"Reductionists disagree on how higher-level sciences relate to lower-level ones.",
+    refines:{check:a=>((a.sc_red??50)<30)},
+    options:[
+      {v:"theory_red",l:"Theory Reduction",d:"Higher-level theories can in principle be derived from lower-level ones (Nagel, classical reductionism)"},
+      {v:"mech_red",l:"Mechanistic Reduction",d:"Explanation by identifying mechanisms at a lower level, without full theory derivation (Machamer, Craver)"},
+      {v:"elim_red",l:"Eliminative Reduction",d:"Higher-level categories will eventually be replaced by more precise lower-level ones (Churchland)"}
+    ],
+    info:"Nagelian reduction requires bridging laws between theories. Mechanistic explanation focuses on identifying causal mechanisms without requiring full derivation. Eliminativists think higher-level vocabulary will be superseded entirely.",
+    links:[{t:"Scientific Reduction (SEP)",u:"https://plato.stanford.edu/entries/scientific-reduction/"}]
+  },
+  {id:"ref_coher_type",type:"choice",dim:"epistemology",
+    text:"Which version of coherentism best captures your view?",
+    desc:"Coherentists disagree on what makes a belief system coherent and whether experience plays a special role.",
+    refines:{check:a=>(a.ep_struct==='cohere')},
+    options:[
+      {v:"internal_coh",l:"Pure Coherentism",d:"Coherence among beliefs is the sole justification source; no privileged foundations (BonJour's early view)"},
+      {v:"explan_coh",l:"Explanatory Coherentism",d:"Coherence defined in terms of explanatory relations between beliefs (Harman, Lycan)"},
+      {v:"holistic_coh",l:"Holistic Coherentism",d:"Web of belief: beliefs justified by overall fit; revision at any point possible (Quine, Davidson)"}
+    ],
+    info:"Pure coherentism says mutual support among beliefs is all there is. Explanatory coherentism ties coherence to inference to best explanation. Quine's holism says any belief can be revised if the web adjusts — 'no statement is immune to revision.'",
+    links:[{t:"Justification, Coherence (SEP)",u:"https://plato.stanford.edu/entries/justep-coherence/"}]
+  },
+  {id:"ref_pragm_epist",type:"choice",dim:"epistemology",
+    text:"Which pragmatist tradition shapes your epistemology?",
+    desc:"Classical and contemporary pragmatists offer different accounts of truth and knowledge.",
+    refines:{check:a=>(a.ep_struct==='pragma')},
+    options:[
+      {v:"james",l:"Jamesian",d:"Truth is what works in practice; beliefs validated by their fruits and consequences (James)"},
+      {v:"dewey",l:"Deweyan",d:"Knowledge as warranted assertibility through experimental inquiry (Dewey)"},
+      {v:"rorty",l:"Rortian",d:"Truth-talk is optional; justification is conversational; stop seeking correspondence (Rorty)"},
+      {v:"putnam",l:"Putnamian",d:"Internal realism: truth as idealized rational acceptability (Putnam)"}
+    ],
+    info:"James emphasized practical workability. Dewey rooted knowledge in experimental inquiry and democratic practice. Rorty rejected all correspondence and foundationalism. Putnam sought a middle ground he called 'internal realism.'",
+    links:[{t:"Pragmatism (SEP)",u:"https://plato.stanford.edu/entries/pragmatism/"}]
+  },
+  {id:"ref_truth_corresp",type:"choice",dim:"epistemology",
+    text:"How do you understand correspondence between beliefs and reality?",
+    desc:"Correspondence theorists differ on what truth-bearers correspond to.",
+    refines:{check:a=>(a.ep_truth==='corresp')},
+    options:[
+      {v:"fact_corr",l:"Fact Correspondence",d:"Truth is correspondence to facts as structured entities in reality (Russell, early Wittgenstein)"},
+      {v:"truthmaker",l:"Truthmaker Theory",d:"Truth requires a truthmaker — an entity whose existence makes the proposition true (Armstrong, Fox)"},
+      {v:"modest_corr",l:"Modest Correspondence",d:"Truth is correspondence but we needn't specify the exact metaphysics of the relation (Devitt)"}
+    ],
+    info:"Classical correspondence says propositions mirror fact-structures. Truthmaker theory focuses on what in reality grounds truth. Modest correspondence accepts the intuition without heavy metaphysical commitment.",
+    links:[{t:"Truth, Correspondence (SEP)",u:"https://plato.stanford.edu/entries/truth-correspondence/"}]
+  },
+  {id:"ref_truth_deflat",type:"choice",dim:"epistemology",
+    text:"Which deflationary approach to truth do you prefer?",
+    desc:"Deflationists agree truth has no deep nature but explain the concept differently.",
+    refines:{check:a=>(a.ep_truth==='deflat')},
+    options:[
+      {v:"disquot",l:"Disquotationalism",d:"'Snow is white' is true iff snow is white — truth is a disquotation device (Field, Quine)"},
+      {v:"minimal",l:"Minimalism",d:"Truth is a device for generalization: 'everything she said is true' (Horwich)"},
+      {v:"prosent",l:"Prosententialism",d:"'True' functions as a prosentence, not a property; analogous to pronouns (Grover, Camp, Belnap)"}
+    ],
+    info:"Disquotationalism reduces truth to Tarski's T-schema. Minimalism says the truth predicate lets us make convenient generalizations. Prosententialism says 'that is true' works like 'he' — it refers back, not describing a property.",
+    links:[{t:"Truth, Deflationary (SEP)",u:"https://plato.stanford.edu/entries/truth-deflationary/"}]
+  },
+  {id:"ref_fw_skep_type",type:"choice",dim:"metaphysics",
+    text:"What kind of free will skeptic are you?",
+    desc:"Free will skeptics agree we lack libertarian free will but differ on the implications.",
+    refines:{check:a=>(a.m_fw==='skep_fw')},
+    options:[
+      {v:"hard_incompat",l:"Hard Incompatibilism",d:"Neither compatibilist nor libertarian free will exists; we should reform moral responsibility practices (Pereboom)"},
+      {v:"basic_arg",l:"Basic Argument Skeptic",d:"Free will is impossible because you can't be causa sui — the ultimate cause of yourself (Galen Strawson)"},
+      {v:"illusionist",l:"Illusionism",d:"Free will is a pervasive cognitive illusion; we feel free but aren't (Wegner, Smilansky)"}
+    ],
+    info:"Pereboom argues for 'hard incompatibilism' — rejecting both compatibilist and libertarian accounts while reforming (not eliminating) moral practices. Galen Strawson's Basic Argument says ultimate responsibility is logically impossible. Smilansky argues free will is an illusion we should maintain.",
+    links:[{t:"Skepticism, Moral Responsibility (SEP)",u:"https://plato.stanford.edu/entries/skepticism-moral-responsibility/"}]
+  },
+  {id:"ref_func_type",type:"choice",dim:"metaphysics",
+    text:"Which version of functionalism captures your view of mind?",
+    desc:"Functionalists specify mental states' functional roles differently.",
+    refines:{check:a=>(a.m_mind==='func')},
+    options:[
+      {v:"machine_f",l:"Machine Functionalism",d:"Mental states are computational states of a Turing machine (early Putnam)"},
+      {v:"analytic_f",l:"Analytic Functionalism",d:"Mental states defined by their roles in folk-psychological theory (Lewis, Armstrong)"},
+      {v:"psycho_f",l:"Psychofunctionalism",d:"Mental states defined by their roles in actual psychological/neural processing (Block, Fodor)"}
+    ],
+    info:"Machine functionalism identifies minds with abstract computational states. Analytic functionalism grounds mental concepts in common-sense psychology. Psychofunctionalism ties functional roles to empirical cognitive science rather than folk theory.",
+    links:[{t:"Functionalism (SEP)",u:"https://plato.stanford.edu/entries/functionalism/"}]
+  },
+  {id:"ref_panpsy_type",type:"choice",dim:"metaphysics",
+    text:"How do micro-level and macro-level consciousness relate?",
+    desc:"Panpsychists propose different models for how fundamental consciousness gives rise to complex experience.",
+    refines:{check:a=>(a.m_mind==='panpsy')},
+    options:[
+      {v:"cosmo",l:"Cosmopsychism",d:"The cosmos as a whole is conscious; individual consciousness is derived from cosmic consciousness (Fechner, Shani)"},
+      {v:"constit",l:"Constitutive Panpsychism",d:"Micro-level consciousness composes or constitutes macro-level consciousness (Seager, Goff)"},
+      {v:"emerg_p",l:"Emergent Panpsychism",d:"Macro-consciousness emerges as a novel property from micro-conscious elements (Rosenberg, Brüntrup)"}
+    ],
+    info:"Cosmopsychism is top-down: the universe is conscious and we're aspects of it. Constitutive panpsychism faces the 'combination problem' — how do micro-experiences combine into unified consciousness? Emergent panpsychism avoids this by treating macro-consciousness as genuinely novel.",
+    links:[{t:"Panpsychism (SEP)",u:"https://plato.stanford.edu/entries/panpsychism/"}]
+  },
+  {id:"ref_psych_cont_type",type:"choice",dim:"metaphysics",
+    text:"What kind of psychological continuity matters for personal identity?",
+    desc:"Psychological continuity theorists differ on which connections preserve identity.",
+    refines:{check:a=>(a.m_id==='psych')},
+    options:[
+      {v:"memory",l:"Memory Continuity",d:"Personal identity consists in chains of memory connections (Locke, Shoemaker)"},
+      {v:"broad_psych",l:"Broad Psychological",d:"Identity requires continuity of memories, intentions, beliefs, desires, and character (Parfit)"},
+      {v:"narr_id",l:"Narrative Identity",d:"You are the story you tell about yourself; identity is self-interpretive and autobiographical (Schechtman, Ricoeur)"}
+    ],
+    info:"Lockean memory theory says you are who you remember being. Parfit broadened this to overlapping chains of all psychological connections. Narrative identity says what matters is the coherent story you weave about your life.",
+    links:[{t:"Identity, Personal (SEP)",u:"https://plato.stanford.edu/entries/identity-personal/"}]
+  },
+  {id:"ref_moral_real_type",type:"choice",dim:"ethics",
+    text:"If moral facts exist, how are they grounded?",
+    desc:"Moral realists disagree on whether moral properties are natural or sui generis.",
+    refines:{check:a=>((a.eth_real??50)>65)},
+    options:[
+      {v:"nat_real",l:"Moral Naturalism",d:"Moral properties are natural properties; 'good' = what promotes flourishing (Railton, Boyd)"},
+      {v:"cornell",l:"Cornell Realism",d:"Moral properties are complex natural functional kinds, like 'health' (Sturgeon, Brink)"},
+      {v:"non_nat",l:"Non-Naturalism",d:"Moral properties are real but irreducible to natural properties; known through intuition (Moore, Huemer, Parfit)"}
+    ],
+    info:"Moral naturalists fit morality into the natural world. Cornell realists use functional-kind models — goodness is like health, a complex natural phenomenon. Non-naturalists accept moral facts as primitive, irreducible to anything else.",
+    links:[{t:"Moral Realism (SEP)",u:"https://plato.stanford.edu/entries/moral-realism/"}]
+  },
+  {id:"ref_moral_antir",type:"choice",dim:"ethics",
+    text:"If moral facts don't exist, what is moral language doing?",
+    desc:"Moral anti-realists agree moral facts are absent but explain moral discourse differently.",
+    refines:{check:a=>((a.eth_real??50)<35)},
+    options:[
+      {v:"error",l:"Error Theory",d:"All moral claims are false — they presuppose non-existent moral properties (Mackie, Joyce)"},
+      {v:"express",l:"Expressivism",d:"Moral claims express attitudes and commitments, not beliefs about facts (Blackburn, Gibbard)"},
+      {v:"relativ",l:"Moral Relativism",d:"Moral truth is relative to cultures, frameworks, or standpoints (Harman, Wong)"}
+    ],
+    info:"Error theorists say moral language tries to describe facts but systematically fails. Expressivists say it was never trying to describe facts — it expresses attitudes. Relativists say there are moral truths, just relative ones.",
+    links:[{t:"Moral Anti-Realism (SEP)",u:"https://plato.stanford.edu/entries/moral-anti-realism/"}]
+  },
+  {id:"ref_care_type",type:"choice",dim:"ethics",
+    text:"Which emphasis within care ethics resonates with you?",
+    desc:"Care ethicists differ on whether care is primarily relational, feminist, or political.",
+    refines:{check:a=>((a.eth_care??50)>65)},
+    options:[
+      {v:"relat_care",l:"Relational Care",d:"Ethics centered on attentiveness and responsiveness to particular others (Noddings)"},
+      {v:"fem_care",l:"Feminist Care",d:"Care ethics as reclaiming devalued feminine moral perspective (Gilligan, Held)"},
+      {v:"polit_care",l:"Political Care",d:"Care as a public and institutional practice, not just interpersonal (Tronto, Engster)"}
+    ],
+    info:"Noddings focuses on the caring relation between particular individuals. Gilligan and Held situate care ethics in feminist critique of male-biased moral theory. Tronto extends care into democratic politics and institutional design.",
+    links:[{t:"Feminism, Ethics (SEP)",u:"https://plato.stanford.edu/entries/feminism-ethics/"}]
+  },
+  {id:"ref_ai_theory",type:"choice",dim:"mind",
+    text:"Which theory of consciousness best predicts AI consciousness?",
+    desc:"Different consciousness theories make different predictions about machine consciousness.",
+    refines:{check:a=>((a.mi_ai??50)>65)},
+    options:[
+      {v:"iit",l:"Integrated Information Theory",d:"Consciousness = integrated information (phi); substrate-independent, so silicon could qualify (Tononi)"},
+      {v:"gwt",l:"Global Workspace Theory",d:"Consciousness = global information broadcast; AI architectures could implement this (Baars, Dehaene)"},
+      {v:"hott",l:"Higher-Order Theory",d:"Consciousness requires meta-cognitive self-monitoring; AI would need higher-order representations (Rosenthal)"}
+    ],
+    info:"IIT says consciousness is wherever integrated information exists — potentially in any substrate. GWT says consciousness is about global broadcasting, which AI architectures could implement. Higher-order theories require self-awareness, a higher bar for AI.",
+    links:[{t:"Consciousness (SEP)",u:"https://plato.stanford.edu/entries/consciousness/"}]
+  },
+  {id:"ref_hard_prob",type:"choice",dim:"mind",
+    text:"What's the most promising response to the hard problem of consciousness?",
+    desc:"Different philosophers propose radically different responses to the explanatory gap.",
+    refines:{check:a=>((a.mi_hard??50)>65)},
+    options:[
+      {v:"myster",l:"Mysterianism",d:"The hard problem may exceed human cognitive capacity (McGinn)"},
+      {v:"new_phys",l:"New Fundamental Laws",d:"Consciousness requires new psychophysical bridging laws alongside physics (Chalmers)"},
+      {v:"illusory",l:"Illusionism",d:"The hard problem is based on an illusion — consciousness isn't what we think it is (Dennett, Frankish)"}
+    ],
+    info:"McGinn's mysterianism says we may be cognitively closed to the solution. Chalmers proposes new fundamental psychophysical laws. Dennett and Frankish argue the hard problem dissolves once we realize phenomenal consciousness is itself an illusion.",
+    links:[{t:"Consciousness (SEP)",u:"https://plato.stanford.edu/entries/consciousness/"}]
+  }
+];
+
+const DIMS = {
+  ethics:{label:"Ethics",color:"#8b7cf7",icon:"⚖️"},
+  epistemology:{label:"Epistemology",color:"#38bdf8",icon:"🔍"},
+  metaphysics:{label:"Metaphysics",color:"#f472b6",icon:"✨"},
+  political:{label:"Political Phil.",color:"#34d399",icon:"🏛️"},
+  mind:{label:"Phil. of Mind",color:"#fbbf24",icon:"🧠"},
+  science:{label:"Phil. of Science",color:"#f87171",icon:"🔬"},
+  meaning:{label:"Meaning",color:"#f7b267",icon:"🌅"},
+};
+
+// ===== STATE =====
+let roomId=null, roomName=null, answers={}, myProfile=null, quizMode='full', roomProfiles=[], roomChallenges=[];
+
+const params=new URLSearchParams(location.search);
+if(params.get('room')){
+  roomId=params.get('room');
+  loadRoom(roomId).then(ok=>{if(ok)go('quiz');});
+}
+loadRoomsList();
+
+// ===== MODE =====
+function setMode(m){
+  if(m==='refine'){
+    if(!myProfile||!myProfile.answers){
+      toast('Complete a profile first to use Refinement mode');
+      return;
+    }
+  }
+  quizMode=m;
+  document.getElementById('mode-full').classList.toggle('sel',m==='full');
+  document.getElementById('mode-quick').classList.toggle('sel',m==='quick');
+  document.getElementById('mode-thought').classList.toggle('sel',m==='thought');
+  document.getElementById('mode-refine').classList.toggle('sel',m==='refine');
+}
+
+function getActiveQs(){
+  if(quizMode==='full') return QS.filter(q=>!q.id.startsWith('ref_')&&!q.thought);
+  if(quizMode==='quick') return QS.filter(q=>q.core&&!q.id.startsWith('ref_')&&!q.thought);
+  if(quizMode==='thought') return QS.filter(q=>q.thought);
+  if(quizMode==='refine'){
+    return QS.filter(q=>q.id.startsWith('ref_')).filter(q=>{
+      if(!q.refines) return false;
+      if(Array.isArray(q.refines)){
+        return q.refines.every(r=>r.check(answers));
+      }
+      return q.refines.check(answers);
+    });
+  }
+  return QS;
+}
+
+// ===== RETURNING USER CHECK =====
+function checkName(){
+  const name=document.getElementById('inName').value.trim();
+  const statusDiv=document.getElementById('nameStatus');
+  const refineCard=document.getElementById('mode-refine');
+
+  if(!name){
+    statusDiv.innerHTML='';
+    refineCard.classList.add('disabled');
+    myProfile=null;
+    return;
+  }
+
+  const existing=roomProfiles.find(p=>p.name.toLowerCase()===name.toLowerCase());
+  if(existing){
+    const dateStr=existing.date?new Date(existing.date).toLocaleDateString('en-US',{month:'short',day:'numeric'}):null;
+    statusDiv.innerHTML=`<div class="name-status found">Welcome back, <strong>${name}</strong>! You already have a profile${dateStr?` (completed ${dateStr})`:''}. You can retake the survey to update your answers, or <a onclick="go('profile')">view your profile →</a></div>`;
+    myProfile=existing;
+    answers={...existing.answers};
+    refineCard.classList.remove('disabled');
+  }else{
+    statusDiv.innerHTML='';
+    refineCard.classList.add('disabled');
+    myProfile=null;
+  }
+}
+
+// ===== API =====
+async function api(method,path,body){
+  const opts={method,headers:{'Content-Type':'application/json'}};
+  if(body)opts.body=JSON.stringify(body);
+  const res=await fetch('/api'+path,opts);
+  return res.json();
+}
+
+async function loadRoom(id){
+  try{
+    const room=await api('GET',`/rooms/${id}`);
+    if(room.error){toast('Room not found');return false;}
+    roomId=room.id;roomName=room.name;
+    roomProfiles=room.profiles||[];
+    document.getElementById('roomBadge').textContent=`Room: ${roomName}`;
+    document.getElementById('roomBadge').classList.remove('hidden');
+    const savedName=localStorage.getItem('phil_name_'+roomId);
+    if(savedName){
+      const existing=room.profiles.find(p=>p.name===savedName);
+      if(existing){myProfile=existing;answers={...existing.answers};document.getElementById('inName').value=savedName;}
+    }
+    setTimeout(checkName,0);
+    await loadChallenges();
+    return true;
+  }catch(e){toast('Error loading room');return false;}
+}
+
+async function loadChallenges(){
+  if(!roomId)return;
+  try{
+    const challenges=await api('GET',`/rooms/${roomId}/challenges`);
+    roomChallenges=challenges||[];
+    updateChallengeBadge();
+  }catch(e){}
+}
+
+async function loadRoomsList(){
+  try{
+    const rooms=await api('GET','/rooms');
+    if(rooms.length>0){
+      document.getElementById('existingRooms').classList.remove('hidden');
+      document.getElementById('roomList').innerHTML=rooms.map(r=>
+        `<div class="t-member" style="cursor:pointer" onclick="quickJoin('${r.id}')">
+          <div><div class="t-name">${r.name}</div><div class="t-date">${r.memberCount} member${r.memberCount!==1?'s':''}</div></div>
+          <button class="btn btn-small btn-secondary">Join →</button>
+        </div>`
+      ).join('');
+    }
+  }catch(e){}
+}
+
+async function quickJoin(id){const ok=await loadRoom(id);if(ok){go('quiz');updateURL();}}
+function updateURL(){if(roomId)history.replaceState(null,'','?room='+roomId);}
+
+async function joinRoom(){
+  const name=document.getElementById('inRoom').value.trim();
+  if(!name){toast('Enter a room name!');return;}
+  const room=await api('POST','/rooms',{roomName:name});
+  roomId=room.id;roomName=room.name;
+  document.getElementById('roomBadge').textContent=`Room: ${roomName}`;
+  document.getElementById('roomBadge').classList.remove('hidden');
+  updateURL();toast(`Joined room: ${roomName}`);go('quiz');
+}
+
+// ===== QUIZ =====
+function startQuiz(){
+  const name=document.getElementById('inName').value.trim();
+  if(!name){toast('Enter your name!');return;}
+  if(!roomId){toast('Join a room first!');go('lobby');return;}
+  if(quizMode==='refine'&&(!myProfile||!myProfile.answers)){toast('Complete a profile first!');return;}
+  document.getElementById('quizWelcome').classList.add('hidden');
+  document.getElementById('quizContent').classList.remove('hidden');
+  const qs=getActiveQs();
+  qs.forEach(q=>{if(q.type==='slider'&&answers[q.id]===undefined)answers[q.id]=50;});
+  renderQs();
+}
+
+function renderQs(){
+  const qs=getActiveQs();
+  const c=document.getElementById('qContainer');
+  let html='',num=0,sec='';
+  qs.forEach(q=>{
+    if(q.section&&q.section!==sec){
+      sec=q.section;
+      html+=`<div class="section-head"><h3>${DIMS[q.dim]?.icon||''} ${q.section}</h3><p>${q.sectionDesc}</p></div>`;
+    }
+    num++;
+    html+=renderOneQ(q,'parent',num);
+  });
+  c.innerHTML=html;
+  updProg();
+}
+function renderOneQ(q,type,num){
+  const quickBadge=(quizMode==='quick')?'':'';
+  let html=`<div class="q-card ${type==='child'?'qc-child':''}" id="qc-${q.id}">`;
+  if(type==='parent')html+=`<div class="q-num">Q${num}${quickBadge}</div>`;
+  else html+=`<div class="qn">${q.text}</div>`;
+  if(type==='parent'){html+=`<div class="q-text">${q.text}</div><div class="q-desc">${q.desc}</div>`;}
+
+  // Info toggle + panel
+  if(q.info){
+    const panelId=`info-${q.id}`;
+    html+=`<button class="info-toggle" onclick="toggleInfo('${panelId}')">📖 Learn more</button>`;
+    html+=`<div class="info-panel" id="${panelId}"><p>${q.info}</p>`;
+    if(q.links&&q.links.length){
+      html+=`<div class="info-links">`;
+      q.links.forEach(lnk=>{html+=`<a href="${lnk.u}" target="_blank" rel="noopener">${lnk.t} ↗</a>`;});
+      html+=`</div>`;
+    }
+    html+=`</div>`;
+  }
+
+  if(q.type==='slider'){
+    html+=`<div><div class="s-labels"><span class="s-label">${q.left}</span><span class="s-label">${q.right}</span></div>
+      <input type="range" min="0" max="100" value="${answers[q.id]||50}" oninput="onSlide('${q.id}',this.value)"></div>`;
+  } else {
+    html+=`<div class="choices">`;
+    q.options.forEach(o=>{
+      html+=`<button class="ch-btn ${answers[q.id]===o.v?'sel':''}" onclick="onCh('${q.id}','${o.v}',this)">
+        <div class="ch-label">${o.l}</div><div class="ch-desc">${o.d}</div></button>`;
+    });
+    html+=`</div>`;
+  }
+  html+=`</div>`;
+
+  // Children
+  if(type==='parent'&&q.children){
+    html+=`<div class="children-wrap" id="cw-${q.id}">`;
+    q.children.forEach(ch=>{
+      if(ch.showWhen&&ch.showWhen(answers)){
+        html+=renderOneQ(ch,'child');
+      }
+    });
+    html+=`</div>`;
+  }
+
+  return html;
+}
+
+function toggleInfo(id){document.getElementById(id).classList.toggle('open');}
+function onSlide(id,v){answers[id]=+v;updProg();refreshChildren(id);}
+function onCh(id,v,el){
+  answers[id]=v;
+  el.closest('.q-card').querySelectorAll('.ch-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  updProg();refreshChildren(id);
+}
+function refreshChildren(parentId){
+  const allQs=QS.concat(QS.flatMap(q=>q.children||[]));
+  const parent=QS.find(q=>q.id===parentId);
+  if(!parent||!parent.children)return;
+  const cw=document.getElementById('cw-'+parentId);
+  if(!cw)return;
+  let h='';
+  parent.children.forEach(ch=>{
+    if(ch.showWhen&&ch.showWhen(answers)){h+=renderOneQ(ch,'child');}
+    else{delete answers[ch.id];}
+  });
+  cw.innerHTML=h;
+}
+
+function updProg(){
+  const qs=getActiveQs();
+  const total=qs.length;
+  let done=0;
+  qs.forEach(q=>{if(answers[q.id]!==undefined)done++;});
+  document.getElementById('pBar').style.width=(done/total*100)+'%';
+  document.getElementById('pLabel').textContent=`${done} / ${total}`;
+  const choicesDone=qs.filter(q=>q.type==='choice').every(q=>answers[q.id]!==undefined);
+  document.getElementById('submitBtn').disabled=!choicesDone;
+  document.getElementById('submitHint').textContent=choicesDone?'Ready!':'Answer all multiple-choice questions to finish';
+}
+
+// ===== SUBMIT =====
+async function submit(){
+  const name=document.getElementById('inName').value.trim();
+  const p={name,date:new Date().toISOString().split('T')[0],answers:{...answers},dimensions:{},labels:{},mode:quizMode};
+
+  const sa=(keys)=>{let s=0,n=0;keys.forEach(k=>{if(answers[k]!==undefined){s+=answers[k];n++;}});return n?Math.round(s/n):50;};
+  p.dimensions.ethics=sa(['eth_cons','eth_virt','eth_care','eth_real','eth_motiv','eth_univ','eth_demand','eth_practice']);
+  p.dimensions.epistemology=sa(['ep_src','ep_skep','ep_intern','ep_test','ep_vat','ep_boltz']);
+  p.dimensions.metaphysics=sa(['m_abs','m_time','m_nec']);
+  p.dimensions.political=sa(['p_lib','p_eq','p_demo','p_glob']);
+  p.dimensions.mind=sa(['mi_hard','mi_ai','mi_cr','mi_qual','mi_ext','mi_crazy','mi_snail']);
+  p.dimensions.science=sa(['sc_real','sc_ind','sc_val','sc_red']);
+  p.dimensions.meaning=sa(['mn_auth','mn_death','mn_suff','mn_aes','mn_sim']);
+
+  p.labels.ethics=ethLabel(p);p.labels.epistemology=epLabel(p);p.labels.metaphysics=metLabel(p);
+  p.labels.political=polLabel(p);p.labels.mind=mindLabel(p);p.labels.science=sciLabel(p);p.labels.meaning=mnLabel(p);
+
+  // Compute and save Sylvain title
+  const sylProfile=roomProfiles.find(pp=>pp.name.toLowerCase()==='sylvain');
+  if(sylProfile){p.sylvainTitle=generateSylvainTitle(p,sylProfile);}
+
+  myProfile=p;
+  localStorage.setItem('phil_name_'+roomId,name);
+  try{await api('POST',`/rooms/${roomId}/profiles`,p);toast('Profile saved!');}catch(e){toast('Saved locally (server error)');}
+  go('profile');
+}
+
+// ===== SAVE UPDATED PROFILE =====
+async function saveUpdatedProfile(){
+  if(!myProfile||!roomId)return;
+  const a=myProfile.answers;
+  const sa=(keys)=>{let s=0,n=0;keys.forEach(k=>{if(a[k]!==undefined){s+=+a[k];n++;}});return n?Math.round(s/n):50;};
+
+  myProfile.dimensions.ethics=sa(['eth_cons','eth_virt','eth_care','eth_real','eth_motiv','eth_univ','eth_demand','eth_practice']);
+  myProfile.dimensions.epistemology=sa(['ep_src','ep_skep','ep_intern','ep_test','ep_vat','ep_boltz']);
+  myProfile.dimensions.metaphysics=sa(['m_abs','m_time','m_nec']);
+  myProfile.dimensions.political=sa(['p_lib','p_eq','p_demo','p_glob']);
+  myProfile.dimensions.mind=sa(['mi_hard','mi_ai','mi_cr','mi_qual','mi_ext','mi_crazy','mi_snail']);
+  myProfile.dimensions.science=sa(['sc_real','sc_ind','sc_val','sc_red']);
+  myProfile.dimensions.meaning=sa(['mn_auth','mn_death','mn_suff','mn_aes','mn_sim']);
+
+  myProfile.labels.ethics=ethLabel(myProfile);
+  myProfile.labels.epistemology=epLabel(myProfile);
+  myProfile.labels.metaphysics=metLabel(myProfile);
+  myProfile.labels.political=polLabel(myProfile);
+  myProfile.labels.mind=mindLabel(myProfile);
+  myProfile.labels.science=sciLabel(myProfile);
+  myProfile.labels.meaning=mnLabel(myProfile);
+
+  // Compute and save Sylvain title
+  const sylProfile=roomProfiles.find(p=>p.name.toLowerCase()==='sylvain');
+  if(sylProfile){
+    myProfile.sylvainTitle=generateSylvainTitle(myProfile,sylProfile);
+  }
+
+  myProfile.date=new Date().toISOString().split('T')[0];
+
+  try{
+    await api('POST',`/rooms/${roomId}/profiles`,myProfile);
+  }catch(e){
+    console.log('Error saving updated profile');
+  }
+}
+
+// ===== LABELS (backward compatible — handles missing answers gracefully) =====
+function ethLabel(p){
+  const a=p.answers||{},c=a.eth_cons??a.ethics_consequentialism??50,v=a.eth_virt??a.ethics_virtue??50,ca=a.eth_care??a.ethics_care??50;
+  let pr=c<35?'Consequentialist':c>65?'Deontologist':v>65?'Virtue Ethicist':ca>65?'Care Ethicist':'Pluralist';
+  let sub='';
+  if(pr==='Consequentialist'){const u=a.eth_cons_sub||a.eth_util||a.ethics_util_type;if(u==='hedonistic'||u==='act'||u==='rule'||u==='pref'||u==='neg')sub=u==='hedonistic'?'(Hedonistic Utilitarian)':u==='act'?'(Act Utilitarian)':u==='rule'?'(Rule Utilitarian)':u==='pref'?'(Preference Utilitarian)':'(Negative Utilitarian)';else if(u==='preference')sub='(Preference Utilitarian)';else if(u==='wellbeing')sub='(Objective List)';if(!sub&&a.ref_util_agg){sub=a.ref_util_agg==='total'?'(Total Util.)':a.ref_util_agg==='average'?'(Average Util.)':a.ref_util_agg==='prioritarian'?'(Prioritarian)':'(Sufficientarian)';}}
+  if(pr==='Deontologist'){sub=a.eth_deont_sub?`(${a.eth_deont_sub==='kantian'?'Kantian':a.eth_deont_sub==='contractualist'?'Contractualist':a.eth_deont_sub==='rights'?'Rights-based':'Divine Command'})`:'(Kantian)';if(!sub&&a.ref_deont_source){sub=a.ref_deont_source==='kantian'?'(Kantian)':a.ref_deont_source==='contractual'?'(Contractualist)':a.ref_deont_source==='natural_law'?'(Natural Law)':'(Rights-based)';}}
+  if(v>65&&!sub)sub=a.eth_virt_sub?`(${a.eth_virt_sub==='aristotelian'?'Aristotelian':a.eth_virt_sub==='stoic'?'Stoic':a.eth_virt_sub==='care_eth'?'Care Ethics':'Sentimentalist'})`:(a.ref_virt_trad?a.ref_virt_trad==='aristotelian'?'(Aristotelian)':a.ref_virt_trad==='confucian'?'(Confucian)':a.ref_virt_trad==='stoic'?'(Stoic)':'(Care)':'');
+  const mr=a.eth_real??a.meta_ethics_realism??50;
+  let m=mr>60?'Moral Realist':mr<40?'Moral Anti-Realist':'Meta-ethically Moderate';
+  return `${pr} ${sub} · ${m}`;
+}
+function epLabel(p){
+  const a=p.answers||{},s=a.ep_src??a.epist_source??50;
+  let sl=s<40?'Rationalist':s>60?'Empiricist':'Balanced';
+  if(a.ref_emp_type){sl=a.ref_emp_type==='radical'?'Radical Empiricist':a.ref_emp_type==='moderate'?'Moderate Empiricist':a.ref_emp_type==='constructive'?'Constructive Empiricist':'Feminist Empiricist';}
+  const st=a.ep_struct||a.epist_structure;let stl=st==='found'||st==='foundationalism'?`Foundationalist${a.ep_found_sub?` (${a.ep_found_sub==='classical'?'Classical':'Modest'})`:a.ref_found_base?` (${a.ref_found_base==='empirical'?'Empirical':a.ref_found_base==='rational'?'Rational':a.ref_found_base==='modest'?'Modest':'Reformed'})`:''}`:(st==='cohere'||st==='coherentism'?'Coherentist':st==='pragma'||st==='pragmatism'?'Pragmatist':st==='virtue'||st==='virtue_epist'?`Virtue Epistemologist${a.ep_virtue_sub?` (${a.ep_virtue_sub==='reliable'?'Reliabilist':'Responsibilist'})`:''}`:'');
+  const tr=a.ep_truth||a.epist_truth;let tl=tr==='corresp'||tr==='correspondence'?'Correspondence':tr==='coh_tr'||tr==='coherence_truth'?'Coherence':tr==='prag_tr'||tr==='pragmatic_truth'?'Pragmatic':tr==='deflat'||tr==='deflationary'?'Deflationary':'';
+  return[sl,stl,tl].filter(Boolean).join(' · ');
+}
+function metLabel(p){
+  const a=p.answers||{};
+  let fw=a.m_fw||a.meta_freewill;
+  if(fw==='compat'&&a.m_fw_compat_sub)fw=`compat-${a.m_fw_compat_sub}`;
+  if(fw==='lib_fw'&&a.m_fw_lib_sub)fw=`lib_fw-${a.m_fw_lib_sub}`;
+  if(fw==='compat'&&!a.m_fw_compat_sub&&a.ref_compat_type)fw=`compat-${a.ref_compat_type}`;
+  if(fw==='hard_det'&&a.ref_det_response)fw=`hard_det-${a.ref_det_response}`;
+  const fwMap={hard_det:'Hard Determinist',hard_determinism:'Hard Determinist',compat:'Compatibilist','compat-frankfurt':'Compatibilist (Frankfurt)','compat-dennett':'Compatibilist (Dennett)','compat-humean':'Compatibilist (Humean)','compat-humean':'Compatibilist (Humean)','compat-reasons_responsive':'Compatibilist (Reasons-Responsive)','compat-hierarchical':'Compatibilist (Hierarchical)','compat-semicompatible':'Compatibilist (Semicompatibilist)','hard_det-hard_incomp':'Hard Incompatibilist','hard_det-revisionist':'Revisionist','hard_det-consequent':'Consequentialist Hard Determinist','hard_det-spinozist':'Spinozistic Determinist',compatibilism:'Compatibilist',lib_fw:'Libertarian FW','lib_fw-agent_cause':'Libertarian FW (Agent)','lib_fw-event_cause':'Libertarian FW (Event)',libertarian_fw:'Libertarian FW',skep_fw:'FW Skeptic',skeptic_fw:'FW Skeptic'};
+  let mi=a.m_mind||a.meta_mind;
+  if(mi==='physic'&&a.m_mind_physic_sub)mi=`physic-${a.m_mind_physic_sub}`;
+  if(mi==='dual'&&a.m_mind_dual_sub)mi=`dual-${a.m_mind_dual_sub}`;
+  if(mi==='panpsy'&&a.m_mind_panpsy_sub)mi=`panpsy-${a.m_mind_panpsy_sub}`;
+  if(mi==='physic'&&!a.m_mind_physic_sub&&a.ref_physic_type)mi=`physic-${a.ref_physic_type}`;
+  if(mi==='dual'&&!a.m_mind_dual_sub&&a.ref_dual_type)mi=`dual-${a.ref_dual_type}`;
+  const miMap={physic:'Physicalist',physicalism:'Physicalist','physic-identity':'Physicalist (Identity)','physic-type_id':'Physicalist (Type Identity)','physic-token_id':'Physicalist (Token Identity)','physic-function':'Physicalist (Functionalist)','physic-reductive_func':'Physicalist (Reductive Functionalist)','physic-elim':'Physicalist (Eliminativist)','physic-eliminative':'Physicalist (Eliminativist)',dual:'Property Dualist',dualism:'Property Dualist','dual-substance':'Dualist (Substance)','dual-property':'Dualist (Property)','dual-epiphen':'Dualist (Epiphenomenalist)','dual-epiphenomenalism':'Dualist (Epiphenomenalist)','dual-interactionism':'Dualist (Interactionist)',func:'Functionalist',functionalism:'Functionalist',panpsy:'Panpsychist',panpsychism:'Panpsychist','panpsy-constit':'Panpsychist (Constitutive)','panpsy-cosmopsych':'Panpsychist (Cosmopsychism)','panpsy-iit':'Panpsychist (IIT)'};
+  let id=a.m_id||a.meta_identity;
+  if(id==='psych'&&a.m_id_psych_sub)id=`psych-${a.m_id_psych_sub}`;
+  if(id==='no_self'&&a.m_id_noself_sub)id=`no_self-${a.m_id_noself_sub}`;
+  const idMap={psych:'Psych. Continuity',psychological:'Psych. Continuity','psych-narrow':'Psych. Continuity (Narrow)','psych-wide':'Psych. Continuity (Wide)',bio:'Biological',biological:'Biological',narr:'Narrative',narrative:'Narrative',no_self:'No-Self','no_self-buddhist':'No-Self (Buddhist)','no_self-humean':'No-Self (Humean)','no_self-parfitian':'No-Self (Parfitian)'};
+  return[fwMap[fw],miMap[mi],idMap[id]].filter(Boolean).join(' · ');
+}
+function polLabel(p){
+  const a=p.answers||{},l=a.p_lib??a.pol_liberty??50;
+  let ll=l<35?'Liberty-first':l>65?'Community-first':'Balanced';
+  const jMap={rawls:'Rawlsian',rawlsian:'Rawlsian',util_j:'Utilitarian',utilitarian_j:'Utilitarian',lib_j:'Libertarian',libertarian_j:'Libertarian',capab:'Capabilities',capabilities:'Capabilities'};
+  return[ll,jMap[a.p_just||a.pol_justice]].filter(Boolean).join(' · ');
+}
+function mindLabel(p){
+  const a=p.answers||{},h=a.mi_hard??a.mind_hard_problem??50,ai=a.mi_ai??a.mind_ai??50;
+  let hl=h<40?'Mysterian':h>60?'Optimist':'Moderate';
+  let al=ai<40?'AI-Consciousness Possible':ai>60?'AI-Consciousness Skeptic':'Agnostic';
+  return `${hl} · ${al}`;
+}
+function sciLabel(p){
+  const a=p.answers||{},r=a.sc_real??a.sci_realism??50;
+  let rl=r<40?'Scientific Realist':r>60?'Instrumentalist':'Moderate Realist';
+  const mMap={falsif:'Popperian',falsificationism:'Popperian',paradigm:'Kuhnian',lakatos:'Lakatosian',methodology:'Lakatosian',anarch:'Feyerabendian',anarchism:'Feyerabendian'};
+  return[rl,mMap[a.sc_meth||a.sci_method]].filter(Boolean).join(' · ');
+}
+function mnLabel(p){
+  const a=p.answers||{};
+  let src=a.mn_src||a.meaning_source;
+  if(src==='subj'&&a.ref_exist_type){src=a.ref_exist_type==='sartrean'?'Sartrean Existentialist':a.ref_exist_type==='heideggerian'?'Heideggerian Existentialist':a.ref_exist_type==='absurdist'?'Absurdist':'Situated Freedom';}
+  if(src==='natural'&&a.ref_natural_type){src=a.ref_natural_type==='objective_goods'?'Objective Naturalist':a.ref_natural_type==='evolutionary'?'Evolutionary Naturalist':a.ref_natural_type==='narrative'?'Narrative Naturalist':'Relational Naturalist';}
+  const sMap={obj:'Objective Meaning',objective_meaning:'Objective Meaning',subj:'Existentialist',subjective_meaning:'Existentialist',absurd:'Absurdist',absurdism:'Absurdist',natural:'Naturalist',naturalistic_meaning:'Naturalist',sartrean:'Sartrean Existentialist',heideggerian:'Heideggerian Existentialist',absurdist:'Absurdist','situated':'Situated Freedom',objective_goods:'Objective Naturalist',evolutionary:'Evolutionary Naturalist',narrative:'Narrative Naturalist',relational:'Relational Naturalist'};
+  const au=a.mn_auth??a.meaning_authenticity??50;
+  let al=au<40?'Authenticity-first':au>60?'Tradition-open':'Balanced';
+  let simNote='';
+  if(a.mn_sim_horn){simNote=a.mn_sim_horn==='extinct'?'Extinction First':a.mn_sim_horn==='no_interest'?'No Interest':'Sim Likely';}
+  if(a.mn_exp_why){simNote=simNote?simNote+` / ${a.mn_exp_why==='reality'?'Reality Matters':a.mn_exp_why==='achievement'?'Achievement Matters':'Relations Matter'}`:a.mn_exp_why==='reality'?'Reality Matters':a.mn_exp_why==='achievement'?'Achievement Matters':'Relations Matter';}
+  return[sMap[src],al,simNote].filter(Boolean).join(' · ');
+}
+
+// ===== Recompute labels for imported profiles that might use old keys =====
+function recomputeLabels(p){
+  if(!p.dimensions) p.dimensions={};
+  // Recompute dimension scores from answers if present
+  if(p.answers){
+    const sa=(keys)=>{let s=0,n=0;keys.forEach(k=>{if(p.answers[k]!==undefined){s+=p.answers[k];n++;}});return n?Math.round(s/n):null;};
+    // Try both old and new keys
+    const ethD=sa(['eth_cons','eth_virt','eth_care','eth_real','eth_motiv','eth_univ','eth_demand','eth_practice','ethics_consequentialism','ethics_virtue','ethics_care','meta_ethics_realism','ethics_motivation','ethics_universalism','ethics_demandingness']);
+    if(ethD!==null)p.dimensions.ethics=ethD;
+    const epD=sa(['ep_src','ep_skep','ep_intern','ep_test','ep_vat','ep_boltz','epist_source','epist_skepticism','epist_internalism','epist_testimony']);
+    if(epD!==null)p.dimensions.epistemology=epD;
+    const mD=sa(['m_abs','m_time','m_nec','meta_abstract','meta_time','meta_necessity']);
+    if(mD!==null)p.dimensions.metaphysics=mD;
+    const pD=sa(['p_lib','p_eq','p_demo','p_glob','pol_liberty','pol_equality','pol_democracy','pol_global']);
+    if(pD!==null)p.dimensions.political=pD;
+    const miD=sa(['mi_hard','mi_ai','mi_cr','mi_qual','mi_ext','mi_crazy','mi_snail','mind_hard_problem','mind_ai','mind_chinese_room','mind_qualia','mind_extended']);
+    if(miD!==null)p.dimensions.mind=miD;
+    const scD=sa(['sc_real','sc_ind','sc_val','sc_red','sci_realism','sci_induction','sci_values','sci_reduction']);
+    if(scD!==null)p.dimensions.science=scD;
+    const mnD=sa(['mn_auth','mn_death','mn_suff','mn_aes','mn_sim','meaning_authenticity','meaning_death','meaning_suffering','meaning_aesthetic']);
+    if(mnD!==null)p.dimensions.meaning=mnD;
+  }
+  p.labels=p.labels||{};
+  p.labels.ethics=ethLabel(p);p.labels.epistemology=epLabel(p);p.labels.metaphysics=metLabel(p);
+  p.labels.political=polLabel(p);p.labels.mind=mindLabel(p);p.labels.science=sciLabel(p);p.labels.meaning=mnLabel(p);
+  return p;
+}
+
+// ===== PROFILE =====
+function renderProfile(profile){
+  if(!profile){document.getElementById('noProfile').classList.remove('hidden');document.getElementById('profileContent').classList.add('hidden');return;}
+  document.getElementById('noProfile').classList.add('hidden');
+  const pc=document.getElementById('profileContent');pc.classList.remove('hidden');
+  // Recompute labels in case it's an imported profile with old keys
+  recomputeLabels(profile);
+
+  let h=`<div style="text-align:center;margin-bottom:24px;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.5em;">${profile.name}'s Profile</h2>
+    <p style="color:var(--text3);font-size:0.85em;">Completed ${profile.date}${profile.mode==='quick'?' · Quick mode':''}${roomName?' · Room: '+roomName:''}</p>
+    ${profile.sylvainTitle?`<div style="margin-top:12px;padding:10px 16px;background:rgba(139,124,247,0.08);border:1px solid rgba(139,124,247,0.15);border-radius:10px;font-size:0.88em;color:var(--accent2);">🧙 ${profile.sylvainTitle}</div>`:''}
+  </div>
+  <div class="radar-wrap"><canvas id="myRadar" width="480" height="480"></canvas></div>
+  <div class="results-grid">`;
+  Object.keys(DIMS).forEach(d=>{
+    const dim=DIMS[d],sc=profile.dimensions[d]||50,lb=profile.labels[d]||'';
+    h+=`<div class="r-card"><h4>${dim.icon} ${dim.label}</h4>
+      <div class="r-label">${lb.split('·')[0].trim()}</div>
+      <div class="r-detail">${lb.split('·').slice(1).join(' · ').trim()}</div>
+      <div class="r-bar"><div class="r-fill" style="width:${sc}%;background:${dim.color}"></div></div></div>`;
+  });
+  h+=`</div><div style="text-align:center;margin:24px 0;">
+    <button class="btn btn-secondary btn-small" onclick="exportProfile()">Export JSON</button>
+    <button class="btn btn-secondary btn-small" onclick="retake()">Retake Quiz</button></div>`;
+  pc.innerHTML=h;
+  setTimeout(()=>drawRadar('myRadar',[profile],false),80);
+}
+
+function exportProfile(){
+  if(!myProfile)return;
+  const j=JSON.stringify(myProfile,null,2);
+  const b=new Blob([j],{type:'application/json'});
+  const u=URL.createObjectURL(b);const a=document.createElement('a');
+  a.href=u;a.download=`philosophy-profile-${myProfile.name.toLowerCase().replace(/\s+/g,'-')}.json`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);
+  toast('Profile exported!');
+}
+
+function retake(){answers={};quizMode='full';document.getElementById('mode-full').classList.add('sel');document.getElementById('mode-quick').classList.remove('sel');document.getElementById('mode-thought').classList.remove('sel');document.getElementById('mode-refine').classList.remove('sel');document.getElementById('quizWelcome').classList.remove('hidden');document.getElementById('quizContent').classList.add('hidden');checkName();go('quiz');}
+
+// ===== RADAR =====
+function drawRadar(cid,profiles,legend){
+  const cv=document.getElementById(cid);if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height,cx=W/2,cy=H/2,R=Math.min(W,H)*0.34;
+  const dims=Object.keys(DIMS),n=dims.length,step=2*Math.PI/n,start=-Math.PI/2;
+  ctx.clearRect(0,0,W,H);
+  for(let l=1;l<=5;l++){const r=R*l/5;ctx.beginPath();for(let i=0;i<=n;i++){const a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;ctx.stroke();}
+  dims.forEach((d,i)=>{const a=start+i*step,x=cx+R*Math.cos(a),y=cy+R*Math.sin(a);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.stroke();const lx=cx+(R+28)*Math.cos(a),ly=cy+(R+28)*Math.sin(a);ctx.fillStyle='#a8a6b8';ctx.font='11px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(DIMS[d].icon+' '+DIMS[d].label,lx,ly);});
+  const cols=['rgba(139,124,247,','rgba(244,114,182,','rgba(52,211,153,','rgba(56,189,248,','rgba(251,191,36,','rgba(248,113,113,','rgba(247,178,103,','rgba(167,139,250,'];
+  profiles.forEach((p,pi)=>{const c=cols[pi%cols.length];ctx.beginPath();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]||50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fillStyle=c+'0.12)';ctx.fill();ctx.strokeStyle=c+'0.8)';ctx.lineWidth=2;ctx.stroke();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]||50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);ctx.beginPath();ctx.arc(x,y,4,0,2*Math.PI);ctx.fillStyle=c+'1)';ctx.fill();});});
+  if(legend&&profiles.length>1){let ly=16;profiles.forEach((p,i)=>{const c=cols[i%cols.length];ctx.fillStyle=c+'1)';ctx.fillRect(12,ly,12,12);ctx.fillStyle='#e8e6f0';ctx.font='12px Inter,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(p.name,30,ly+6);ly+=20;});}
+}
+
+// ===== TEAM =====
+async function renderTeam(){
+  const tc=document.getElementById('teamContent');
+  if(!roomId){tc.innerHTML=`<div class="card card-center"><h2>Join a Room First</h2><p>Go to Home and create/join a room to see team profiles.</p><button class="btn btn-primary" onclick="go('lobby')">Go Home →</button></div>`;return;}
+  let room;
+  try{room=await api('GET',`/rooms/${roomId}`);}catch(e){tc.innerHTML='<p>Error loading team data.</p>';return;}
+
+  // Recompute labels for all profiles (handles old-format imports)
+  room.profiles.forEach(p=>recomputeLabels(p));
+
+  const shareURL=location.origin+'?room='+roomId;
+  let h=`<div style="text-align:center;margin-bottom:20px;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.4em;">Team: ${room.name}</h2>
+    <p style="color:var(--text2);font-size:0.9em;">${room.profiles.length} member${room.profiles.length!==1?'s':''}</p>
+  </div>
+  <div class="share-box">
+    <p style="font-size:0.9em;font-weight:500;color:var(--text);">Share this link with your team:</p>
+    <div class="share-url" onclick="copyLink()" id="shareUrl">${shareURL}</div>
+    <button class="btn btn-small btn-secondary" onclick="copyLink()">📋 Copy Link</button>
+  </div>
+
+  <div class="import-zone" id="importZone" onclick="importFileClick()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="handleDrop(event)">
+    <div class="import-icon">📂</div>
+    <p><strong>Import a profile</strong></p>
+    <p style="font-size:0.8em;color:var(--text3);">Drop a JSON file here or click to browse.<br>Works with profiles from any version of the questionnaire.</p>
+  </div>
+  <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="handleImportFile(this.files)">`;
+
+  if(room.profiles.length===0){
+    h+=`<div class="card card-center" style="margin-top:16px;"><p>No profiles yet! Share the link above and have your team take the quiz.</p></div>`;
+  } else {
+    room.profiles.forEach((p,i)=>{
+      const isMe=myProfile&&p.name===myProfile.name;
+      h+=`<div class="t-member">
+        <div><div class="t-name">${p.name} ${isMe?'<span style="color:var(--accent);font-size:0.8em;">(you)</span>':''}${p.mode==='quick'?'<span class="badge-quick">Quick</span>':''}</div>
+        <div class="t-date">${p.date} · ${p.labels?.ethics?.split('·')[0]?.trim()||''}</div>
+        ${p.sylvainTitle?`<div style="font-size:0.78em;color:var(--accent2);margin-top:4px;font-style:italic;">🧙 ${p.sylvainTitle}</div>`:''}
+        </div>
+        <button class="btn btn-small btn-secondary" onclick="viewTeamMember(${i})">View</button>
+      </div>`;
+    });
+    if(room.profiles.length>=2){
+      h+=`<h3 style="font-family:'Cormorant Garamond',serif;margin:28px 0 14px;">Overlay Comparison</h3>
+        <div class="radar-wrap"><canvas id="teamRadar" width="560" height="560"></canvas></div>`;
+      h+=`<h3 style="font-family:'Cormorant Garamond',serif;margin:28px 0 14px;">Position Comparison</h3>
+        <div style="overflow-x:auto;"><table class="cmp-table"><tr><th>Dimension</th>`;
+      room.profiles.forEach(p=>{h+=`<th>${p.name}</th>`;});
+      h+=`</tr>`;
+      Object.keys(DIMS).forEach(d=>{
+        h+=`<tr><td>${DIMS[d].icon} ${DIMS[d].label}</td>`;
+        room.profiles.forEach(p=>{h+=`<td style="font-size:0.8em;">${p.labels?.[d]?.split('·')[0]?.trim()||'—'}</td>`;});
+        h+=`</tr>`;
+      });
+      h+=`</table></div>`;
+      h+=`<h3 style="font-family:'Cormorant Garamond',serif;margin:28px 0 14px;">Philosophical Distance</h3>
+        <p style="color:var(--text2);font-size:0.85em;margin-bottom:12px;">How far apart in philosophy-space? Lower = more aligned.</p>
+        <div style="overflow-x:auto;"><table class="cmp-table"><tr><th></th>`;
+      room.profiles.forEach(p=>{h+=`<th>${p.name}</th>`;});
+      h+=`</tr>`;
+      room.profiles.forEach((p1,i)=>{
+        h+=`<tr><td style="font-weight:500">${p1.name}</td>`;
+        room.profiles.forEach((p2,j)=>{
+          if(i===j){h+=`<td>—</td>`;return;}
+          const dist=philDist(p1,p2);
+          const col=dist<15?'var(--emerald)':dist<30?'var(--amber)':'var(--red)';
+          const lbl=dist<15?'Very aligned':dist<30?'Moderate':'Divergent';
+          h+=`<td><span class="dist-badge" style="background:${col}22;color:${col}">${dist.toFixed(1)} ${lbl}</span></td>`;
+        });
+        h+=`</tr>`;
+      });
+      h+=`</table></div>`;
+
+      // Central Node & Outlier Analysis
+      h+=`<h3 style="font-family:'Cormorant Garamond',serif;margin:28px 0 14px;">Central Nodes &amp; Outliers</h3>
+        <p style="color:var(--text2);font-size:0.85em;margin-bottom:14px;">Per dimension: who's closest to the group average (center) and who's most different (outlier).</p>`;
+      Object.keys(DIMS).forEach(d=>{
+        const scores=room.profiles.map(p=>({name:p.name,score:p.dimensions?.[d]||50,label:p.labels?.[d]||''}));
+        const avg=scores.reduce((s,p)=>s+p.score,0)/scores.length;
+        let center=scores[0],outlier=scores[0];
+        scores.forEach(p=>{
+          if(Math.abs(p.score-avg)<Math.abs(center.score-avg))center=p;
+          if(Math.abs(p.score-avg)>Math.abs(outlier.score-avg))outlier=p;
+        });
+        h+=`<div style="margin-bottom:12px;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius)">
+          <div style="font-size:0.78em;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px">${DIMS[d].icon} ${DIMS[d].label} <span style="float:right;font-style:italic;text-transform:none">avg: ${Math.round(avg)}</span></div>
+          <div class="cn-grid">
+            <div class="cn-card cn-center"><h5>🎯 Center</h5><div class="cn-name">${center.name}</div><div class="cn-dist">Δ${Math.round(Math.abs(center.score-avg))} from avg · ${center.label.split('·')[0].trim()}</div></div>
+            <div class="cn-card cn-outlier"><h5>🌀 Outlier</h5><div class="cn-name">${outlier.name}</div><div class="cn-dist">Δ${Math.round(Math.abs(outlier.score-avg))} from avg · ${outlier.label.split('·')[0].trim()}</div></div>
+          </div></div>`;
+      });
+    }
+  }
+  tc.innerHTML=h;
+  if(room.profiles.length>=2)setTimeout(()=>drawRadar('teamRadar',room.profiles,true),80);
+  window._teamProfiles=room.profiles;
+}
+
+function philDist(a,b){const ds=Object.keys(DIMS);let s=0;ds.forEach(d=>{const diff=(a.dimensions?.[d]||50)-(b.dimensions?.[d]||50);s+=diff*diff;});return Math.sqrt(s/ds.length);}
+function viewTeamMember(i){const p=window._teamProfiles?.[i];if(p){myProfile=p;go('profile');}}
+function copyLink(){const url=document.getElementById('shareUrl')?.textContent;if(url)navigator.clipboard.writeText(url).then(()=>toast('Link copied!')).catch(()=>toast('Copy the URL above'));}
+
+// ===== JSON IMPORT =====
+function importFileClick(){document.getElementById('importFileInput').click();}
+function handleDrop(e){
+  e.preventDefault();e.currentTarget.classList.remove('dragover');
+  if(e.dataTransfer.files.length)handleImportFile(e.dataTransfer.files);
+}
+async function handleImportFile(files){
+  if(!files||!files.length)return;
+  if(!roomId){toast('Join a room first!');return;}
+  const file=files[0];
+  try{
+    const text=await file.text();
+    const data=JSON.parse(text);
+    const profiles=Array.isArray(data)?data:[data];
+    let count=0;
+    for(const raw of profiles){
+      if(!raw.name){toast('Profile missing name — skipped');continue;}
+      // Recompute dimensions and labels for compatibility
+      const p=recomputeLabels(raw);
+      if(!p.date)p.date=new Date().toISOString().split('T')[0];
+      try{
+        await api('POST',`/rooms/${roomId}/profiles`,p);
+        count++;
+      }catch(e){toast(`Error saving ${p.name}`);}
+    }
+    toast(`Imported ${count} profile${count!==1?'s':''}!`);
+    renderTeam();
+  }catch(e){toast('Error: could not parse JSON file');}
+  document.getElementById('importFileInput').value='';
+}
+
+// ===== SHOWDOWN HELPERS =====
+function updateChallengeBadge(){
+  const myName=localStorage.getItem('phil_name_'+roomId)||'';
+  const pending=roomChallenges.filter(c=>c.to.toLowerCase()===myName.toLowerCase()&&c.status==='pending');
+  const tabs=document.querySelectorAll('.nav-tab');
+  const showdownTab=tabs[3];
+  if(pending.length>0){
+    showdownTab.setAttribute('data-count',pending.length);
+    showdownTab.classList.add('challenge-badge');
+  }else{
+    showdownTab.removeAttribute('data-count');
+    showdownTab.classList.remove('challenge-badge');
+  }
+}
+
+function findCleavageQuestions(profileA,profileB){
+  const dims=Object.keys(DIMS);
+  const distances=dims.map(d=>({
+    dim:d,
+    dist:Math.abs((profileA.dimensions[d]||50)-(profileB.dimensions[d]||50))
+  })).sort((a,b)=>a.dist-b.dist);
+  const alignedDims=distances.slice(0,3).map(x=>x.dim);
+
+  const refQs=[];
+  QS.forEach(q=>{
+    if(!q.id.startsWith('ref_'))return;
+    if(!alignedDims.includes(q.dim))return;
+    // SKIP if challenger already answered this question
+    if(profileA.answers&&profileA.answers[q.id]!==undefined)return;
+    if(q.refines&&q.refines.check){
+      const checkA=q.refines.check(profileA.answers||{});
+      const checkB=q.refines.check(profileB.answers||{});
+      if(checkA&&checkB)refQs.push(q);
+    }
+  });
+
+  if(refQs.length>=3)return refQs.slice(0,5);
+
+  // Fallback: also consider questions from ANY aligned dimension, not just top 3
+  const allAligned=distances.filter(d=>d.dist<25).map(x=>x.dim);
+  QS.forEach(q=>{
+    if(!q.id.startsWith('ref_'))return;
+    if(!allAligned.includes(q.dim))return;
+    if(profileA.answers&&profileA.answers[q.id]!==undefined)return;
+    if(refQs.find(r=>r.id===q.id))return; // avoid duplicates
+    if(q.refines&&q.refines.check){
+      const checkA=q.refines.check(profileA.answers||{});
+      const checkB=q.refines.check(profileB.answers||{});
+      if(checkA&&checkB)refQs.push(q);
+    }
+  });
+
+  return refQs.slice(0,5);
+}
+
+function renderChallengeResult(challenge){
+  let h=`<div class="challenge-completed"><h3>Challenge Results</h3><p style="color:var(--text2);margin-bottom:16px;">From <strong>${challenge.from}</strong> vs <strong>${challenge.to}</strong></p>`;
+
+  const qMap={};
+  QS.forEach(q=>{qMap[q.id]=q;});
+
+  challenge.questions.forEach(qId=>{
+    const q=qMap[qId];
+    if(!q)return;
+
+    const ansA=challenge.fromAnswers?.[qId];
+    const ansB=challenge.toAnswers?.[qId];
+    const same=ansA===ansB;
+
+    h+=`<div class="challenge-q"><div style="font-weight:600;margin-bottom:8px;">${q.text}</div>`;
+
+    if(q.type==='slider'){
+      h+=`<div class="challenge-diff">
+        <div>
+          <div class="cd-name">${challenge.from}</div>
+          <div class="cd-answer">${ansA||'—'}</div>
+        </div>
+        <div class="cd-vs ${same?'cd-same':''}">${same?'=':'≠'}</div>
+        <div style="text-align:right;">
+          <div class="cd-name">${challenge.to}</div>
+          <div class="cd-answer">${ansB||'—'}</div>
+        </div>
+      </div>`;
+    }else if(q.type==='choice'){
+      const optA=q.options?.find(o=>o.v===ansA);
+      const optB=q.options?.find(o=>o.v===ansB);
+      h+=`<div class="challenge-diff">
+        <div>
+          <div class="cd-name">${challenge.from}</div>
+          <div class="cd-answer">${optA?.l||'—'}</div>
+        </div>
+        <div class="cd-vs ${same?'cd-same':''}">${same?'=':'≠'}</div>
+        <div style="text-align:right;">
+          <div class="cd-name">${challenge.to}</div>
+          <div class="cd-answer">${optB?.l||'—'}</div>
+        </div>
+      </div>`;
+    }
+
+    h+=`</div>`;
+  });
+
+  h+=`</div>`;
+  return h;
+}
+
+// ===== SHOWDOWN =====
+async function renderShowdown(){
+  const sc=document.getElementById('showdownContent');
+  if(!roomId){sc.innerHTML=`<div class="card card-center"><h2>Join a Room First</h2><p>Go to Home and create/join a room to use Showdown.</p><button class="btn btn-primary" onclick="go('lobby')">Go Home →</button></div>`;return;}
+
+  let room;
+  try{room=await api('GET',`/rooms/${roomId}`);}catch(e){sc.innerHTML='<p>Error loading room data.</p>';return;}
+  if(room.profiles.length<2){sc.innerHTML=`<div class="card card-center"><h2>Need at least 2 profiles</h2><p>Invite another team member to use Showdown.</p></div>`;return;}
+
+  room.profiles.forEach(p=>recomputeLabels(p));
+  const myName=localStorage.getItem('phil_name_'+roomId)||'';
+
+  let h=`<div style="text-align:center;margin-bottom:24px;"><h2 style="font-family:'Cormorant Garamond',serif;font-size:1.4em;">⚔️ Philosophical Showdown</h2><p style="color:var(--text2);font-size:0.9em;">Challenge teammates to philosophical duels</p></div>`;
+
+  // Show pending challenges for the current user
+  const myPending=roomChallenges.filter(c=>c.to.toLowerCase()===myName.toLowerCase()&&c.status==='pending');
+  if(myPending.length>0){
+    myPending.forEach(ch=>{
+      h+=`<div class="challenge-pending">
+        <h3>⚔️ Challenge from ${ch.from}</h3>
+        <p style="color:var(--text2);margin-bottom:16px;">They've challenged you to a philosophical showdown! Answer their questions to see where you really differ.</p>
+        <button class="btn btn-primary" onclick="respondToChallenge('${ch.id}')">Answer Challenge →</button>
+      </div>`;
+    });
+  }
+
+  // Show completed challenges
+  const myCompleted=roomChallenges.filter(c=>(c.from.toLowerCase()===myName.toLowerCase()||c.to.toLowerCase()===myName.toLowerCase())&&c.status==='completed');
+  if(myCompleted.length>0){
+    h+=`<h3 style="font-family:'Cormorant Garamond',serif;margin:24px 0 16px;">Completed Challenges</h3>`;
+    myCompleted.forEach(ch=>{
+      h+=renderChallengeResult(ch);
+    });
+  }
+
+  // Start new challenge section
+  h+=`<h3 style="font-family:'Cormorant Garamond',serif;margin:24px 0 16px;">Start a New Challenge</h3>`;
+  h+=`<div class="showdown-picker" style="max-width:500px;margin:0 auto 24px;">
+    <label class="input-label">Choose opponent:</label>
+    <select id="challengeTarget">
+      <option value="">Pick a teammate...</option>`;
+  room.profiles.forEach(p=>{
+    if(p.name.toLowerCase()!==myName.toLowerCase()){
+      h+=`<option value="${p.name}">${p.name}</option>`;
+    }
+  });
+  h+=`</select>
+    <button class="btn btn-primary" style="width:100%;margin-top:12px;" onclick="initiateChallenge()">Next →</button>
+  </div>`;
+
+  sc.innerHTML=h;
+  window._roomProfiles=room.profiles;
+}
+
+async function initiateChallenge(){
+  const targetName=document.getElementById('challengeTarget').value;
+  if(!targetName){toast('Pick an opponent!');return;}
+  const opponent=window._roomProfiles.find(p=>p.name===targetName);
+  if(!opponent){toast('Opponent not found');return;}
+  const myName=localStorage.getItem('phil_name_'+roomId)||'';
+
+  const cleavageQs=findCleavageQuestions(myProfile,opponent);
+  if(cleavageQs.length<2){toast('Not enough aligned dimensions to create a challenge. Try someone more different!');return;}
+
+  window._challengeQs=cleavageQs;
+  window._challengeOpponent=targetName;
+  window._challengeAnswers={};
+
+  // Show the challenge questions
+  const sc=document.getElementById('showdownContent');
+  let h=`<div style="margin-bottom:24px;">
+    <button class="btn btn-secondary" onclick="renderShowdown()" style="margin-bottom:16px;">← Back</button>
+    <h3 style="font-family:'Cormorant Garamond',serif;">Challenge ${targetName}</h3>
+    <p style="color:var(--text2);margin-bottom:16px;">Answer these questions about your philosophy. Once you submit, ${targetName} will see them and answer the same questions.</p>
+  </div>`;
+
+  cleavageQs.forEach((q,i)=>{
+    h+=`<div class="q-card">
+      <div class="q-num">Q${i+1}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="q-desc">${q.desc}</div>`;
+
+    if(q.type==='slider'){
+      const val=50;
+      h+=`<div style="margin-top:16px;">
+        <input type="range" min="0" max="100" value="${val}" class="slider" id="ans_${q.id}" onchange="window._challengeAnswers['${q.id}']=+this.value">
+        <div style="display:flex;justify-content:space-between;font-size:0.8em;color:var(--text2);margin-top:4px;">
+          <span>${q.left}</span>
+          <span id="val_${q.id}" style="font-weight:600;">${val}</span>
+          <span>${q.right}</span>
+        </div>
+      </div>`;
+      const elem=document.getElementById(`ans_${q.id}`);
+      if(elem)elem.addEventListener('input',e=>{document.getElementById(`val_${q.id}`).textContent=e.target.value;});
+    }else if(q.type==='choice'){
+      h+=`<div style="margin-top:12px;">`;
+      q.options.forEach(opt=>{
+        h+=`<label style="display:block;margin:8px 0;cursor:pointer;">
+          <input type="radio" name="ans_${q.id}" value="${opt.v}" onchange="window._challengeAnswers['${q.id}']='${opt.v}'"> ${opt.l}
+        </label>`;
+      });
+      h+=`</div>`;
+    }
+
+    h+=`</div>`;
+  });
+
+  h+=`<div style="text-align:center;margin:32px 0;">
+    <button class="btn btn-primary" onclick="submitChallenge('${targetName}')">Submit Challenge →</button>
+  </div>`;
+
+  sc.innerHTML=h;
+}
+
+async function submitChallenge(opponentName){
+  const cleavageQs=window._challengeQs||[];
+  const myName=localStorage.getItem('phil_name_'+roomId)||'';
+
+  const fromAnswers={};
+  cleavageQs.forEach(q=>{fromAnswers[q.id]=window._challengeAnswers[q.id];});
+
+  // Check all questions answered
+  const unanswered=cleavageQs.filter(q=>fromAnswers[q.id]===undefined);
+  if(unanswered.length>0){toast('Answer all questions first!');return;}
+
+  // Save challenge
+  try{
+    await api('POST',`/rooms/${roomId}/challenges`,{
+      from:myName,
+      to:opponentName,
+      dimensions:[],
+      questions:cleavageQs.map(q=>q.id),
+      fromAnswers:fromAnswers
+    });
+
+    // Merge new answers into main profile
+    Object.assign(answers,window._challengeAnswers);
+    if(myProfile){
+      Object.assign(myProfile.answers,window._challengeAnswers);
+      // Recompute and save profile
+      await saveUpdatedProfile();
+    }
+
+    toast(`Challenge sent to ${opponentName}!`);
+    await loadChallenges();
+    renderShowdown();
+  }catch(e){
+    toast('Error sending challenge');
+  }
+}
+
+async function respondToChallenge(challengeId){
+  const challenge=roomChallenges.find(c=>c.id===challengeId);
+  if(!challenge){toast('Challenge not found');return;}
+
+  const qMap={};
+  QS.forEach(q=>{qMap[q.id]=q;});
+
+  const sc=document.getElementById('showdownContent');
+  let h=`<div style="margin-bottom:24px;">
+    <button class="btn btn-secondary" onclick="renderShowdown()" style="margin-bottom:16px;">← Back</button>
+    <h3 style="font-family:'Cormorant Garamond',serif;">Respond to ${challenge.from}'s Challenge</h3>
+    <p style="color:var(--text2);margin-bottom:16px;">Answer the same questions ${challenge.from} answered. Your responses will be compared.</p>
+  </div>`;
+
+  challenge.questions.forEach((qId,i)=>{
+    const q=qMap[qId];
+    if(!q)return;
+
+    h+=`<div class="q-card">
+      <div class="q-num">Q${i+1}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="q-desc">${q.desc}</div>`;
+
+    if(q.type==='slider'){
+      const val=answers[q.id]||50;
+      h+=`<div style="margin-top:16px;">
+        <input type="range" min="0" max="100" value="${val}" class="slider" id="ans_${q.id}" onchange="answers['${q.id}']=this.value">
+        <div style="display:flex;justify-content:space-between;font-size:0.8em;color:var(--text2);margin-top:4px;">
+          <span>${q.left}</span>
+          <span id="val_${q.id}" style="font-weight:600;">${val}</span>
+          <span>${q.right}</span>
+        </div>
+      </div>`;
+      const elem=document.getElementById(`ans_${q.id}`);
+      if(elem)elem.addEventListener('input',e=>{document.getElementById(`val_${q.id}`).textContent=e.target.value;});
+    }else if(q.type==='choice'){
+      h+=`<div style="margin-top:12px;">`;
+      q.options.forEach(opt=>{
+        const checked=answers[q.id]===opt.v?'checked':'';
+        h+=`<label style="display:block;margin:8px 0;cursor:pointer;">
+          <input type="radio" name="ans_${q.id}" value="${opt.v}" ${checked} onchange="answers['${q.id}']='${opt.v}'"> ${opt.l}
+        </label>`;
+      });
+      h+=`</div>`;
+    }
+
+    h+=`</div>`;
+  });
+
+  h+=`<div style="text-align:center;margin:32px 0;">
+    <button class="btn btn-primary" onclick="submitChallengeResponse('${challengeId}')">Submit Response →</button>
+  </div>`;
+
+  sc.innerHTML=h;
+}
+
+async function submitChallengeResponse(challengeId){
+  const challenge=roomChallenges.find(c=>c.id===challengeId);
+  if(!challenge){toast('Challenge not found');return;}
+
+  const toAnswers={};
+  challenge.questions.forEach(qId=>{toAnswers[qId]=window._challengeAnswers[qId];});
+
+  try{
+    await api('POST',`/rooms/${roomId}/challenges/${challengeId}/respond`,{
+      answers:toAnswers
+    });
+
+    // Merge into main profile
+    Object.assign(answers,window._challengeAnswers);
+    if(myProfile){
+      Object.assign(myProfile.answers,window._challengeAnswers);
+      await saveUpdatedProfile();
+    }
+
+    toast('Response submitted!');
+    await loadChallenges();
+    renderShowdown();
+  }catch(e){
+    toast('Error submitting response');
+  }
+}
+
+// ===== NAV =====
+function go(view){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('v-'+view).classList.add('active');
+  const tabs=['lobby','quiz','profile','showdown','team','sylvain'];
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>{t.classList.toggle('active',tabs[i]===view);});
+  if(view==='profile')renderProfile(myProfile);
+  if(view==='showdown')renderShowdown();
+  if(view==='team')renderTeam();
+  if(view==='sylvain')renderSylvain();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// ===== SYLVAIN =====
+function generateSylvainTitle(me, syl){
+  const a = me.answers || {};
+  const sa = syl.answers || {};
+
+  let traits = [];
+  let quirks = [];
+
+  // Ethics
+  const ethScore = a.eth_cons ?? a.ethics_consequentialism ?? 50;
+  if(ethScore < 30) traits.push('consequences-obsessed');
+  else if(ethScore > 70) traits.push('rules-are-rules');
+  else if((a.eth_virt??50) > 65) traits.push('virtue-signaling (literally)');
+  else if((a.eth_care??50) > 65) traits.push('care-bear');
+
+  // Mind
+  if(a.m_mind === 'panpsy') quirks.push('everything-is-conscious-even-rocks');
+  else if(a.m_mind === 'physic') quirks.push('nothing-but-atoms');
+  else if(a.m_mind === 'dual') quirks.push('ghost-in-the-machine');
+  else if(a.m_mind === 'func') quirks.push('we\'re-all-just-software');
+
+  // Free will
+  if(a.m_fw === 'hard_det') quirks.push('nobody-chose-anything-ever');
+  else if(a.m_fw === 'skep_fw') quirks.push('free-will-is-a-lie');
+  else if(a.m_fw === 'compat') quirks.push('free-will-but-with-an-asterisk');
+  else if(a.m_fw === 'lib_fw') quirks.push('radically-free');
+
+  // Epistemology
+  if((a.ep_src??50) > 70) quirks.push('show-me-the-data');
+  else if((a.ep_src??50) < 30) quirks.push('I-think-therefore');
+
+  // Meaning
+  if(a.mn_src === 'subj') traits.push('meaning-maker');
+  else if(a.mn_src === 'absurd') traits.push('absurdist-rebel');
+  else if(a.mn_src === 'obj') traits.push('meaning-is-out-there');
+  else if(a.mn_src === 'natural') traits.push('nature-has-a-plan');
+
+  // Simulation theory
+  if((a.mn_sim??50) > 70) quirks.push('probably-a-simulation');
+
+  // Experience machine
+  if(a.mn_exp === 'plug_yes') quirks.push('plug-me-in');
+  else if(a.mn_exp === 'plug_no') quirks.push('reality-purist');
+
+  // Political
+  if((a.p_lib??50) > 70) quirks.push('don\'t-tread-on-me');
+  else if((a.p_lib??50) < 30) quirks.push('it-takes-a-village');
+
+  // Schwitzgebel
+  if((a.eth_practice??50) > 65) quirks.push('ethicists-are-hypocrites');
+  if((a.mi_crazy??50) > 65) quirks.push('even-consciousness-is-weird');
+  if((a.mi_snail??50) > 65) quirks.push('snails-have-feelings-too');
+
+  // Meta-ethics
+  if((a.eth_real??50) < 40) quirks.push('morality-is-fake');
+
+  // Skepticism
+  if((a.ep_skeptic??50) > 70) quirks.push('maybe-not-even-real');
+
+  // Science realism
+  if((a.sci_real??50) > 70) quirks.push('atoms-are-real-deal-with-it');
+  else if((a.sci_real??50) < 30) quirks.push('science-is-just-stories');
+
+  // Eliminativism
+  if((a.mi_elim??50) > 65) quirks.push('beliefs-don\'t-exist');
+
+  // Boltzmann brains
+  if((a.mn_boltz??50) > 65) quirks.push('statistically-improbable');
+
+  // Build the title
+  const mainTrait = traits[0] || quirks[0] || 'philosophically-confused';
+  const secondaryQuirk = quirks[1] || quirks[0] || traits[1] || '';
+
+  const templates = [
+    `The Grumpy, ${mainTrait} Sylvain`,
+    `A Grumpy ${mainTrait}${secondaryQuirk ? ', '+secondaryQuirk : ''} Sylvain`,
+    `The Grumpiest ${mainTrait} Sylvain in the Room`,
+    `Grumpy Sylvain, But Make It ${mainTrait}`,
+    `The ${mainTrait}, Perpetually Grumpy Sylvain`,
+  ];
+
+  return templates[Math.floor(Math.random() * templates.length)];
+}
+
+function renderSylvain(){
+  const sc = document.getElementById('sylvainContent');
+
+  // Find Sylvain
+  const sylProfile = roomProfiles.find(p=>p.name.toLowerCase()==='sylvain');
+  if(!sylProfile){
+    sc.innerHTML=`<div class="card card-center"><h2>Where's Sylvain?</h2><p>Sylvain hasn't joined this room yet. Bug them to take the quiz!</p></div>`;
+    return;
+  }
+
+  if(!myProfile){
+    sc.innerHTML=`<div class="card card-center"><h2>Who Are You?</h2><p>Take the quiz first to discover which Sylvain you are.</p><button class="btn btn-primary" onclick="go('quiz')">Take Quiz →</button></div>`;
+    return;
+  }
+
+  const title = generateSylvainTitle(myProfile, sylProfile);
+
+  // Find agreements and differences
+  let agreements = [], differences = [];
+  const DIMS = {
+    ethics:{label:'Ethics',icon:'⚖️'},
+    epistemology:{label:'Epistemology',icon:'🔭'},
+    metaphysics:{label:'Metaphysics',icon:'🌌'},
+    political:{label:'Political',icon:'🏛️'},
+    mind:{label:'Mind',icon:'🧠'},
+    science:{label:'Science',icon:'🔬'},
+    meaning:{label:'Meaning',icon:'✨'}
+  };
+
+  Object.keys(DIMS).forEach(d=>{
+    const myScore = myProfile.dimensions?.[d] || 50;
+    const sylScore = sylProfile.dimensions?.[d] || 50;
+    const diff = Math.abs(myScore - sylScore);
+    const myLabel = myProfile.labels?.[d] || '';
+    const sylLabel = sylProfile.labels?.[d] || '';
+    const item = {dim:d, icon:DIMS[d].icon, label:DIMS[d].label, myScore, sylScore, diff, myLabel, sylLabel};
+    if(diff < 15) agreements.push(item);
+    else differences.push(item);
+  });
+
+  differences.sort((a,b)=>b.diff-a.diff);
+
+  // Render
+  let h = `<div class="card card-center" style="padding:36px;">
+    <div style="font-size:4em;margin-bottom:12px;">🧙</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.8em;line-height:1.3;margin-bottom:16px;">${title}</h2>
+    <p style="color:var(--text2);font-size:0.92em;">Based on your philosophical profile compared to the one and only Sylvain</p>
+    <button class="btn btn-small btn-secondary" style="margin-top:16px;" onclick="renderSylvain()">🎲 Regenerate</button>
+  </div>`;
+
+  // Fun description based on biggest difference
+  if(differences.length > 0){
+    const biggest = differences[0];
+    h += `<div class="card" style="border-left:3px solid var(--rose);">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.2em;margin-bottom:12px;">${biggest.icon} Your Biggest Grumpy Disagreement</h3>
+      <p style="color:var(--text2);font-size:0.9em;margin-bottom:8px;">In <strong>${biggest.label}</strong>, you and Sylvain are ${biggest.diff} points apart.</p>
+      <div class="challenge-diff">
+        <div><div class="cd-name">You</div><div class="cd-answer">${biggest.myLabel}</div></div>
+        <div class="cd-vs">vs</div>
+        <div style="text-align:right"><div class="cd-name">Sylvain</div><div class="cd-answer">${biggest.sylLabel}</div></div>
+      </div>
+    </div>`;
+  }
+
+  // Agreements
+  if(agreements.length > 0){
+    h += `<div class="card" style="border-left:3px solid var(--emerald);">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.2em;margin-bottom:12px;">🤝 Where You're Both Grumpy Together</h3>`;
+    agreements.forEach(a=>{
+      h += `<div style="padding:8px 0;border-bottom:1px solid var(--border);">
+        <div style="font-weight:500;">${a.icon} ${a.label}</div>
+        <div style="font-size:0.82em;color:var(--text2);">You: ${a.myLabel}</div>
+        <div style="font-size:0.82em;color:var(--text2);">Sylvain: ${a.sylLabel}</div>
+      </div>`;
+    });
+    h += `</div>`;
+  }
+
+  // Differences
+  if(differences.length > 1){
+    h += `<div class="card" style="border-left:3px solid var(--rose);">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.2em;margin-bottom:12px;">😤 Where You Out-Grump Sylvain</h3>`;
+    differences.forEach(d=>{
+      const barWidth = Math.min(d.diff, 100);
+      h += `<div style="padding:10px 0;border-bottom:1px solid var(--border);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-weight:500;">${d.icon} ${d.label}</span>
+          <span style="font-size:0.78em;color:var(--rose);">${d.diff}pt gap</span>
+        </div>
+        <div style="font-size:0.82em;color:var(--text2);">You: ${d.myLabel}</div>
+        <div style="font-size:0.82em;color:var(--text2);">Sylvain: ${d.sylLabel}</div>
+        <div style="height:4px;background:var(--bg3);border-radius:2px;margin-top:6px;overflow:hidden;">
+          <div style="height:100%;width:${barWidth}%;background:linear-gradient(90deg,var(--rose),var(--warm));border-radius:2px;"></div>
+        </div>
+      </div>`;
+    });
+    h += `</div>`;
+  }
+
+  // Fun philosophical soul-distance
+  const totalDist = Object.keys(myProfile.dimensions||{}).reduce((s,d)=>s+Math.pow((myProfile.dimensions[d]||50)-(sylProfile.dimensions[d]||50),2),0);
+  const soulDist = Math.round(Math.sqrt(totalDist));
+  h += `<div class="card card-center">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:2.5em;font-weight:700;background:linear-gradient(135deg,var(--accent2),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0;">${soulDist}</div>
+    <p style="color:var(--text2);font-size:0.88em;">Philosophical Distance from Sylvain</p>
+    <p style="color:var(--text3);font-size:0.78em;margin-top:4px;">${soulDist < 20 ? "You're basically Sylvain with a different face." : soulDist < 40 ? "Close enough to argue at the same dinner table." : soulDist < 60 ? "Sylvain would grumpily disagree with you on several key points." : soulDist < 80 ? "You and Sylvain are from different philosophical planets." : "You are the anti-Sylvain. Grumpily."}</p>
+  </div>`;
+
+  // Show everyone's Sylvain titles
+  const profilesWithTitles = roomProfiles.filter(p => p.sylvainTitle);
+  if(profilesWithTitles.length > 0){
+    h += `<div class="card"><h3 style="font-family:'Cormorant Garamond',serif;margin-bottom:16px;">🧙 The Grumpy Roster</h3>`;
+    profilesWithTitles.forEach(p => {
+      h += `<div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:500;">${p.name}</span>
+        <span style="font-size:0.85em;color:var(--accent2);">${p.sylvainTitle}</span>
+      </div>`;
+    });
+    h += `</div>`;
+  }
+
+  sc.innerHTML = h;
+}
+</script>
+</body>
+</html>

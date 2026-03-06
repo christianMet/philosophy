@@ -1,0 +1,12 @@
+{
+  "name": "philosophy-profiler",
+  "version": "1.0.0",
+  "description": "Map your team's philosophical commitments and compare positions",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
