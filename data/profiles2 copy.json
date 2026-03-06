@@ -403,7 +403,7 @@
             "meaning": "Authenticity-first"
           },
           "mode": "refine",
-          "sylvainTitle": "Grumpy Sylvain, But Make It consequences-obsessed"
+          "sylvainTitle": "The Grumpiest consequences-obsessed Sylvain in the Room"
         },
         {
           "name": "Christian",
@@ -672,113 +672,6 @@
             "mind": "Optimist · AI-Consciousness Possible",
             "science": "Instrumentalist · Kuhnian",
             "meaning": "Existentialist · Tradition-open"
-          },
-          "mode": "full"
-        },
-        {
-          "name": "Ato",
-          "date": "2026-03-05",
-          "answers": {
-            "eth_cons": 32,
-            "eth_virt": 68,
-            "eth_real": 32,
-            "ep_src": 35,
-            "m_time": 63,
-            "p_lib": 83,
-            "mi_hard": 35,
-            "mi_ai": 64,
-            "sc_real": 35,
-            "mn_auth": 72,
-            "ep_struct": "cohere",
-            "ep_truth": "coh_tr",
-            "m_fw": "compat",
-            "m_mind": "func",
-            "p_just": "capab",
-            "sc_meth": "lakatos",
-            "mn_src": "natural"
-          },
-          "dimensions": {
-            "ethics": 44,
-            "epistemology": 35,
-            "metaphysics": 63,
-            "political": 83,
-            "mind": 50,
-            "science": 35,
-            "meaning": 72
-          },
-          "labels": {
-            "ethics": "Consequentialist  · Moral Anti-Realist",
-            "epistemology": "Rationalist · Coherentist · Coherence",
-            "metaphysics": "Compatibilist · Functionalist",
-            "political": "Community-first · Capabilities",
-            "mind": "Mysterian · AI-Consciousness Skeptic",
-            "science": "Scientific Realist · Lakatosian",
-            "meaning": "Naturalist · Tradition-open"
-          },
-          "mode": "quick"
-        },
-        {
-          "name": "Caro",
-          "date": "2026-03-05",
-          "answers": {
-            "eth_cons": 22,
-            "eth_virt": 100,
-            "eth_care": 77,
-            "eth_real": 69,
-            "eth_motiv": 40,
-            "eth_univ": 28,
-            "eth_demand": 23,
-            "ep_src": 50,
-            "ep_skep": 91,
-            "ep_intern": 83,
-            "ep_test": 57,
-            "m_abs": 34,
-            "m_time": 19,
-            "m_nec": 40,
-            "p_lib": 93,
-            "p_eq": 34,
-            "p_demo": 6,
-            "p_glob": 23,
-            "mi_hard": 2,
-            "mi_ai": 74,
-            "mi_cr": 78,
-            "mi_qual": 3,
-            "mi_ext": 51,
-            "sc_real": 88,
-            "sc_ind": 17,
-            "sc_val": 87,
-            "sc_red": 89,
-            "mn_auth": 12,
-            "mn_death": 10,
-            "mn_suff": 84,
-            "mn_aes": 19,
-            "eth_util": "hedonistic",
-            "ep_struct": "virtue",
-            "m_fw": "compat",
-            "m_mind": "dual",
-            "m_id": "psych",
-            "p_just": "util_j",
-            "sc_meth": "paradigm",
-            "mn_src": "natural",
-            "ep_truth": "corresp"
-          },
-          "dimensions": {
-            "ethics": 51,
-            "epistemology": 70,
-            "metaphysics": 31,
-            "political": 39,
-            "mind": 42,
-            "science": 70,
-            "meaning": 31
-          },
-          "labels": {
-            "ethics": "Consequentialist (Hedonistic Utilitarian) · Moral Realist",
-            "epistemology": "Balanced · Virtue Epistemologist · Correspondence",
-            "metaphysics": "Compatibilist · Property Dualist · Psych. Continuity",
-            "political": "Community-first · Utilitarian",
-            "mind": "Mysterian · AI-Consciousness Skeptic",
-            "science": "Instrumentalist · Kuhnian",
-            "meaning": "Naturalist · Authenticity-first"
           },
           "mode": "full"
         }

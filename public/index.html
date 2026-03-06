@@ -353,6 +353,20 @@
   .cn-card .cn-dist{font-size:0.78em;color:var(--text2)}
   .cn-card.cn-center{border-left:3px solid var(--emerald)}
   .cn-card.cn-outlier{border-left:3px solid var(--rose)}
+  .phil-section { margin:28px 0; padding:24px; background:linear-gradient(135deg,var(--surface) 0%,rgba(139,124,247,0.04) 100%); border-radius:var(--radius); border:1px solid var(--border); }
+  .phil-section h3 { font-family:'Cormorant Garamond',serif; font-size:1.25em; margin-bottom:16px; text-align:center; color:var(--text1); }
+  .phil-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+  .phil-card { padding:20px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); text-align:center; transition:all 0.3s ease; }
+  .phil-card:hover { border-color:var(--accent); box-shadow:0 4px 16px rgba(139,124,247,0.1); }
+  .phil-photo { width:80px; height:80px; border-radius:50%; object-fit:cover; margin:0 auto 12px; display:block; border:2px solid var(--border); background:var(--surface); }
+  .phil-photo-fallback { width:80px; height:80px; border-radius:50%; margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:2.5em; background:var(--surface); border:2px solid var(--border); }
+  .phil-name { font-family:'Cormorant Garamond',serif; font-size:1.2em; font-weight:600; color:var(--text1); }
+  .phil-period { font-size:0.75em; color:var(--text3); margin-bottom:10px; }
+  .phil-reason { font-size:0.82em; color:var(--text2); margin-bottom:14px; line-height:1.5; font-style:italic; }
+  .phil-match-pct { font-size:0.75em; color:var(--accent2); margin-bottom:10px; }
+  .phil-links { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+  .phil-link { display:inline-flex; align-items:center; gap:4px; padding:5px 10px; font-size:0.75em; background:rgba(139,124,247,0.08); border:1px solid var(--border); border-radius:6px; color:var(--accent2); text-decoration:none; transition:all 0.2s; }
+  .phil-link:hover { background:rgba(139,124,247,0.18); border-color:var(--accent); }
 </style>
 </head>
 <body>
@@ -1297,6 +1311,302 @@ const DIMS = {
   meaning:{label:"Meaning",color:"#f7b267",icon:"🌅"},
 };
 
+const PHILOSOPHERS = [
+  {
+    name:"John Stuart Mill", period:"1806–1873",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/John_Stuart_Mill_by_London_Stereoscopic_Company%2C_c1870.jpg/220px-John_Stuart_Mill_by_London_Stereoscopic_Company%2C_c1870.jpg",
+    dims:{ethics:15,epistemology:75,metaphysics:45,political:72,mind:40,science:55,meaning:50},
+    tags:["Consequentialist","Utilitarian","Empiricist","Liberty"],
+    keys:{eth_cons:s=>s<30, eth_util:v=>v==='wellbeing'||v==='hedonistic'},
+    reason:"Like Mill, you lean toward maximizing well-being and value empirical evidence and personal liberty.",
+    wiki:"https://en.wikipedia.org/wiki/John_Stuart_Mill",
+    sep:"https://plato.stanford.edu/entries/mill/"
+  },
+  {
+    name:"Jeremy Bentham", period:"1748–1832",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Jeremy_Bentham_by_Henry_William_Pickersgill_detail.jpg/220px-Jeremy_Bentham_by_Henry_William_Pickersgill_detail.jpg",
+    dims:{ethics:5,epistemology:70,metaphysics:40,political:60,mind:35,science:50,meaning:40},
+    tags:["Consequentialist","Hedonistic Utilitarian","Empiricist"],
+    keys:{eth_cons:s=>s<20, eth_util:v=>v==='hedonistic'},
+    reason:"Like Bentham, you believe morality comes down to maximizing pleasure and minimizing pain — the greatest happiness principle.",
+    wiki:"https://en.wikipedia.org/wiki/Jeremy_Bentham",
+    sep:"https://plato.stanford.edu/entries/bentham/"
+  },
+  {
+    name:"Peter Singer", period:"1946–",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Peter_Singer_MIT_Veritas.jpg/220px-Peter_Singer_MIT_Veritas.jpg",
+    dims:{ethics:8,epistemology:70,metaphysics:42,political:55,mind:30,science:45,meaning:45},
+    tags:["Consequentialist","Preference Utilitarian","Empiricist"],
+    keys:{eth_cons:s=>s<20, eth_util:v=>v==='preference', eth_demand:s=>s&&s>40},
+    reason:"Like Singer, you take consequences seriously, care about preferences over raw pleasure, and aren't afraid of demanding moral conclusions.",
+    wiki:"https://en.wikipedia.org/wiki/Peter_Singer",
+    sep:"https://plato.stanford.edu/entries/singer-peter/"
+  },
+  {
+    name:"Immanuel Kant", period:"1724–1804",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Kant_foto.jpg/220px-Kant_foto.jpg",
+    dims:{ethics:80,epistemology:30,metaphysics:65,political:45,mind:55,science:40,meaning:60},
+    tags:["Deontologist","Rationalist","Moral Realist","Foundationalist"],
+    keys:{eth_cons:s=>s>70, eth_real:s=>s&&s>60},
+    reason:"Like Kant, you believe moral duty comes from reason, not consequences — and that some things are simply right or wrong regardless of outcomes.",
+    wiki:"https://en.wikipedia.org/wiki/Immanuel_Kant",
+    sep:"https://plato.stanford.edu/entries/kant/"
+  },
+  {
+    name:"Aristotle", period:"384–322 BCE",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/220px-Aristotle_Altemps_Inv8575.jpg",
+    dims:{ethics:70,epistemology:65,metaphysics:50,political:55,mind:50,science:60,meaning:65},
+    tags:["Virtue Ethicist","Empiricist","Realist","Teleologist"],
+    keys:{eth_virt:s=>s>60},
+    reason:"Like Aristotle, you believe character and practical wisdom matter more than rigid rules or cold calculations.",
+    wiki:"https://en.wikipedia.org/wiki/Aristotle",
+    sep:"https://plato.stanford.edu/entries/aristotle/"
+  },
+  {
+    name:"David Hume", period:"1711–1776",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Painting_of_David_Hume.jpg/220px-Painting_of_David_Hume.jpg",
+    dims:{ethics:35,epistemology:85,metaphysics:35,political:50,mind:40,science:65,meaning:35},
+    tags:["Empiricist","Compatibilist","Skeptic","Anti-Realist"],
+    keys:{ep_src:s=>s>70, m_fw:v=>v==='compat', eth_real:s=>s!==undefined&&s<30},
+    reason:"Like Hume, you trust experience over pure reason, see free will as compatible with nature, and are skeptical of grand moral claims.",
+    wiki:"https://en.wikipedia.org/wiki/David_Hume",
+    sep:"https://plato.stanford.edu/entries/hume/"
+  },
+  {
+    name:"René Descartes", period:"1596–1650",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Frans_Hals_-_Portret_van_Ren%C3%A9_Descartes.jpg/220px-Frans_Hals_-_Portret_van_Ren%C3%A9_Descartes.jpg",
+    dims:{ethics:60,epistemology:15,metaphysics:30,political:50,mind:25,science:30,meaning:55},
+    tags:["Rationalist","Foundationalist","Dualist"],
+    keys:{ep_src:s=>s<30, ep_struct:v=>v==='found', m_mind:v=>v==='dual'},
+    reason:"Like Descartes, you trust reason over the senses, seek firm foundations for knowledge, and see mind and body as fundamentally distinct.",
+    wiki:"https://en.wikipedia.org/wiki/Ren%C3%A9_Descartes",
+    sep:"https://plato.stanford.edu/entries/descartes/"
+  },
+  {
+    name:"John Rawls", period:"1921–2002",
+    photo:"https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/JohnRawls.jpg/220px-JohnRawls.jpg",
+    dims:{ethics:55,epistemology:40,metaphysics:50,political:35,mind:50,science:45,meaning:50},
+    tags:["Rawlsian","Deontologist","Egalitarian"],
+    keys:{p_just:v=>v==='rawls'||v==='rawlsian', p_eq:s=>s&&s>50},
+    reason:"Like Rawls, you believe justice should be designed as if you didn't know your place in society — fairness as the bedrock of politics.",
+    wiki:"https://en.wikipedia.org/wiki/John_Rawls",
+    sep:"https://plato.stanford.edu/entries/rawls/"
+  },
+  {
+    name:"Robert Nozick", period:"1938–2002",
+    photo:"https://upload.wikimedia.org/wikipedia/en/thumb/3/33/Robert_nozick.jpg/220px-Robert_nozick.jpg",
+    dims:{ethics:50,epistemology:45,metaphysics:55,political:90,mind:55,science:50,meaning:55},
+    tags:["Libertarian","Rights-based","Liberty"],
+    keys:{p_lib:s=>s>75, p_just:v=>v==='lib_j'},
+    reason:"Like Nozick, you place individual rights and liberty at the center of political philosophy — minimal state, maximum freedom.",
+    wiki:"https://en.wikipedia.org/wiki/Robert_Nozick",
+    sep:"https://plato.stanford.edu/entries/nozick-political/"
+  },
+  {
+    name:"Amartya Sen", period:"1933–",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Amartya_Sen_20071128_cologne.jpg/220px-Amartya_Sen_20071128_cologne.jpg",
+    dims:{ethics:40,epistemology:60,metaphysics:45,political:45,mind:45,science:55,meaning:55},
+    tags:["Capabilities","Empiricist","Egalitarian"],
+    keys:{p_just:v=>v==='capab'},
+    reason:"Like Sen, you believe justice is about expanding real human capabilities — not just abstract rights or utility calculations.",
+    wiki:"https://en.wikipedia.org/wiki/Amartya_Sen",
+    sep:"https://plato.stanford.edu/entries/capability-approach/"
+  },
+  {
+    name:"Karl Popper", period:"1902–1994",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Karl_Popper.jpg/220px-Karl_Popper.jpg",
+    dims:{ethics:55,epistemology:50,metaphysics:50,political:70,mind:50,science:80,meaning:50},
+    tags:["Popperian","Falsificationist","Scientific Realist"],
+    keys:{sc_meth:v=>v==='falsif'||v==='falsificationism'},
+    reason:"Like Popper, you believe real science must be falsifiable — bold conjectures tested ruthlessly, not confirmed lazily.",
+    wiki:"https://en.wikipedia.org/wiki/Karl_Popper",
+    sep:"https://plato.stanford.edu/entries/popper/"
+  },
+  {
+    name:"Thomas Kuhn", period:"1922–1996",
+    photo:"https://upload.wikimedia.org/wikipedia/en/thumb/5/5e/Thomas_Kuhn.jpg/220px-Thomas_Kuhn.jpg",
+    dims:{ethics:50,epistemology:55,metaphysics:45,political:50,mind:50,science:25,meaning:50},
+    tags:["Kuhnian","Instrumentalist","Paradigm"],
+    keys:{sc_meth:v=>v==='paradigm'},
+    reason:"Like Kuhn, you see science as evolving through paradigm shifts — not smooth progress, but revolutionary upheavals in how we see the world.",
+    wiki:"https://en.wikipedia.org/wiki/Thomas_Kuhn",
+    sep:"https://plato.stanford.edu/entries/thomas-kuhn/"
+  },
+  {
+    name:"Imre Lakatos", period:"1922–1974",
+    photo:"https://upload.wikimedia.org/wikipedia/en/1/19/Imre_lakatos.jpg",
+    dims:{ethics:50,epistemology:55,metaphysics:50,political:55,mind:50,science:60,meaning:50},
+    tags:["Lakatosian","Research Programmes"],
+    keys:{sc_meth:v=>v==='lakatos'},
+    reason:"Like Lakatos, you believe science progresses through competing research programmes — not single crucial experiments, but long-term theoretical fertility.",
+    wiki:"https://en.wikipedia.org/wiki/Imre_Lakatos",
+    sep:"https://plato.stanford.edu/entries/lakatos/"
+  },
+  {
+    name:"Albert Camus", period:"1913–1960",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Albert_Camus%2C_gagnant_de_prix_Nobel%2C_portrait_en_buste%2C_pos%C3%A9_au_bureau%2C_faisant_face_%C3%A0_gauche%2C_cigarette_de_tabagisme.jpg/220px-Albert_Camus.jpg",
+    dims:{ethics:40,epistemology:60,metaphysics:30,political:65,mind:45,science:45,meaning:15},
+    tags:["Existentialist","Absurdist","Subjective"],
+    keys:{mn_src:v=>v==='absurd'||v==='subj', mn_death:s=>s&&s>60},
+    reason:"Like Camus, you confront the absurd — life may lack inherent meaning, but you rebel against meaninglessness through living fully.",
+    wiki:"https://en.wikipedia.org/wiki/Albert_Camus",
+    sep:"https://plato.stanford.edu/entries/camus/"
+  },
+  {
+    name:"Jean-Paul Sartre", period:"1905–1980",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Sartre_1967_crop.jpg/220px-Sartre_1967_crop.jpg",
+    dims:{ethics:45,epistemology:45,metaphysics:25,political:55,mind:45,science:40,meaning:20},
+    tags:["Existentialist","Subjective","Authenticity"],
+    keys:{mn_src:v=>v==='subj', mn_auth:s=>s&&s>55},
+    reason:"Like Sartre, you believe we are condemned to be free — existence precedes essence, and authenticity is everything.",
+    wiki:"https://en.wikipedia.org/wiki/Jean-Paul_Sartre",
+    sep:"https://plato.stanford.edu/entries/sartre/"
+  },
+  {
+    name:"Friedrich Nietzsche", period:"1844–1900",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Nietzsche187a.jpg/220px-Nietzsche187a.jpg",
+    dims:{ethics:60,epistemology:55,metaphysics:25,political:75,mind:50,science:40,meaning:30},
+    tags:["Anti-Realist","Existentialist","Subjective"],
+    keys:{eth_real:s=>s!==undefined&&s<15, mn_src:v=>v==='subj'},
+    reason:"Like Nietzsche, you reject conventional moral systems and believe we must create our own values — beyond good and evil.",
+    wiki:"https://en.wikipedia.org/wiki/Friedrich_Nietzsche",
+    sep:"https://plato.stanford.edu/entries/nietzsche/"
+  },
+  {
+    name:"Daniel Dennett", period:"1942–2024",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Daniel_dennett_Oct2008.jpg/220px-Daniel_dennett_Oct2008.jpg",
+    dims:{ethics:40,epistemology:70,metaphysics:40,political:55,mind:15,science:65,meaning:45},
+    tags:["Physicalist","Compatibilist","Empiricist","Functionalist"],
+    keys:{m_mind:v=>v==='physic'||v==='func', m_fw:v=>v==='compat', mi_hard:s=>s&&s<30},
+    reason:"Like Dennett, you think consciousness can be explained by science, free will is compatible with determinism, and the hard problem may dissolve.",
+    wiki:"https://en.wikipedia.org/wiki/Daniel_Dennett",
+    sep:"https://plato.stanford.edu/entries/dennett/"
+  },
+  {
+    name:"David Chalmers", period:"1966–",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/David_Chalmers%2C_delivering_a_talk_at_De_La_Salle_University-Manila%2C_March_27%2C_2012.jpg/220px-David_Chalmers.jpg",
+    dims:{ethics:50,epistemology:45,metaphysics:55,political:50,mind:85,science:45,meaning:55},
+    tags:["Property Dualist","Hard Problem","Panpsychist"],
+    keys:{mi_hard:s=>s&&s>70, m_mind:v=>v==='dual'||v==='panpsy', mi_qual:s=>s&&s>60},
+    reason:"Like Chalmers, you take the hard problem of consciousness seriously — subjective experience can't just be explained away.",
+    wiki:"https://en.wikipedia.org/wiki/David_Chalmers",
+    sep:"https://plato.stanford.edu/entries/chalmers/"
+  },
+  {
+    name:"Thomas Nagel", period:"1937–",
+    photo:"https://upload.wikimedia.org/wikipedia/en/thumb/0/09/Thomas_Nagel_teaching_Ethics.jpg/220px-Thomas_Nagel_teaching_Ethics.jpg",
+    dims:{ethics:60,epistemology:40,metaphysics:60,political:45,mind:80,science:35,meaning:60},
+    tags:["Moral Realist","Mysterian","Hard Problem"],
+    keys:{mi_hard:s=>s&&s>65, eth_real:s=>s&&s>50},
+    reason:"Like Nagel, you believe there's something it's like to be conscious that science can't fully capture — and that moral truths are objective.",
+    wiki:"https://en.wikipedia.org/wiki/Thomas_Nagel",
+    sep:"https://plato.stanford.edu/entries/nagel/"
+  },
+  {
+    name:"Hilary Putnam", period:"1926–2016",
+    photo:"https://upload.wikimedia.org/wikipedia/en/thumb/5/57/Hilary_Putnam.jpg/220px-Hilary_Putnam.jpg",
+    dims:{ethics:50,epistemology:55,metaphysics:48,political:45,mind:40,science:55,meaning:50},
+    tags:["Functionalist","Pragmatist","Realist"],
+    keys:{m_mind:v=>v==='func', ep_struct:v=>v==='pragma'},
+    reason:"Like Putnam, you see minds as defined by what they do (not what they're made of) and take a pragmatic approach to truth and knowledge.",
+    wiki:"https://en.wikipedia.org/wiki/Hilary_Putnam",
+    sep:"https://plato.stanford.edu/entries/putnam/"
+  },
+  {
+    name:"Baruch Spinoza", period:"1632–1677",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Spinoza.jpg/220px-Spinoza.jpg",
+    dims:{ethics:45,epistemology:25,metaphysics:10,political:50,mind:50,science:35,meaning:45},
+    tags:["Rationalist","Hard Determinist","Monist","Panpsychist"],
+    keys:{m_fw:v=>v==='hard_det', ep_src:s=>s<30},
+    reason:"Like Spinoza, you see everything as part of one substance governed by necessity — free will is an illusion, and reason reveals nature's order.",
+    wiki:"https://en.wikipedia.org/wiki/Baruch_Spinoza",
+    sep:"https://plato.stanford.edu/entries/spinoza/"
+  },
+  {
+    name:"Arthur Schopenhauer", period:"1788–1860",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Schopenhauer.jpg/220px-Schopenhauer.jpg",
+    dims:{ethics:35,epistemology:30,metaphysics:15,political:45,mind:65,science:35,meaning:70},
+    tags:["Hard Determinist","Pessimist","Idealist"],
+    keys:{m_fw:v=>v==='hard_det'||v==='skep_fw', mn_suff:s=>s&&s>60, mn_death:s=>s&&s>60},
+    reason:"Like Schopenhauer, you take suffering seriously, doubt free will, and see life's deepest meaning through confronting its hardships.",
+    wiki:"https://en.wikipedia.org/wiki/Arthur_Schopenhauer",
+    sep:"https://plato.stanford.edu/entries/schopenhauer/"
+  },
+  {
+    name:"W.V.O. Quine", period:"1908–2000",
+    photo:"https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Quine.jpg/220px-Quine.jpg",
+    dims:{ethics:45,epistemology:80,metaphysics:40,political:50,mind:35,science:70,meaning:40},
+    tags:["Empiricist","Coherentist","Physicalist","Naturalist"],
+    keys:{ep_struct:v=>v==='cohere', ep_src:s=>s>65, m_mind:v=>v==='physic'},
+    reason:"Like Quine, you reject firm foundations for knowledge — beliefs form a web, experience shapes the edges, and science is the measure of what's real.",
+    wiki:"https://en.wikipedia.org/wiki/Willard_Van_Orman_Quine",
+    sep:"https://plato.stanford.edu/entries/quine/"
+  },
+  {
+    name:"Nel Noddings", period:"1929–2022",
+    photo:"https://upload.wikimedia.org/wikipedia/en/thumb/6/6c/Nel_Noddings.jpg/220px-Nel_Noddings.jpg",
+    dims:{ethics:30,epistemology:50,metaphysics:45,political:40,mind:45,science:45,meaning:55},
+    tags:["Care Ethicist","Feminist","Relational"],
+    keys:{eth_care:s=>s&&s>60},
+    reason:"Like Noddings, you believe ethics is rooted in caring relationships — not abstract rules or calculations, but attentive responsiveness to others.",
+    wiki:"https://en.wikipedia.org/wiki/Nel_Noddings",
+    sep:"https://plato.stanford.edu/entries/feminism-ethics/"
+  },
+  {
+    name:"Bertrand Russell", period:"1872–1970",
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Bertrand_Russell_1957.jpg/220px-Bertrand_Russell_1957.jpg",
+    dims:{ethics:30,epistemology:60,metaphysics:40,political:65,mind:35,science:75,meaning:40},
+    tags:["Empiricist","Foundationalist","Scientific Realist","Liberty"],
+    keys:{ep_src:s=>s>55, sc_real:s=>s<40, p_lib:s=>s>60},
+    reason:"Like Russell, you combine rigorous empiricism with a passion for liberty and see science as our best guide to understanding reality.",
+    wiki:"https://en.wikipedia.org/wiki/Bertrand_Russell",
+    sep:"https://plato.stanford.edu/entries/russell/"
+  }
+];
+
+function findPhilosopherMatches(profile){
+  if(!profile||!profile.dimensions) return [];
+  const a=profile.answers||{}, lb=profile.labels||{}, dm=profile.dimensions||{};
+  const allLabels=Object.values(lb).join(' ').toLowerCase();
+
+  const scored=PHILOSOPHERS.map(phil=>{
+    let score=0, maxScore=0;
+
+    // 1. Dimensional similarity (40% weight)
+    Object.keys(DIMS).forEach(d=>{
+      const uv=dm[d]!==undefined?dm[d]:50;
+      const pv=phil.dims[d]!==undefined?phil.dims[d]:50;
+      const closeness=1-Math.abs(uv-pv)/100;
+      score+=closeness*40;
+      maxScore+=40;
+    });
+
+    // 2. Label tag overlap (35% weight)
+    phil.tags.forEach(tag=>{
+      if(allLabels.includes(tag.toLowerCase())){
+        score+=35;
+      }
+      maxScore+=35;
+    });
+
+    // 3. Answer-key alignment (25% weight)
+    let keyHits=0, keyTotal=0;
+    Object.entries(phil.keys).forEach(([k,fn])=>{
+      keyTotal++;
+      try{ if(a[k]!==undefined && fn(a[k])) keyHits++; }catch(e){}
+    });
+    if(keyTotal>0){
+      score+=(keyHits/keyTotal)*25*keyTotal;
+      maxScore+=25*keyTotal;
+    }
+
+    return {phil, score: maxScore>0? (score/maxScore)*100 : 0};
+  });
+
+  scored.sort((a,b)=>b.score-a.score);
+  return scored.slice(0,2);
+}
+
 // ===== STATE =====
 let roomId=null, roomName=null, answers={}, myProfile=null, quizMode='full', roomProfiles=[], roomChallenges=[];
 
@@ -1725,7 +2035,31 @@ function renderProfile(profile){
       <div class="r-detail">${lb.split('·').slice(1).join(' · ').trim()}</div>
       <div class="r-bar"><div class="r-fill" style="width:${sc}%;background:${dim.color}"></div></div></div>`;
   });
-  h+=`</div><div style="text-align:center;margin:24px 0;">
+  h+=`</div>`;
+
+  // Philosopher matches
+  const matches=findPhilosopherMatches(profile);
+  if(matches.length>0){
+    h+=`<div class="phil-section"><h3>📜 Your Philosophical Ancestors</h3><div class="phil-cards">`;
+    matches.forEach(m=>{
+      const p=m.phil;
+      h+=`<div class="phil-card">
+        <img class="phil-photo" src="${p.photo}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="${p.name}">
+        <div class="phil-photo-fallback" style="display:none;">🏛️</div>
+        <div class="phil-name">${p.name}</div>
+        <div class="phil-period">${p.period}</div>
+        <div class="phil-match-pct">${Math.round(m.score)}% match</div>
+        <div class="phil-reason">"${p.reason}"</div>
+        <div class="phil-links">
+          <a class="phil-link" href="${p.wiki}" target="_blank">📖 Wikipedia</a>
+          <a class="phil-link" href="${p.sep}" target="_blank">📚 SEP</a>
+        </div>
+      </div>`;
+    });
+    h+=`</div></div>`;
+  }
+
+  h+=`<div style="text-align:center;margin:24px 0;">
     <button class="btn btn-secondary btn-small" onclick="exportProfile()">Export JSON</button>
     <button class="btn btn-secondary btn-small" onclick="retake()">Retake Quiz</button></div>`;
   pc.innerHTML=h;
