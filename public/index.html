@@ -266,12 +266,13 @@
   .t-member:hover { border-color:var(--border-hover); }
   .t-name { font-weight:500; }
   .t-date { font-size:0.78em; color:var(--text3); }
-  .cmp-table-wrap { overflow-x:auto; max-height:70vh; overflow-y:auto; position:relative; border:1px solid var(--border); border-radius:var(--radius); }
-  .cmp-table { width:100%; border-collapse:separate; border-spacing:0; margin:0; font-size:0.82em; }
-  .cmp-table th,.cmp-table td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--border); }
-  .cmp-table th { color:var(--text3); font-weight:500; text-transform:uppercase; font-size:0.78em; letter-spacing:0.04em; position:sticky; top:0; background:var(--bg1); z-index:2; }
-  .cmp-table th:first-child { position:sticky; left:0; z-index:3; background:var(--bg1); }
-  .cmp-table td:first-child { position:sticky; left:0; background:var(--bg2); z-index:1; font-weight:500; }
+  .cmp-table-wrap { overflow-x:auto; max-height:70vh; overflow-y:auto; position:relative; border:1px solid var(--border); border-radius:var(--radius); margin:16px -12px; }
+  @media(min-width:768px){ .cmp-table-wrap { margin:16px -40px; } }
+  .cmp-table { width:max-content; min-width:100%; border-collapse:separate; border-spacing:0; margin:0; font-size:0.85em; }
+  .cmp-table th,.cmp-table td { padding:12px 16px; text-align:left; border-bottom:1px solid var(--border); white-space:nowrap; }
+  .cmp-table th { color:var(--text3); font-weight:500; text-transform:uppercase; font-size:0.8em; letter-spacing:0.04em; position:sticky; top:0; background:var(--bg1); z-index:2; }
+  .cmp-table th:first-child { position:sticky; left:0; z-index:3; background:var(--bg1); min-width:120px; }
+  .cmp-table td:first-child { position:sticky; left:0; background:var(--bg2); z-index:1; font-weight:500; min-width:120px; }
   .cmp-table tr:hover td { color:var(--text); background:var(--bg3); }
   .cmp-table tr:hover td:first-child { background:var(--bg3); }
   .dist-badge {
@@ -389,6 +390,7 @@
     <button class="nav-tab" onclick="go('showdown')"><span class="tab-icon">⚔️</span>Showdown</button>
     <button class="nav-tab" onclick="go('team')"><span class="tab-icon">👥</span>Team</button>
     <button class="nav-tab" onclick="go('sylvain')"><span class="tab-icon">🧙</span>Sylvain</button>
+    <button class="nav-tab" onclick="go('predict')"><span class="tab-icon">🎯</span>Predict</button>
     <button class="nav-tab" onclick="go('admin')"><span class="tab-icon">💾</span>Backup</button>
   </div>
 
@@ -484,6 +486,18 @@
   <!-- SYLVAIN -->
   <div id="v-sylvain" class="view">
     <div id="sylvainContent"></div>
+  </div>
+
+  <!-- PREDICT GAME -->
+  <div id="v-predict" class="view">
+    <div class="card card-center">
+      <h2>🎯 Predict Your Teammates</h2>
+      <p style="color:var(--text2);margin-bottom:16px;">How well do you know your team's philosophical commitments? You'll be shown a teammate and a question — guess what they answered!</p>
+      <div id="predictScoreboard" style="margin-bottom:20px;"></div>
+      <div id="predictContent">
+        <button class="btn btn-primary" onclick="startPredictGame()">Start Game →</button>
+      </div>
+    </div>
   </div>
 
   <!-- ADMIN / BACKUP -->
@@ -2477,6 +2491,18 @@ async function initiateChallenge(){
       <div class="q-text">${q.text}</div>
       <div class="q-desc">${q.desc}</div>`;
 
+    if(q.info){
+      const panelId=`sd-info-${q.id}`;
+      h+=`<button class="info-toggle" onclick="toggleInfo('${panelId}')">📖 Learn more</button>`;
+      h+=`<div class="info-panel" id="${panelId}"><p>${q.info}</p>`;
+      if(q.links&&q.links.length){
+        h+=`<div class="info-links">`;
+        q.links.forEach(lnk=>{h+=`<a href="${lnk.u}" target="_blank" rel="noopener">${lnk.t} ↗</a>`;});
+        h+=`</div>`;
+      }
+      h+=`</div>`;
+    }
+
     if(q.type==='slider'){
       const val=50;
       h+=`<div style="margin-top:16px;">
@@ -2490,11 +2516,11 @@ async function initiateChallenge(){
       const elem=document.getElementById(`ans_${q.id}`);
       if(elem)elem.addEventListener('input',e=>{document.getElementById(`val_${q.id}`).textContent=e.target.value;});
     }else if(q.type==='choice'){
-      h+=`<div style="margin-top:12px;">`;
+      h+=`<div class="choices" style="margin-top:12px;">`;
       q.options.forEach(opt=>{
-        h+=`<label style="display:block;margin:8px 0;cursor:pointer;">
-          <input type="radio" name="ans_${q.id}" value="${opt.v}" onchange="window._challengeAnswers['${q.id}']='${opt.v}'"> ${opt.l}
-        </label>`;
+        h+=`<button class="ch-btn" onclick="this.parentNode.querySelectorAll('.ch-btn').forEach(b=>b.classList.remove('sel'));this.classList.add('sel');window._challengeAnswers['${q.id}']='${opt.v}'">
+          <div class="ch-label">${opt.l}</div>${opt.d?`<div class="ch-desc">${opt.d}</div>`:''}
+        </button>`;
       });
       h+=`</div>`;
     }
@@ -2569,6 +2595,18 @@ async function respondToChallenge(challengeId){
       <div class="q-text">${q.text}</div>
       <div class="q-desc">${q.desc}</div>`;
 
+    if(q.info){
+      const panelId=`resp-info-${q.id}`;
+      h+=`<button class="info-toggle" onclick="toggleInfo('${panelId}')">📖 Learn more</button>`;
+      h+=`<div class="info-panel" id="${panelId}"><p>${q.info}</p>`;
+      if(q.links&&q.links.length){
+        h+=`<div class="info-links">`;
+        q.links.forEach(lnk=>{h+=`<a href="${lnk.u}" target="_blank" rel="noopener">${lnk.t} ↗</a>`;});
+        h+=`</div>`;
+      }
+      h+=`</div>`;
+    }
+
     if(q.type==='slider'){
       const val=answers[q.id]||50;
       h+=`<div style="margin-top:16px;">
@@ -2582,12 +2620,12 @@ async function respondToChallenge(challengeId){
       const elem=document.getElementById(`ans_${q.id}`);
       if(elem)elem.addEventListener('input',e=>{document.getElementById(`val_${q.id}`).textContent=e.target.value;});
     }else if(q.type==='choice'){
-      h+=`<div style="margin-top:12px;">`;
+      h+=`<div class="choices" style="margin-top:12px;">`;
       q.options.forEach(opt=>{
-        const checked=answers[q.id]===opt.v?'checked':'';
-        h+=`<label style="display:block;margin:8px 0;cursor:pointer;">
-          <input type="radio" name="ans_${q.id}" value="${opt.v}" ${checked} onchange="answers['${q.id}']='${opt.v}'"> ${opt.l}
-        </label>`;
+        const sel=answers[q.id]===opt.v?'sel':'';
+        h+=`<button class="ch-btn ${sel}" onclick="this.parentNode.querySelectorAll('.ch-btn').forEach(b=>b.classList.remove('sel'));this.classList.add('sel');answers['${q.id}']='${opt.v}'">
+          <div class="ch-label">${opt.l}</div>${opt.d?`<div class="ch-desc">${opt.d}</div>`:''}
+        </button>`;
       });
       h+=`</div>`;
     }
@@ -2633,7 +2671,7 @@ async function submitChallengeResponse(challengeId){
 function go(view){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('v-'+view).classList.add('active');
-  const tabs=['lobby','quiz','profile','showdown','team','sylvain','admin'];
+  const tabs=['lobby','quiz','profile','showdown','team','sylvain','predict','admin'];
   document.querySelectorAll('.nav-tab').forEach((t,i)=>{t.classList.toggle('active',tabs[i]===view);});
   if(view==='profile')renderProfile(myProfile);
   if(view==='showdown')renderShowdown();
@@ -2850,6 +2888,180 @@ function renderSylvain(){
   }
 
   sc.innerHTML = h;
+}
+
+// ===== PREDICTION GAME =====
+let predictState={score:0,total:0,streak:0,bestStreak:0,history:{}};
+
+async function startPredictGame(){
+  if(!roomId){toast('Join a room first!');return;}
+  let room;
+  try{room=await api('GET',`/rooms/${roomId}`);}catch(e){toast('Error loading room');return;}
+  const myName=localStorage.getItem('phil_name_'+roomId)||'';
+  const others=room.profiles.filter(p=>p.name.toLowerCase()!==myName.toLowerCase()&&p.answers&&Object.keys(p.answers).length>5);
+  if(others.length<1){toast('Need at least 2 people with profiles to play!');return;}
+  window._predictProfiles=others;
+  // Load saved scores from localStorage
+  const saved=localStorage.getItem('phil_predict_'+roomId);
+  if(saved){try{predictState=JSON.parse(saved);}catch(e){}}
+  nextPredictQuestion();
+}
+
+function nextPredictQuestion(){
+  const others=window._predictProfiles;
+  if(!others||!others.length)return;
+  // Pick a random teammate
+  const target=others[Math.floor(Math.random()*others.length)];
+  // Pick a random question they answered (choice-type only for clear right/wrong)
+  const qMap={};
+  QS.forEach(q=>{qMap[q.id]=q;if(q.children)q.children.forEach(c=>{qMap[c.id]=c;});});
+  const answeredIds=Object.keys(target.answers).filter(id=>{
+    const q=qMap[id];
+    return q&&q.type==='choice'&&q.options&&q.options.length>=2;
+  });
+  if(answeredIds.length===0){toast('Not enough data for this teammate');return;}
+  const qId=answeredIds[Math.floor(Math.random()*answeredIds.length)];
+  const q=qMap[qId];
+  const correctAnswer=target.answers[qId];
+
+  window._predictCurrent={target,q,qId,correctAnswer};
+
+  const pc=document.getElementById('predictContent');
+  let h=`<div style="text-align:center;margin-bottom:20px;">
+    <div style="font-size:2em;margin-bottom:8px;">🤔</div>
+    <div style="font-size:1.1em;font-weight:600;color:var(--accent);">What did ${target.name} answer?</div>
+  </div>
+  <div class="q-card">
+    <div class="q-text">${q.text}</div>
+    <div class="q-desc">${q.desc}</div>`;
+
+  if(q.info){
+    const panelId=`pred-info-${q.id}`;
+    h+=`<button class="info-toggle" onclick="toggleInfo('${panelId}')">📖 Learn more</button>`;
+    h+=`<div class="info-panel" id="${panelId}"><p>${q.info}</p>`;
+    if(q.links&&q.links.length){
+      h+=`<div class="info-links">`;
+      q.links.forEach(lnk=>{h+=`<a href="${lnk.u}" target="_blank" rel="noopener">${lnk.t} ↗</a>`;});
+      h+=`</div>`;
+    }
+    h+=`</div>`;
+  }
+
+  h+=`<div class="choices" style="margin-top:12px;">`;
+  q.options.forEach(opt=>{
+    h+=`<button class="ch-btn" onclick="checkPrediction('${opt.v}',this)">
+      <div class="ch-label">${opt.l}</div>${opt.d?`<div class="ch-desc">${opt.d}</div>`:''}
+    </button>`;
+  });
+  h+=`</div></div>`;
+
+  pc.innerHTML=h;
+  updatePredictScoreboard();
+}
+
+function checkPrediction(guess,btn){
+  const {target,q,qId,correctAnswer}=window._predictCurrent;
+  const correct=guess===correctAnswer;
+  predictState.total++;
+  if(correct){
+    predictState.score++;
+    predictState.streak++;
+    if(predictState.streak>predictState.bestStreak)predictState.bestStreak=predictState.streak;
+  }else{
+    predictState.streak=0;
+  }
+  // Track per-person stats
+  if(!predictState.history[target.name])predictState.history[target.name]={right:0,wrong:0};
+  if(correct)predictState.history[target.name].right++;
+  else predictState.history[target.name].wrong++;
+
+  // Save to localStorage
+  localStorage.setItem('phil_predict_'+roomId,JSON.stringify(predictState));
+
+  // Show result
+  const pc=document.getElementById('predictContent');
+  const correctOpt=q.options.find(o=>o.v===correctAnswer);
+  const guessOpt=q.options.find(o=>o.v===guess);
+
+  let h=`<div style="text-align:center;margin-bottom:20px;">
+    <div style="font-size:2.5em;margin-bottom:8px;">${correct?'✅':'❌'}</div>
+    <div style="font-size:1.1em;font-weight:600;color:${correct?'var(--emerald)':'var(--red)'};">${correct?'Correct!':'Wrong!'}</div>
+    <p style="color:var(--text2);margin-top:8px;">${target.name} answered: <strong style="color:var(--accent);">${correctOpt?correctOpt.l:correctAnswer}</strong></p>
+    ${!correct?`<p style="color:var(--text3);font-size:0.85em;">You guessed: ${guessOpt?guessOpt.l:guess}</p>`:''}
+    ${predictState.streak>=3?`<p style="color:var(--amber);font-size:0.9em;margin-top:8px;">🔥 ${predictState.streak} streak!</p>`:''}
+  </div>
+
+  <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;">
+    <button class="btn btn-primary" onclick="nextPredictQuestion()">Next Question →</button>
+    <button class="btn btn-secondary" onclick="showPredictStats()">📊 View Stats</button>
+  </div>`;
+
+  pc.innerHTML=h;
+  updatePredictScoreboard();
+}
+
+function updatePredictScoreboard(){
+  const sb=document.getElementById('predictScoreboard');
+  if(!sb)return;
+  if(predictState.total===0){sb.innerHTML='';return;}
+  const pct=Math.round((predictState.score/predictState.total)*100);
+  sb.innerHTML=`<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;font-size:0.85em;">
+    <span>Score: <strong>${predictState.score}/${predictState.total}</strong> (${pct}%)</span>
+    <span>Streak: <strong>${predictState.streak}</strong> 🔥</span>
+    <span>Best: <strong>${predictState.bestStreak}</strong></span>
+  </div>`;
+}
+
+function showPredictStats(){
+  const pc=document.getElementById('predictContent');
+  const pct=predictState.total>0?Math.round((predictState.score/predictState.total)*100):0;
+  let h=`<div style="text-align:center;margin-bottom:20px;">
+    <h3 style="font-family:'Cormorant Garamond',serif;">Your Prediction Stats</h3>
+    <div style="font-size:2em;margin:12px 0;font-weight:700;color:var(--accent);">${pct}%</div>
+    <p style="color:var(--text2);">${predictState.score} correct out of ${predictState.total} guesses · Best streak: ${predictState.bestStreak}</p>
+  </div>`;
+
+  const people=Object.entries(predictState.history).sort((a,b)=>{
+    const aPct=a[1].right/(a[1].right+a[1].wrong);
+    const bPct=b[1].right/(b[1].right+b[1].wrong);
+    return bPct-aPct;
+  });
+
+  if(people.length>0){
+    h+=`<h4 style="margin:16px 0 10px;font-size:0.9em;color:var(--text2);">Per Teammate</h4>`;
+    people.forEach(([name,stats])=>{
+      const total=stats.right+stats.wrong;
+      const p=Math.round((stats.right/total)*100);
+      const bar=p;
+      const col=p>=70?'var(--emerald)':p>=40?'var(--amber)':'var(--red)';
+      h+=`<div style="margin-bottom:8px;padding:10px 14px;background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border);">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-weight:600;font-size:0.9em;">${name}</span>
+          <span style="font-size:0.85em;color:${col}">${p}% (${stats.right}/${total})</span>
+        </div>
+        <div style="height:4px;background:var(--bg3);border-radius:2px;">
+          <div style="height:100%;width:${bar}%;background:${col};border-radius:2px;transition:width 0.3s;"></div>
+        </div>
+      </div>`;
+    });
+  }
+
+  h+=`<div style="display:flex;gap:12px;justify-content:center;margin-top:24px;">
+    <button class="btn btn-primary" onclick="nextPredictQuestion()">Keep Playing →</button>
+    <button class="btn btn-secondary" onclick="resetPredictStats()">🔄 Reset Stats</button>
+  </div>`;
+
+  pc.innerHTML=h;
+}
+
+function resetPredictStats(){
+  if(!confirm('Reset all prediction stats?'))return;
+  predictState={score:0,total:0,streak:0,bestStreak:0,history:{}};
+  localStorage.setItem('phil_predict_'+roomId,JSON.stringify(predictState));
+  updatePredictScoreboard();
+  toast('Stats reset!');
+  const pc=document.getElementById('predictContent');
+  pc.innerHTML=`<button class="btn btn-primary" onclick="startPredictGame()">Start Game →</button>`;
 }
 
 // ===== BACKUP & ADMIN =====
