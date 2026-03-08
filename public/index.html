@@ -372,6 +372,24 @@
   .phil-links { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
   .phil-link { display:inline-flex; align-items:center; gap:4px; padding:5px 10px; font-size:0.75em; background:rgba(139,124,247,0.08); border:1px solid var(--border); border-radius:6px; color:var(--accent2); text-decoration:none; transition:all 0.2s; }
   .phil-link:hover { background:rgba(139,124,247,0.18); border-color:var(--accent); }
+  /* Puzzle styles */
+  .puzzle-grid { display:flex; flex-direction:column; gap:10px; }
+  .puzzle-item { display:flex; align-items:center; gap:14px; padding:14px 18px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); cursor:pointer; transition:all 0.2s; }
+  .puzzle-item:hover { border-color:var(--accent); background:rgba(139,124,247,0.04); transform:translateY(-1px); }
+  .puzzle-item.answered { border-left:3px solid var(--emerald); }
+  .puzzle-item .puzzle-icon { font-size:1.6em; flex-shrink:0; }
+  .puzzle-item .puzzle-info { flex:1; }
+  .puzzle-item .puzzle-title { font-weight:600; font-size:0.95em; }
+  .puzzle-item .puzzle-cat { font-size:0.78em; color:var(--text3); margin-top:2px; }
+  .puzzle-item .puzzle-answer-badge { font-size:0.75em; color:var(--emerald); background:rgba(52,211,153,0.1); padding:2px 10px; border-radius:12px; flex-shrink:0; }
+  .puzzle-primer { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin:16px 0; line-height:1.7; font-size:0.92em; color:var(--text2); }
+  .puzzle-primer strong { color:var(--text); }
+  .puzzle-primer em { color:var(--accent2); }
+  .puzzle-followup { background:rgba(139,124,247,0.06); border:1px solid rgba(139,124,247,0.15); border-radius:var(--radius); padding:16px 20px; margin:16px 0; font-size:0.88em; color:var(--text2); line-height:1.6; }
+  .puzzle-followup strong { color:var(--accent); }
+  .puzzle-links { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .puzzle-links a { font-size:0.82em; color:var(--accent); text-decoration:none; padding:4px 12px; background:rgba(139,124,247,0.08); border-radius:16px; transition:background 0.2s; }
+  .puzzle-links a:hover { background:rgba(139,124,247,0.16); }
 </style>
 </head>
 <body>
@@ -445,11 +463,22 @@
           <div class="mode-title">Refinement</div>
           <div class="mode-desc">~10 questions · ~3 min<br>Deepen your profile</div>
         </div>
+        <div class="mode-card" id="mode-puzzles" onclick="setMode('puzzles')">
+          <div class="mode-icon">🧩</div>
+          <div class="mode-title">Classic Puzzles</div>
+          <div class="mode-desc">Famous problems · Pick & choose<br>Newcomb, Sleeping Beauty & more</div>
+        </div>
       </div>
 
       <br>
       <button class="btn btn-primary" onclick="startQuiz()">Begin →</button>
     </div>
+
+    <!-- PUZZLE LIST (shown when puzzles mode selected) -->
+    <div id="puzzleList" class="hidden"></div>
+
+    <!-- PUZZLE DETAIL (shown when viewing a single puzzle) -->
+    <div id="puzzleDetail" class="hidden"></div>
 
     <div id="quizContent" class="hidden">
       <button class="btn btn-secondary" onclick="exitQuiz()" style="margin-bottom:12px;font-size:0.85em;">← Back to quiz selection</button>
@@ -1644,6 +1673,191 @@ function findPhilosopherMatches(profile){
   return scored.slice(0,2);
 }
 
+// ===== CLASSIC PUZZLES =====
+const PUZZLES = [
+  {
+    id: 'newcomb',
+    title: "Newcomb's Problem",
+    icon: '📦',
+    category: 'Decision Theory',
+    primer: `You enter a room with two boxes. Box A is transparent and contains $1,000. Box B is opaque. A near-perfect predictor (right 99% of the time) has already made a prediction about your choice:\n\n• If the predictor predicted you'd take <strong>only Box B</strong>, it placed <strong>$1,000,000</strong> inside.\n• If the predictor predicted you'd take <strong>both boxes</strong>, it left Box B <strong>empty</strong>.\n\nThe predictor has already made their decision and left. The money is already in the boxes (or not). What do you do?`,
+    question: 'What do you choose?',
+    options: [
+      {v:'one_box', l:'One-box (take only Box B)', d:'Trust the predictor. If they\'re almost always right, taking only Box B means you\'ll almost certainly get $1,000,000.'},
+      {v:'two_box', l:'Two-box (take both)', d:'The money is already there or not — taking both always gets you $1,000 more than taking one, regardless of what\'s in Box B.'}
+    ],
+    links: [
+      {t:"Newcomb's Problem (SEP)", u:'https://plato.stanford.edu/entries/newcomb-problem/'},
+      {t:'Nozick\'s original paper', u:'https://en.wikipedia.org/wiki/Newcomb%27s_problem'}
+    ],
+    followUp: 'This divides philosophers between <strong>causal decision theorists</strong> (two-boxers, who reason about causal consequences) and <strong>evidential decision theorists</strong> (one-boxers, who reason about what their choice says about the prediction).'
+  },
+  {
+    id: 'sleeping_beauty',
+    title: 'The Sleeping Beauty Problem',
+    icon: '😴',
+    category: 'Probability & Epistemology',
+    primer: `Sleeping Beauty agrees to an experiment. On Sunday, she\'s put to sleep. A fair coin is flipped:\n\n• <strong>Heads:</strong> She\'s woken on Monday only, then the experiment ends.\n• <strong>Tails:</strong> She\'s woken on Monday, put back to sleep with her memory erased, then woken again on Tuesday.\n\nEach time she wakes, she can\'t tell what day it is or whether she\'s been woken before. When she wakes up, she\'s asked: <em>"What is your credence (degree of belief) that the coin landed heads?"</em>`,
+    question: 'What should Sleeping Beauty\'s credence in heads be?',
+    options: [
+      {v:'halfer', l:'1/2 (Halfer)', d:'The coin is fair. No new evidence was gained by waking up. The probability of heads is still 1/2.'},
+      {v:'thirder', l:'1/3 (Thirder)', d:'There are three equally likely awakening events (Mon-Heads, Mon-Tails, Tue-Tails). Only one involves heads, so 1/3.'}
+    ],
+    links: [
+      {t:'Sleeping Beauty (SEP)', u:'https://plato.stanford.edu/entries/sleeping-beauty/'},
+      {t:'Wikipedia overview', u:'https://en.wikipedia.org/wiki/Sleeping_beauty_problem'}
+    ],
+    followUp: 'Halfers argue probability shouldn\'t change without new evidence. Thirders argue that Beauty\'s <em>indexical</em> situation (not knowing which awakening she\'s in) is itself relevant evidence. This connects deeply to anthropic reasoning and the Doomsday argument.'
+  },
+  {
+    id: 'trolley',
+    title: 'The Trolley Problem',
+    icon: '🚃',
+    category: 'Ethics',
+    primer: `A runaway trolley is heading toward five people tied to the tracks. You\'re standing next to a lever that can divert the trolley onto a side track, where only one person is tied.\n\n• <strong>Pull the lever:</strong> The trolley is diverted. The one person on the side track dies, but the five are saved.\n• <strong>Do nothing:</strong> The trolley continues. The five people die.\n\nYou are the only one who can act. There is no other option.`,
+    question: 'Do you pull the lever?',
+    options: [
+      {v:'pull', l:'Pull the lever', d:'Saving five lives at the cost of one is the right thing to do. The outcome matters most.'},
+      {v:'dont_pull', l:'Don\'t pull the lever', d:'Actively causing someone\'s death (by pulling) is morally different from allowing deaths to happen.'},
+      {v:'depends', l:'It depends on the context', d:'The right answer depends on details like who the people are, your relationship to them, or other factors.'}
+    ],
+    links: [
+      {t:'Trolley Problem (Wikipedia)', u:'https://en.wikipedia.org/wiki/Trolley_problem'},
+      {t:'Doing vs. Allowing Harm (SEP)', u:'https://plato.stanford.edu/entries/doing-allowing/'}
+    ],
+    followUp: 'Consequentialists typically pull the lever (maximize lives saved). Deontologists may refuse (don\'t use a person as a means). This puzzle launched decades of "trolleyology" — including the famous <em>fat man</em> variant that tests whether physical contact changes your intuition.'
+  },
+  {
+    id: 'experience_machine',
+    title: 'The Experience Machine',
+    icon: '🔌',
+    category: 'Value Theory',
+    primer: `Robert Nozick asks: Suppose there were an experience machine that could give you any experience you desired. Superduper neuropsychologists could stimulate your brain so you\'d <em>think and feel</em> you were writing a great novel, making a friend, or reading an interesting book.\n\nAll the while, you\'d be floating in a tank with electrodes attached to your brain. You can\'t tell the difference from inside. You would pre-program your life\'s experiences, then plug in.\n\n<strong>Would you plug in for the rest of your life?</strong>`,
+    question: 'Do you plug into the experience machine?',
+    options: [
+      {v:'plug_in', l:'Yes, plug in', d:'If the experiences are identical, what matters is how life feels. Maximize happiness and pleasure.'},
+      {v:'stay_out', l:'No, stay out', d:'We want to actually do things, be a certain kind of person, and live in contact with reality — not just have experiences.'},
+      {v:'uncertain', l:'Genuinely torn', d:'Both sides have compelling arguments. The intuition to stay out might just be status quo bias.'}
+    ],
+    links: [
+      {t:'Experience Machine (Wikipedia)', u:'https://en.wikipedia.org/wiki/Experience_machine'},
+      {t:'Nozick on the Machine', u:'https://plato.stanford.edu/entries/hedonism/#ExpMac'}
+    ],
+    followUp: 'Nozick designed this as an argument <em>against</em> hedonism — the view that pleasure is the only intrinsic good. If you wouldn\'t plug in, you value something beyond experience: perhaps authenticity, real relationships, or actual achievement.'
+  },
+  {
+    id: 'ship_theseus',
+    title: 'Ship of Theseus',
+    icon: '🚢',
+    category: 'Metaphysics & Identity',
+    primer: `The ancient ship of the hero Theseus is preserved in a museum. Over centuries, each plank rots and is replaced with a new, identical plank. Eventually, every single piece has been replaced.\n\n<strong>Meanwhile</strong>, someone collects all the old, removed planks and assembles them into a second ship.\n\nNow there are two ships: the one in the museum (all new planks, continuously maintained) and the reassembled original (all original planks, newly put together).`,
+    question: 'Which ship is the real Ship of Theseus?',
+    options: [
+      {v:'museum', l:'The museum ship (continuity)', d:'Identity is about continuous existence. The museum ship was always "the ship" — it just got repaired over time, like our bodies replace cells.'},
+      {v:'reassembled', l:'The reassembled ship (material)', d:'Identity is about material composition. The ship made of the original planks is the original ship.'},
+      {v:'both', l:'Both (or neither)', d:'The question reveals that "identity" is vague or conventional. There\'s no deep fact about which is "really" the same ship.'},
+      {v:'museum_only', l:'Only the museum ship exists as "a ship"', d:'The reassembled planks are just a collection of old wood, not a ship — they were discarded and no longer part of any ship.'}
+    ],
+    links: [
+      {t:'Ship of Theseus (SEP)', u:'https://plato.stanford.edu/entries/identity-time/'},
+      {t:'Wikipedia', u:'https://en.wikipedia.org/wiki/Ship_of_Theseus'}
+    ],
+    followUp: 'This puzzle tests whether you think identity comes from <strong>continuity</strong> (spatiotemporal connection over time), <strong>material constitution</strong> (same stuff = same thing), or whether identity is a <strong>conventional/pragmatic</strong> concept with no deep metaphysical answer.'
+  },
+  {
+    id: 'mary_room',
+    title: 'Mary\'s Room',
+    icon: '🎨',
+    category: 'Philosophy of Mind',
+    primer: `Mary is a brilliant scientist who has lived her entire life in a black-and-white room. She has never seen color. But she has studied everything there is to know about color physics — wavelengths, retinal responses, neural processing, how the brain represents "red."\n\nShe knows every physical fact about color vision. Then one day, she steps outside and sees a red tomato for the first time.\n\n<strong>Does Mary learn something new?</strong>`,
+    question: 'When Mary sees red for the first time, does she learn something new?',
+    options: [
+      {v:'yes_new', l:'Yes, she learns something new', d:'There\'s something it\'s like to experience red that can\'t be captured by physical facts alone. Qualia are real and non-physical.'},
+      {v:'no_new', l:'No, she doesn\'t learn anything new', d:'She already knew all the facts. What changes is just her mode of access — she now has a new ability (recognizing red by sight), not new knowledge.'},
+      {v:'misleading', l:'The question is misleading', d:'The scenario is impossible — truly knowing "everything physical" about color would include knowing what it\'s like. The thought experiment smuggles in dualist assumptions.'}
+    ],
+    links: [
+      {t:'Qualia (SEP)', u:'https://plato.stanford.edu/entries/qualia/'},
+      {t:'Mary\'s Room (Wikipedia)', u:'https://en.wikipedia.org/wiki/Knowledge_argument'}
+    ],
+    followUp: 'Frank Jackson designed this argument to show that physicalism is false — there are non-physical facts (what experiences are <em>like</em>). Physicalists respond with the "ability hypothesis" (she gains a new ability, not new knowledge) or "acquaintance hypothesis" (she gains acquaintance with a property she already knew about).'
+  },
+  {
+    id: 'chinese_room',
+    title: 'The Chinese Room',
+    icon: '🀄',
+    category: 'Philosophy of Mind & AI',
+    primer: `John Searle asks you to imagine: You\'re locked in a room. Chinese characters are slipped under the door. You have a giant rule book (in English) that tells you exactly which Chinese characters to write back based on which ones you received.\n\nTo people outside, it looks like the room speaks fluent Chinese — it passes the Turing Test. But <em>you</em> don\'t understand a word of Chinese. You\'re just following rules mechanically.\n\nSearle argues this is exactly what computers do: they manipulate symbols without understanding meaning. <strong>Does the room understand Chinese?</strong>`,
+    question: 'Does the Chinese Room understand Chinese?',
+    options: [
+      {v:'no_understand', l:'No — syntax isn\'t semantics', d:'The person in the room doesn\'t understand Chinese. Running a program (manipulating symbols by rules) is never sufficient for genuine understanding.'},
+      {v:'system_understands', l:'The system as a whole understands', d:'Maybe the person doesn\'t understand, but the whole system (person + rule book + room) does — understanding is a property of the system, not any single part.'},
+      {v:'yes_eventually', l:'Sufficiently complex computation = understanding', d:'If the behavior is indistinguishable from understanding, then at some level of complexity, it IS understanding. Searle\'s thought experiment begs the question.'},
+      {v:'wrong_question', l:'Wrong question — "understanding" is vague', d:'The concept of "understanding" is too poorly defined to answer this. The real question is what cognitive abilities matter and whether machines can have them.'}
+    ],
+    links: [
+      {t:'Chinese Room (SEP)', u:'https://plato.stanford.edu/entries/chinese-room/'},
+      {t:'Searle\'s original paper', u:'https://en.wikipedia.org/wiki/Chinese_room'}
+    ],
+    followUp: 'This is perhaps the most debated thought experiment in philosophy of AI. The "systems reply" (the whole system understands) is the most common response. Searle counters: what if the person memorizes the rulebook? They still don\'t understand Chinese. This question is especially relevant in the age of large language models.'
+  },
+  {
+    id: 'teletransporter',
+    title: 'The Teletransporter Paradox',
+    icon: '⚡',
+    category: 'Personal Identity',
+    primer: `You step into a teletransporter. It scans every atom in your body, destroys the original, and creates a perfect atom-for-atom replica at your destination. The replica has all your memories, personality, and feels completely continuous with your past self.\n\nEveryone who\'s used it says it feels exactly like walking through a door.\n\nNow consider: What if the machine malfunctions and <strong>doesn\'t destroy the original</strong>? There are now two of you — both with equal claim to being "you."\n\n<strong>Would you step into the teletransporter?</strong>`,
+    question: 'Would you use the teletransporter?',
+    options: [
+      {v:'yes_use', l:'Yes — the replica is me', d:'Personal identity is about psychological continuity (memories, personality, consciousness). The replica has all of that. I\'d use it.'},
+      {v:'no_death', l:'No — it kills me and makes a copy', d:'Destroying my body kills me. The replica is a different person who happens to share my memories. I wouldn\'t step in.'},
+      {v:'uncertain', l:'It depends on the destruction question', d:'If it\'s truly instantaneous and there\'s never two of me, maybe it\'s fine. But the malfunction scenario reveals the problem.'}
+    ],
+    links: [
+      {t:'Personal Identity (SEP)', u:'https://plato.stanford.edu/entries/identity-personal/'},
+      {t:'Derek Parfit on Teletransportation', u:'https://en.wikipedia.org/wiki/Teletransportation_paradox'}
+    ],
+    followUp: 'Derek Parfit used this to argue that personal identity is not what matters — what matters is <strong>psychological continuity</strong>. He controversially concluded that the question "will it be me?" has no deep answer, and that we should care about future people who are psychologically connected to us, whether or not they\'re "identical" to us.'
+  },
+  {
+    id: 'repugnant',
+    title: 'The Repugnant Conclusion',
+    icon: '👥',
+    category: 'Population Ethics',
+    primer: `Consider two possible futures for humanity:\n\n• <strong>World A:</strong> 10 billion people, each living an <em>excellent</em> life — deeply fulfilling, rich with meaning and joy.\n• <strong>World Z:</strong> Trillions upon trillions of people, each living a life <em>barely worth living</em> — not suffering, but with only the tiniest sliver of positive experience.\n\nIf you believe total wellbeing matters, then World Z is better — it has more total happiness (tiny amount × enormous population > large amount × 10 billion). Derek Parfit called this "the Repugnant Conclusion."`,
+    question: 'Which world is better?',
+    options: [
+      {v:'world_a', l:'World A (fewer, excellent lives)', d:'Quality matters more than quantity. A world of flourishing people is better than a world of barely-worth-living ones, regardless of population size.'},
+      {v:'world_z', l:'World Z (more total wellbeing)', d:'If each life is worth living, more of them is better. Rejecting this means drawing an arbitrary line somewhere.'},
+      {v:'incomparable', l:'They\'re incomparable', d:'These worlds differ along dimensions that can\'t be meaningfully ranked. Population ethics doesn\'t have clean answers.'},
+      {v:'reject_premise', l:'Reject the framing', d:'Total utilitarianism is wrong. We should use average wellbeing, or a minimum threshold, or person-affecting principles instead.'}
+    ],
+    links: [
+      {t:'Repugnant Conclusion (SEP)', u:'https://plato.stanford.edu/entries/repugnant-conclusion/'},
+      {t:'Population Ethics (SEP)', u:'https://plato.stanford.edu/entries/population-ethics/'}
+    ],
+    followUp: 'Parfit considered this one of the hardest problems in ethics. Every proposed solution has a counterintuitive consequence somewhere — this is sometimes called the "impossibility theorem" of population ethics. It\'s highly relevant to existential risk, climate ethics, and longtermism.'
+  },
+  {
+    id: 'epistemic_peer',
+    title: 'The Epistemic Peer Disagreement Problem',
+    icon: '🤝',
+    category: 'Epistemology',
+    primer: `You and a friend are epistemic peers — equally intelligent, equally well-informed, and with equally good track records on this kind of question. You both carefully consider the evidence about some contested topic (say, a philosophical question, or a factual dispute).\n\nAfter careful reflection, you reach <strong>opposite conclusions</strong>.\n\nNeither of you can identify any error in the other\'s reasoning. You both seem equally justified. <strong>What should you do with your belief?</strong>`,
+    question: 'When an epistemic peer disagrees with you, what should you do?',
+    options: [
+      {v:'conciliate', l:'Split the difference (Conciliationism)', d:'You should significantly revise your confidence. If your peer is equally likely to be right, both of you should move toward the middle.'},
+      {v:'steadfast', l:'Stick to your guns (Steadfastness)', d:'You have your own evidence and reasoning. You can acknowledge disagreement while rationally maintaining your view.'},
+      {v:'case_by_case', l:'It depends on the topic', d:'For factual matters, conciliate. For deeply personal or value-laden questions, steadfastness may be more appropriate.'}
+    ],
+    links: [
+      {t:'Peer Disagreement (SEP)', u:'https://plato.stanford.edu/entries/disagreement/'},
+      {t:'Epistemology of Disagreement', u:'https://en.wikipedia.org/wiki/Epistemology_of_disagreement'}
+    ],
+    followUp: 'This has profound implications: if conciliationism is right, then widespread disagreement among experts should make <em>everyone</em> much less confident about contested questions. If steadfastness is right, rational people can look at the same evidence and reasonably disagree forever.'
+  }
+];
+
 // ===== STATE =====
 let roomId=null, roomName=null, answers={}, myProfile=null, quizMode='full', roomProfiles=[], roomChallenges=[];
 
@@ -1667,6 +1881,7 @@ function setMode(m){
   document.getElementById('mode-quick').classList.toggle('sel',m==='quick');
   document.getElementById('mode-thought').classList.toggle('sel',m==='thought');
   document.getElementById('mode-refine').classList.toggle('sel',m==='refine');
+  document.getElementById('mode-puzzles').classList.toggle('sel',m==='puzzles');
 }
 
 function getActiveQs(){
@@ -1782,6 +1997,12 @@ function startQuiz(){
   if(!name){toast('Enter your name!');return;}
   if(!roomId){toast('Join a room first!');go('lobby');return;}
   if(quizMode==='refine'&&(!myProfile||!myProfile.answers)){toast('Complete a profile first!');return;}
+  if(quizMode==='puzzles'){
+    document.getElementById('quizWelcome').classList.add('hidden');
+    document.getElementById('puzzleList').classList.remove('hidden');
+    renderPuzzleList();
+    return;
+  }
   document.getElementById('quizWelcome').classList.add('hidden');
   document.getElementById('quizContent').classList.remove('hidden');
   const qs=getActiveQs();
@@ -1791,7 +2012,121 @@ function startQuiz(){
 
 function exitQuiz(){
   document.getElementById('quizContent').classList.add('hidden');
+  document.getElementById('puzzleList').classList.add('hidden');
+  document.getElementById('puzzleDetail').classList.add('hidden');
   document.getElementById('quizWelcome').classList.remove('hidden');
+}
+
+// ===== PUZZLE FUNCTIONS =====
+function getPuzzleAnswers(){
+  return myProfile?.puzzles || {};
+}
+
+function renderPuzzleList(){
+  const el=document.getElementById('puzzleList');
+  const answered=getPuzzleAnswers();
+  const answeredCount=Object.keys(answered).length;
+
+  let h=`<button class="btn btn-secondary" onclick="exitQuiz()" style="margin-bottom:12px;font-size:0.85em;">← Back to quiz selection</button>
+  <div style="text-align:center;margin-bottom:20px;">
+    <h2 style="font-family:'Cormorant Garamond',serif;">🧩 Classic Philosophical Puzzles</h2>
+    <p style="color:var(--text2);font-size:0.9em;">Famous thought experiments and problems. Each one has a short primer to set the scene, then you weigh in. Pick any that interest you — no need to do them all.</p>
+    <p style="color:var(--text3);font-size:0.82em;margin-top:8px;">${answeredCount} of ${PUZZLES.length} answered</p>
+  </div>
+  <div class="puzzle-grid">`;
+
+  PUZZLES.forEach(p=>{
+    const ans=answered[p.id];
+    const ansOpt=ans?p.options.find(o=>o.v===ans):null;
+    h+=`<div class="puzzle-item ${ans?'answered':''}" onclick="openPuzzle('${p.id}')">
+      <div class="puzzle-icon">${p.icon}</div>
+      <div class="puzzle-info">
+        <div class="puzzle-title">${p.title}</div>
+        <div class="puzzle-cat">${p.category}</div>
+      </div>
+      ${ans?`<div class="puzzle-answer-badge">${ansOpt?ansOpt.l.split('(')[0].trim():'Answered'}</div>`:''}
+    </div>`;
+  });
+
+  h+=`</div>`;
+  el.innerHTML=h;
+}
+
+function openPuzzle(puzzleId){
+  const puzzle=PUZZLES.find(p=>p.id===puzzleId);
+  if(!puzzle)return;
+  const el=document.getElementById('puzzleDetail');
+  const answered=getPuzzleAnswers();
+  const currentAnswer=answered[puzzleId];
+
+  document.getElementById('puzzleList').classList.add('hidden');
+  el.classList.remove('hidden');
+
+  let h=`<button class="btn btn-secondary" onclick="closePuzzle()" style="margin-bottom:12px;font-size:0.85em;">← Back to puzzles</button>
+  <div style="text-align:center;margin-bottom:8px;">
+    <div style="font-size:2.2em;">${puzzle.icon}</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;margin-top:8px;">${puzzle.title}</h2>
+    <div style="color:var(--text3);font-size:0.85em;">${puzzle.category}</div>
+  </div>
+
+  <div class="puzzle-primer">${puzzle.primer.replace(/\\n/g,'<br>')}</div>
+
+  <div class="q-card" style="margin-top:20px;">
+    <div class="q-text">${puzzle.question}</div>
+    <div class="choices" style="margin-top:14px;">`;
+
+  puzzle.options.forEach(opt=>{
+    const sel=currentAnswer===opt.v?'sel':'';
+    h+=`<button class="ch-btn ${sel}" onclick="answerPuzzle('${puzzleId}','${opt.v}',this)">
+      <div class="ch-label">${opt.l}</div>${opt.d?`<div class="ch-desc">${opt.d}</div>`:''}
+    </button>`;
+  });
+
+  h+=`</div></div>`;
+
+  if(puzzle.followUp){
+    h+=`<div class="puzzle-followup">💡 ${puzzle.followUp}</div>`;
+  }
+
+  if(puzzle.links&&puzzle.links.length){
+    h+=`<div class="puzzle-links">`;
+    puzzle.links.forEach(lnk=>{
+      h+=`<a href="${lnk.u}" target="_blank" rel="noopener">${lnk.t} ↗</a>`;
+    });
+    h+=`</div>`;
+  }
+
+  h+=`<div style="text-align:center;margin-top:24px;">
+    <button class="btn btn-secondary" onclick="closePuzzle()">← Back to puzzles</button>
+  </div>`;
+
+  el.innerHTML=h;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+async function answerPuzzle(puzzleId, value, btn){
+  // Update UI
+  btn.parentNode.querySelectorAll('.ch-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+
+  // Save to profile
+  if(!myProfile) myProfile={name:document.getElementById('inName').value.trim(),date:new Date().toISOString().split('T')[0],answers:{},dimensions:{},labels:{},puzzles:{}};
+  if(!myProfile.puzzles) myProfile.puzzles={};
+  myProfile.puzzles[puzzleId]=value;
+
+  // Save to server
+  try{
+    await api('POST',`/rooms/${roomId}/profiles`,myProfile);
+    toast('Answer saved!');
+  }catch(e){
+    toast('Error saving — try again');
+  }
+}
+
+function closePuzzle(){
+  document.getElementById('puzzleDetail').classList.add('hidden');
+  document.getElementById('puzzleList').classList.remove('hidden');
+  renderPuzzleList(); // Refresh to show updated answer badges
 }
 
 function renderQs(){
@@ -2099,6 +2434,24 @@ function renderProfile(profile){
       </div>`;
     });
     h+=`</div></div>`;
+  }
+
+  // Puzzle answers on profile
+  if(profile.puzzles&&Object.keys(profile.puzzles).length>0){
+    h+=`<div class="phil-section"><h3>🧩 Classic Puzzles</h3>`;
+    Object.entries(profile.puzzles).forEach(([pid,val])=>{
+      const puzzle=PUZZLES.find(p=>p.id===pid);
+      if(!puzzle)return;
+      const opt=puzzle.options.find(o=>o.v===val);
+      h+=`<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;padding:10px 14px;background:rgba(139,124,247,0.04);border:1px solid rgba(139,124,247,0.1);border-radius:10px;">
+        <div style="font-size:1.3em;flex-shrink:0;margin-top:2px;">${puzzle.icon}</div>
+        <div>
+          <div style="font-weight:600;font-size:0.9em;">${puzzle.title}</div>
+          <div style="font-size:0.82em;color:var(--accent);margin-top:2px;">${opt?opt.l:val}</div>
+        </div>
+      </div>`;
+    });
+    h+=`</div>`;
   }
 
   h+=`<div style="text-align:center;margin:24px 0;">
@@ -2912,17 +3265,29 @@ function nextPredictQuestion(){
   if(!others||!others.length)return;
   // Pick a random teammate
   const target=others[Math.floor(Math.random()*others.length)];
-  // Pick a random question they answered (choice-type only for clear right/wrong)
+  // Build pool of choice questions (from quiz + puzzles)
   const qMap={};
   QS.forEach(q=>{qMap[q.id]=q;if(q.children)q.children.forEach(c=>{qMap[c.id]=c;});});
-  const answeredIds=Object.keys(target.answers).filter(id=>{
+  const answeredIds=Object.keys(target.answers||{}).filter(id=>{
     const q=qMap[id];
     return q&&q.type==='choice'&&q.options&&q.options.length>=2;
   });
-  if(answeredIds.length===0){toast('Not enough data for this teammate');return;}
-  const qId=answeredIds[Math.floor(Math.random()*answeredIds.length)];
-  const q=qMap[qId];
-  const correctAnswer=target.answers[qId];
+  // Also add puzzle answers
+  const puzzleIds=Object.keys(target.puzzles||{});
+  const allIds=[...answeredIds.map(id=>({type:'quiz',id})),...puzzleIds.map(id=>({type:'puzzle',id}))];
+  if(allIds.length===0){toast('Not enough data for this teammate');return;}
+  const pick=allIds[Math.floor(Math.random()*allIds.length)];
+  let q, qId, correctAnswer;
+  if(pick.type==='puzzle'){
+    const puzzle=PUZZLES.find(p=>p.id===pick.id);
+    q={text:puzzle.question, desc:puzzle.category, options:puzzle.options, info:puzzle.primer.replace(/\\n/g,' '), links:puzzle.links};
+    qId=pick.id;
+    correctAnswer=target.puzzles[pick.id];
+  }else{
+    qId=pick.id;
+    q=qMap[qId];
+    correctAnswer=target.answers[qId];
+  }
 
   window._predictCurrent={target,q,qId,correctAnswer};
 
