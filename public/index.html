@@ -60,8 +60,9 @@
     display:flex; gap:4px; background:var(--surface);
     border:1px solid var(--border);
     border-radius:var(--radius); padding:4px;
-    margin:16px auto 24px; max-width:460px;
+    margin:16px auto 24px; max-width:640px;
     backdrop-filter:blur(8px);
+    overflow-x:auto; -webkit-overflow-scrolling:touch;
   }
   .nav-tab {
     flex:1; padding:10px 8px; border:none; background:transparent;
@@ -423,10 +424,7 @@
       </div>
       <button class="btn btn-primary" onclick="joinRoom()">Create / Join Room →</button>
     </div>
-    <div id="existingRooms" class="hidden">
-      <p style="color:var(--text3);font-size:0.85em;margin:16px 0 8px;">Or join an existing room:</p>
-      <div id="roomList"></div>
-    </div>
+    <!-- Room list removed for privacy - join via link or room name only -->
   </div>
 
   <!-- QUIZ -->
@@ -613,8 +611,8 @@ const QS = [
     ]
   },
   { id:"eth_motiv", type:"slider",
-    text:"Is moral knowledge primarily a matter of reason or sentiment?",
-    desc:"Rationalists (Kant) say pure reason reveals moral truths. Sentimentalists (Hume, Slote) say moral judgments originate in emotions.",
+    text:"Are moral beliefs primarily grounded in reason or sentiment?",
+    desc:"Rationalists (Kant) say reason can reveal moral truths. Sentimentalists (Hume, Slote) say moral judgments originate in emotions and feelings.",
     left:"Reason is the source", right:"Emotion & sentiment ground morality", dim:"ethics",
     info:"David Hume famously argued that 'reason is, and ought only to be the slave of the passions' — moral judgments are driven by sentiment, not reason. Kant took the opposite view: morality is grounded in pure practical reason and the Categorical Imperative. Modern sentimentalists like Michael Slote and Jesse Prinz have revived Humean approaches using insights from moral psychology and neuroscience.",
     links:[
@@ -623,8 +621,8 @@ const QS = [
     ]
   },
   { id:"eth_univ", type:"slider",
-    text:"Are moral principles universal, or do they vary across cultures?",
-    desc:"Universalists hold some principles apply everywhere. Relativists argue morality is culturally determined.",
+    text:"Do any moral principles hold true for all people, regardless of culture?",
+    desc:"Universalists hold some moral truths apply everywhere. Relativists argue that what counts as moral is always culturally determined — no view is objectively 'correct.'",
     left:"Universal — same for everyone", right:"Relative — culturally dependent", dim:"ethics",
     info:"Moral relativism comes in several varieties. Descriptive relativism is the empirical observation that moral beliefs differ across cultures. Meta-ethical moral relativism holds that there are no universal moral truths. Moral universalism, defended by philosophers from Kant to contemporary human rights theorists, argues that at least some moral principles hold for all people regardless of culture.",
     links:[{t:"Moral Relativism (SEP)",u:"https://plato.stanford.edu/entries/moral-relativism/"}]
@@ -902,9 +900,9 @@ const QS = [
     links:[{t:"Problem of Induction (SEP)",u:"https://plato.stanford.edu/entries/induction-problem/"}]
   },
   { id:"sc_val", type:"slider",
-    text:"Is science value-free, or do social values legitimately shape inquiry?",
-    desc:"Value-free ideal vs. feminist & social epistemologists who argue values inevitably shape science.",
-    left:"Science should be value-free & objective", right:"Values legitimately shape science", dim:"science",
+    text:"Should social and ethical values play a role in shaping scientific inquiry?",
+    desc:"The value-free ideal says science should be guided only by evidence. Others argue values legitimately influence which questions get asked and how evidence is interpreted.",
+    left:"No — science should be value-free & objective", right:"Yes — values legitimately shape science", dim:"science",
     info:"The value-free ideal holds that social, political, and ethical values should play no role in the internal workings of science. But philosophers like Helen Longino and feminist epistemologists argue that values inevitably influence which questions get asked, how studies are designed, and how evidence is interpreted. Some argue certain values (like inclusivity) can actually improve science by correcting biases.",
     links:[{t:"Science & Values (SEP)",u:"https://plato.stanford.edu/entries/science-theory-observation/"}]
   },
@@ -1964,18 +1962,7 @@ async function loadChallenges(){
 }
 
 async function loadRoomsList(){
-  try{
-    const rooms=await api('GET','/rooms');
-    if(rooms.length>0){
-      document.getElementById('existingRooms').classList.remove('hidden');
-      document.getElementById('roomList').innerHTML=rooms.map(r=>
-        `<div class="t-member" style="cursor:pointer" onclick="quickJoin('${r.id}')">
-          <div><div class="t-name">${r.name}</div><div class="t-date">${r.memberCount} member${r.memberCount!==1?'s':''}</div></div>
-          <button class="btn btn-small btn-secondary">Join →</button>
-        </div>`
-      ).join('');
-    }
-  }catch(e){}
+  // Room listing removed for privacy — users join via direct link or room name
 }
 
 async function quickJoin(id){const ok=await loadRoom(id);if(ok){go('quiz');updateURL();}}
@@ -2174,6 +2161,9 @@ function renderOneQ(q,type,num){
         <div class="ch-label">${o.l}</div><div class="ch-desc">${o.d}</div></button>`;
     });
     html+=`</div>`;
+    if(answers[q.id]!==undefined){
+      html+=`<div style="text-align:right;margin-top:4px;"><button onclick="clearAnswer('${q.id}',this)" style="background:none;border:none;color:var(--text3);font-size:0.75em;cursor:pointer;padding:2px 8px;opacity:0.6;">✕ Clear answer</button></div>`;
+    }
   }
   html+=`</div>`;
 
@@ -2197,6 +2187,13 @@ function onCh(id,v,el){
   answers[id]=v;
   el.closest('.q-card').querySelectorAll('.ch-btn').forEach(b=>b.classList.remove('sel'));
   el.classList.add('sel');
+  updProg();refreshChildren(id);
+}
+function clearAnswer(id,btn){
+  delete answers[id];
+  const card=btn.closest('.q-card');
+  if(card)card.querySelectorAll('.ch-btn').forEach(b=>b.classList.remove('sel'));
+  btn.parentElement.remove();
   updProg();refreshChildren(id);
 }
 function refreshChildren(parentId){
@@ -2538,7 +2535,7 @@ async function renderTeam(){
     room.profiles.forEach((p,i)=>{
       const isMe=myProfile&&p.name===myProfile.name;
       const philMatches=findPhilosopherMatches(p);
-      const philStr=philMatches.length?philMatches.map(m=>`<span style="font-size:0.78em;color:var(--accent);margin-right:6px;" title="${Math.round(m.score*100)}% match">${m.phil.name} (${Math.round(m.score*100)}%)</span>`).join(''):'';
+      const philStr=philMatches.length?philMatches.map(m=>`<span style="font-size:0.78em;color:var(--accent);margin-right:6px;" title="${Math.round(m.score)}% match">${m.phil.name} (${Math.round(m.score)}%)</span>`).join(''):'';
       h+=`<div class="t-member">
         <div><div class="t-name">${p.name} ${isMe?'<span style="color:var(--accent);font-size:0.8em;">(you)</span>':''}${p.mode==='quick'?'<span class="badge-quick">Quick</span>':''}</div>
         <div class="t-date">${p.date} · ${p.labels?.ethics?.split('·')[0]?.trim()||''}</div>
@@ -3026,6 +3023,13 @@ function go(view){
   document.getElementById('v-'+view).classList.add('active');
   const tabs=['lobby','quiz','profile','showdown','team','sylvain','predict','admin'];
   document.querySelectorAll('.nav-tab').forEach((t,i)=>{t.classList.toggle('active',tabs[i]===view);});
+  if(view==='quiz'){
+    // Reset to quiz selection screen when navigating to quiz tab
+    document.getElementById('quizContent').classList.add('hidden');
+    document.getElementById('puzzleList').classList.add('hidden');
+    document.getElementById('puzzleDetail').classList.add('hidden');
+    document.getElementById('quizWelcome').classList.remove('hidden');
+  }
   if(view==='profile')renderProfile(myProfile);
   if(view==='showdown')renderShowdown();
   if(view==='team')renderTeam();
