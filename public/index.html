@@ -2153,7 +2153,7 @@ function renderOneQ(q,type,num){
 
   if(q.type==='slider'){
     html+=`<div><div class="s-labels"><span class="s-label">${q.left}</span><span class="s-label">${q.right}</span></div>
-      <input type="range" min="0" max="100" value="${answers[q.id]||50}" oninput="onSlide('${q.id}',this.value)"></div>`;
+      <input type="range" min="0" max="100" value="${answers[q.id]??50}" oninput="onSlide('${q.id}',this.value)"></div>`;
   } else {
     html+=`<div class="choices">`;
     q.options.forEach(o=>{
@@ -2403,7 +2403,7 @@ function renderProfile(profile){
   <div class="radar-wrap"><canvas id="myRadar" width="480" height="480"></canvas></div>
   <div class="results-grid">`;
   Object.keys(DIMS).forEach(d=>{
-    const dim=DIMS[d],sc=profile.dimensions[d]||50,lb=profile.labels[d]||'';
+    const dim=DIMS[d],sc=profile.dimensions[d]??50,lb=profile.labels[d]||'';
     h+=`<div class="r-card"><h4>${dim.icon} ${dim.label}</h4>
       <div class="r-label">${lb.split('·')[0].trim()}</div>
       <div class="r-detail">${lb.split('·').slice(1).join(' · ').trim()}</div>
@@ -2479,7 +2479,7 @@ function drawRadar(cid,profiles,legend){
   for(let l=1;l<=5;l++){const r=R*l/5;ctx.beginPath();for(let i=0;i<=n;i++){const a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;ctx.stroke();}
   dims.forEach((d,i)=>{const a=start+i*step,x=cx+R*Math.cos(a),y=cy+R*Math.sin(a);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.stroke();const lx=cx+(R+28)*Math.cos(a),ly=cy+(R+28)*Math.sin(a);ctx.fillStyle='#a8a6b8';ctx.font='11px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(DIMS[d].icon+' '+DIMS[d].label,lx,ly);});
   const cols=['rgba(139,124,247,','rgba(244,114,182,','rgba(52,211,153,','rgba(56,189,248,','rgba(251,191,36,','rgba(248,113,113,','rgba(247,178,103,','rgba(167,139,250,'];
-  profiles.forEach((p,pi)=>{const c=cols[pi%cols.length];ctx.beginPath();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]||50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fillStyle=c+'0.12)';ctx.fill();ctx.strokeStyle=c+'0.8)';ctx.lineWidth=2;ctx.stroke();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]||50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);ctx.beginPath();ctx.arc(x,y,4,0,2*Math.PI);ctx.fillStyle=c+'1)';ctx.fill();});});
+  profiles.forEach((p,pi)=>{const c=cols[pi%cols.length];ctx.beginPath();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]??50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fillStyle=c+'0.12)';ctx.fill();ctx.strokeStyle=c+'0.8)';ctx.lineWidth=2;ctx.stroke();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]??50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);ctx.beginPath();ctx.arc(x,y,4,0,2*Math.PI);ctx.fillStyle=c+'1)';ctx.fill();});});
   if(legend&&profiles.length>1){let ly=16;profiles.forEach((p,i)=>{const c=cols[i%cols.length];ctx.fillStyle=c+'1)';ctx.fillRect(12,ly,12,12);ctx.fillStyle='#e8e6f0';ctx.font='12px Inter,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(p.name,30,ly+6);ly+=20;});}
 }
 
@@ -2497,7 +2497,7 @@ function toggleRadarPerson(idx){
   const cols=['rgba(139,124,247,','rgba(244,114,182,','rgba(52,211,153,','rgba(56,189,248,','rgba(251,191,36,','rgba(248,113,113,','rgba(247,178,103,','rgba(167,139,250,'];
   window._teamProfiles.forEach((p,pi)=>{
     if(!window._radarVisible[pi])return;
-    const c=cols[pi%cols.length];ctx.beginPath();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]||50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fillStyle=c+'0.12)';ctx.fill();ctx.strokeStyle=c+'0.8)';ctx.lineWidth=2;ctx.stroke();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]||50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);ctx.beginPath();ctx.arc(x,y,4,0,2*Math.PI);ctx.fillStyle=c+'1)';ctx.fill();});
+    const c=cols[pi%cols.length];ctx.beginPath();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]??50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fillStyle=c+'0.12)';ctx.fill();ctx.strokeStyle=c+'0.8)';ctx.lineWidth=2;ctx.stroke();dims.forEach((d,i)=>{const v=Math.max((p.dimensions[d]??50)/100,0.05),r=R*v,a=start+i*step,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);ctx.beginPath();ctx.arc(x,y,4,0,2*Math.PI);ctx.fillStyle=c+'1)';ctx.fill();});
   });
 }
 
@@ -2581,7 +2581,7 @@ async function renderTeam(){
       h+=`<h3 style="font-family:'Cormorant Garamond',serif;margin:28px 0 14px;">Central Nodes &amp; Outliers</h3>
         <p style="color:var(--text2);font-size:0.85em;margin-bottom:14px;">Per dimension: who's closest to the group average (center) and who's most different (outlier).</p>`;
       Object.keys(DIMS).forEach(d=>{
-        const scores=room.profiles.map(p=>({name:p.name,score:p.dimensions?.[d]||50,label:p.labels?.[d]||''}));
+        const scores=room.profiles.map(p=>({name:p.name,score:p.dimensions?.[d]??50,label:p.labels?.[d]||''}));
         const avg=scores.reduce((s,p)=>s+p.score,0)/scores.length;
         let center=scores[0],outlier=scores[0];
         scores.forEach(p=>{
@@ -2618,7 +2618,7 @@ async function renderTeam(){
   window._teamProfiles=room.profiles;
 }
 
-function philDist(a,b){const ds=Object.keys(DIMS);let s=0;ds.forEach(d=>{const diff=(a.dimensions?.[d]||50)-(b.dimensions?.[d]||50);s+=diff*diff;});return Math.sqrt(s/ds.length);}
+function philDist(a,b){const ds=Object.keys(DIMS);let s=0;ds.forEach(d=>{const diff=(a.dimensions?.[d]??50)-(b.dimensions?.[d]??50);s+=diff*diff;});return Math.sqrt(s/ds.length);}
 function viewTeamMember(i){const p=window._teamProfiles?.[i];if(p){myProfile=p;go('profile');}}
 function copyLink(){const url=document.getElementById('shareUrl')?.textContent;if(url)navigator.clipboard.writeText(url).then(()=>toast('Link copied!')).catch(()=>toast('Copy the URL above'));}
 
@@ -2672,7 +2672,7 @@ function findCleavageQuestions(profileA,profileB){
   const dims=Object.keys(DIMS);
   const distances=dims.map(d=>({
     dim:d,
-    dist:Math.abs((profileA.dimensions[d]||50)-(profileB.dimensions[d]||50))
+    dist:Math.abs((profileA.dimensions[d]??50)-(profileB.dimensions[d]??50))
   })).sort((a,b)=>a.dist-b.dist);
   const alignedDims=distances.slice(0,3).map(x=>x.dim);
 
@@ -2958,9 +2958,9 @@ async function respondToChallenge(challengeId){
     }
 
     if(q.type==='slider'){
-      const val=answers[q.id]||50;
+      const val=answers[q.id]??50;
       h+=`<div style="margin-top:16px;">
-        <input type="range" min="0" max="100" value="${val}" class="slider" id="ans_${q.id}" onchange="answers['${q.id}']=this.value">
+        <input type="range" min="0" max="100" value="${val}" class="slider" id="ans_${q.id}" onchange="answers['${q.id}']=+this.value">
         <div style="display:flex;justify-content:space-between;font-size:0.8em;color:var(--text2);margin-top:4px;">
           <span>${q.left}</span>
           <span id="val_${q.id}" style="font-weight:600;">${val}</span>
@@ -3223,7 +3223,7 @@ function renderSylvain(){
   }
 
   // Fun philosophical soul-distance
-  const totalDist = Object.keys(myProfile.dimensions||{}).reduce((s,d)=>s+Math.pow((myProfile.dimensions[d]||50)-(sylProfile.dimensions[d]||50),2),0);
+  const totalDist = Object.keys(myProfile.dimensions||{}).reduce((s,d)=>s+Math.pow((myProfile.dimensions[d]??50)-(sylProfile.dimensions[d]??50),2),0);
   const soulDist = Math.round(Math.sqrt(totalDist));
   h += `<div class="card card-center">
     <div style="font-family:'Cormorant Garamond',serif;font-size:2.5em;font-weight:700;background:linear-gradient(135deg,var(--accent2),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0;">${soulDist}</div>
